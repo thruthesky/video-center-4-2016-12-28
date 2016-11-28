@@ -1,0 +1,35 @@
+<header><h1>Welcome To VC4</h1></header>
+
+<nav>
+  <a routerLink="">Home</a>
+  <a routerLink="/entrance/abc">Entrance</a>
+  <a routerLink="/entrance/def">DEF Enters</a>
+  <a routerLink="/about">About</a>
+</nav>
+
+<div class="alert alert-success" role="alert">
+  <strong>Well done!</strong> You successfully read this important alert message.
+</div>
+
+<ngb-carousel #carousel wrap = "true" keyboard = "true">
+        <template ngbSlide>
+    <img src="http://lorempixel.com/900/500?r=1" alt="Random first slide">
+    <div class="carousel-caption">
+      <h3>First slide label</h3>
+      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+    </div>
+        </template> 
+        <template ngbSlide>
+    <img src="http://lorempixel.com/900/500?r=3" alt="Random third slide">
+    <div class="carousel-caption">
+      <h3>Third slide label</h3>
+      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+    </div>
+      </template>
+</ngb-carousel>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer><h3>Withcenter, Inc.</h3></footer>
