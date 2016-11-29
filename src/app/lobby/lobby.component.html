@@ -3,6 +3,8 @@
 
   <input class="form-control" placeholder="Update Username" [(ngModel)]="inputUsername" (keyup.enter)="onUpdateUsername()">
   <button class="btn btn-primary form-control" (click)="onUpdateUsername()">Update Username</button>
+  <input class="form-control" placeholder="Create Room" [(ngModel)]="inputRoomname" (keyup.enter)="onCreateRoom()">
+  <button class="btn btn-success form-control" (click)="onCreateRoom()">Create Room</button>
   <button class="btn btn-warning form-control" (click)="onClickLogout()">Logout</button>
   
   <section id="room-list">
@@ -26,4 +28,4 @@
       </div>
   </div>
   <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
-  <button class="btn btn-success" (click)="onSendMessage(inputMessage)">Send Message</button>
+  <button class="btn btn-danger" (click)="onSendMessage(inputMessage)">Send Message</button>

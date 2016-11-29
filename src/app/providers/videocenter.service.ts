@@ -91,6 +91,16 @@ export class VideocenterService {
     this.emit('chat-message', inputMessage, callback);
   }
   /**
+   * @desc This method will create a room 
+   * @param roomname, callback
+   */
+  createRoom( roomname: string, callback) {
+    this.emit( 'create-room', roomname, room => {
+      localStorage.setItem('roomname', room);
+      callback( room );
+    });
+  }
+  /**
    * @desc This method will join a room 
    * @param roomname, callback
    */
@@ -132,7 +142,6 @@ export class VideocenterService {
       this.myEvent.emit(data);
     });
     socket.on('leave-room', data => {
-      console.log("leave",data);
       let item = {room:data, eventType: "leave-room"};
       this.myEvent.emit(item);
     });

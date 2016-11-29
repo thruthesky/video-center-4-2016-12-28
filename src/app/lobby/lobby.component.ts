@@ -10,6 +10,7 @@ import * as xInterface from '../app.interface';
 export class LobbyComponent {
   myUsername: string;
   inputUsername: string;
+  inputRoomname: string;
   inputMessage: string;
   rooms: xInterface.ROOMS = <xInterface.ROOMS> {};
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
@@ -51,7 +52,6 @@ export class LobbyComponent {
   *@param re
   */
   showRoomList( users: { (key: string) : Array<xInterface.USER> } ) {
-    console.log( users );
     for ( let socket_id in users ) {
       let user: xInterface.USER = users[socket_id];
       if(!user.room) continue;
@@ -115,6 +115,35 @@ export class LobbyComponent {
       this.inputUsername = "";
       this.myUsername = user.name;
     });
+  }
+  /**
+  *@desc This method will createroom in the server then 
+  *invoke the joinRoom callback
+  */
+  onCreateRoom(  ) {
+    if( !this.inputRoomname) {
+      alert("Your Roomname input is empty!"); 
+      return;
+    }
+    if( this.inputRoomname == xInterface.LobbyRoomName || this.inputRoomname == 'lobby' ) {
+      alert("You can\'t create the Lobby!");
+      return;
+    }
+    this.vc.createRoom( this.inputRoomname, ( room ) => {
+      this.joinRoom( room );
+    });
+  }
+  /**
+  *@desc This method is is use to successfully
+  * create a room if the user input is not empty
+  *@param roomname 
+  */
+  onJoinRoom( roomname ) {
+    if( roomname == xInterface.LobbyRoomName ) {
+      alert("You can\'t join the Lobby!");
+      return;
+    }   
+    this.joinRoom( roomname );
   }
   /**
   *@desc This method will send the message to the server
@@ -191,7 +220,8 @@ export class LobbyComponent {
   *inside roomlist
   *@param data
   */
-  onLeaveRoomEvent( data ) {  
+  onLeaveRoomEvent( data ) {
+    if( data.room == xInterface.LobbyRoomName ) return;  
     let room_id = this.vc.md5( data.room );    
     delete this.rooms[ room_id ];    
   }
@@ -212,6 +242,14 @@ export class LobbyComponent {
     this.listMessage[0].messages.push( message );
     let data = { eventType: "scroll-to-bottom"};
     setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
+  /**
+   *@desc Add to listMessage to be displayed in the view
+   *@param message 
+   */ 
+  joinRoom( roomname ) {
+    localStorage.setItem('roomname', roomname);  
+    this.router.navigate(['room']);
   }
   /**
    *@desc This method will create a join message variable that
