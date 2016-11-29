@@ -15,7 +15,11 @@ import { RoomComponent } from './room/room.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 
+import { AutoscrollDirective } from './components/autoscroll/autoscroll';
+
 import { VideocenterService } from './providers/videocenter.service';
+
+
 let link: Routes = [
   { path: '', component: HomeComponent },
   { path: 'entrance', component: EntranceComponent },
@@ -31,7 +35,8 @@ let link: Routes = [
     LobbyComponent,
     RoomComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    AutoscrollDirective
   ],
   imports: [
     BrowserModule,

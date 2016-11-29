@@ -5,18 +5,19 @@ import * as xInterface from '../app.interface';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: ['./lobby.component.css']
+  styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent {
   myUsername: string;
-  inputMessage: string;
   inputUsername: string;
+  inputMessage: string;
   rooms: xInterface.ROOMS = <xInterface.ROOMS> {};
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
   constructor( private router: Router,
   private vc: VideocenterService ) {
     this.initialize();
     this.joinLobby();
+    this.listenEvents();
   }
   /**
   *@desc This method will initialize the roompage
@@ -67,6 +68,16 @@ export class LobbyComponent {
     });
   }
   /**
+  *@desc This method will send the message to the server
+  *after that it will empty the message input box
+  *@param message 
+  */  
+  onSendMessage(message: string) {
+    if(message != "") this.vc.sendMessage(message, ()=> { 
+      this.inputMessage = ''; 
+    });
+  }
+  /**
   *@desc This method will go to entrance page
   *after you logout in the server
   */
@@ -81,6 +92,20 @@ export class LobbyComponent {
   listenEvents() {
     this.vc.myEvent.subscribe( item => {
       if( item.eventType == "update-username")console.log("update-username:",item); 
+      if( item.eventType == "chatMessage") this.addMessage( item );
     });
+  }
+  /**
+   *@desc Groups of onevent Method 
+   */ 
+
+  /**
+   *@desc Add to listMessage to be displayed in the view
+   *@param message 
+   */  
+  addMessage( message ) {     
+    this.listMessage[0].messages.push( message );
+    let data = { eventType: "scroll-to-bottom"};
+    setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
   }
 }

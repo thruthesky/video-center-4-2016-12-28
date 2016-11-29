@@ -4,3 +4,10 @@
   <input class="form-control" placeholder="Update Username" [(ngModel)]="inputUsername" (keyup.enter)="onUpdateUsername()">
   <button class="btn btn-primary form-control" (click)="onUpdateUsername()">Update Username</button>
   <button class="btn btn-warning form-control" (click)="onClickLogout()">Logout</button>
+  <div class="chatbox" myautoscroll>
+      <div *ngFor="let messageData of listMessage[0].messages ">
+          <b>{{messageData.name}} </b>{{ messageData.message }}
+      </div>
+  </div>
+  <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
+  <button class="btn btn-success" (click)="onSendMessage(inputMessage)">Send Message</button>

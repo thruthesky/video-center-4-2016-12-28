@@ -84,6 +84,13 @@ export class VideocenterService {
     });
   }
   /**
+   * @desc This method will send the message
+   * @param username, callback
+   */
+  sendMessage( inputMessage: string, callback : any ) : void {
+    this.emit('chat-message', inputMessage, callback);
+  }
+  /**
    * @desc This method will join a room 
    * @param roomname, callback
    */
@@ -128,7 +135,9 @@ export class VideocenterService {
     });
     socket.on('you-are-new-owner', re => {
     });
-    socket.on('chatMessage', re => {
+    socket.on('chatMessage', data => {
+      data.eventType = "chatMessage";
+      this.myEvent.emit(data);
     });
     socket.on('whiteboard', re => {
     });
