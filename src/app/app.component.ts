@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import * as xInterface from './app.interface';
 import { VideocenterService } from './providers/videocenter.service';
 @Component({
   selector: 'app-root',
@@ -7,7 +9,28 @@ import { VideocenterService } from './providers/videocenter.service';
 })
 export class AppComponent {
   title = 'app works!';
-  constructor( private vc: VideocenterService ) {
+  constructor( private vc: VideocenterService , private router: Router) {
     vc.connect();
+    this.checkUserAndRoom();
+  }
+  /**
+   * @desc Check if there's a username
+   * and check if there is also a roomname
+   * then navigate according to the logic
+   */  
+  checkUserAndRoom() {
+    let username = localStorage.getItem('username');
+    let roomname = localStorage.getItem('roomname');
+    if ( username ) {
+      this.vc.updateUsername( username, re => {
+          if( roomname && roomname != xInterface.LobbyRoomName ){
+              this.router.navigate(['room']);   
+          }
+          else {             
+              this.router.navigate(['lobby']);              
+          }
+      });
+    }
+    else this.router.navigate(['entrance']);
   }
 }

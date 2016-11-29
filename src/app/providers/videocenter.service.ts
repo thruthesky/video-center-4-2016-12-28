@@ -95,9 +95,9 @@ export class VideocenterService {
    * @param roomname, callback
    */
   joinRoom( roomname: string, callback: ( room:any ) => void ) {
-    this.emit('join-room', roomname, room => {
-      localStorage.setItem('roomname', room);
-      callback( room );
+    this.emit('join-room', roomname, user => {
+      localStorage.setItem('roomname', user.room);
+      callback( user );
     });
   }
   /**

@@ -24,6 +24,7 @@ let link: Routes = [
   { path: '', component: HomeComponent },
   { path: 'entrance', component: EntranceComponent },
   { path: 'lobby', component: LobbyComponent },
+  { path: 'room', component: RoomComponent },
   { path: 'about', component: AboutComponent }
 ];
 

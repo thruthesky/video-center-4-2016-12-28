@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { VideocenterService } from '../providers/videocenter.service';
 import * as xInterface from '../app.interface';
 @Component({
