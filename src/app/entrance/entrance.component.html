@@ -1,4 +1,3 @@
-  INPUT NAME : <input [(ngModel)]="name">
-  <span buttons>
-  <a (click)="onClickEnterLobby()">Enter Lobby</a>
-  </span>
+  <h2>Entrance Page</h2>
+  <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
+  <button class="btn btn-primary form-control" (click)="onClickSignin()">Sign In</button>

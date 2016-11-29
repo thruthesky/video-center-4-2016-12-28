@@ -1,13 +1,14 @@
-<header><h1>Welcome To VC4</h1></header>
-
+<nav class="navbar navbar-dark bg-info">
+    <h1 class="navbar-brand">Welcome To VC4</h1>
+</nav>
 <nav>
   <a routerLink="">Home</a>
-  <a routerLink="/entrance/abc">Entrance</a>
-  <a routerLink="/entrance/def">DEF Enters</a>
+  <a routerLink="/entrance">Entrance</a>
+  <!--<a routerLink="/entrance/def">DEF Enters</a>-->
   <a routerLink="/about">About</a>
 </nav>
 
-<template ngbModalContainer #content let-c="close" let-d="dismiss">
+<!--<template ngbModalContainer #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
@@ -24,10 +25,10 @@
 </template>
 <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
 <hr>
-<pre>{{closeResult}}</pre>
+<pre>{{closeResult}}</pre>-->
 
 <main>
   <router-outlet></router-outlet>
 </main>
 
-<footer><h3>Withcenter, Inc.</h3></footer>
+<footer class="footer bg-info"><h3>Withcenter, Inc.</h3></footer>

@@ -1,28 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { VideocenterService } from '../providers/videocenter.service';
 @Component({
   selector: 'app-entrance',
   templateUrl: './entrance.component.html',
   styleUrls: ['./entrance.component.scss']
 })
-export class EntranceComponent implements OnInit {
-
-  name;
-  constructor( private route: ActivatedRoute, private router: Router ) {
-    //console.log("name: ", route.snapshot.params['name']);
-    //route.params.subscribe( params => console.log('name: ', params['name']));
+export class EntranceComponent {
+  username:string;
+  constructor( 
+    private route: ActivatedRoute, 
+    private router: Router,
+    private vc: VideocenterService ) {
   }
-
-  ngOnInit() {
+  onClickSignin() {
+    if ( ! this.username ) return alert("Your Username input is empty!");
+    this.vc.updateUsername(this.username, () => {
+      this.router.navigate(['lobby']);
+    });
   }
-
-
-  onClickEnterLobby() {
-    if ( ! this.name ) return alert("Please inputname");
-    localStorage.setItem('name', this.name);
-    this.router.navigate(['lobby']);
-
-  }
-
 }
