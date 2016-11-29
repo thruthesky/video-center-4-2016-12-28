@@ -99,11 +99,20 @@ export class VideocenterService {
    */
   getUserList( roomname: string, callback : any ) : void {
     this.emit('user-list', roomname, callback);
-  } 
+  }
+  /**
+   * @desc This method will logout the user
+   * @param  callback
+   */ 
+  logout( callback ) {
+    localStorage.setItem('username', '');
+    this.emit('log-out', callback );
+  }
   /**
    * @desc This Method listens to socket event and
    * pass it to eventEmmiter
    */
+  
   listen() {
     let socket = this.socket;
 

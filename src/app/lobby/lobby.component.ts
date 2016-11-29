@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {  Router } from '@angular/router';
 import { VideocenterService } from '../providers/videocenter.service';
 import * as xInterface from '../app.interface';
 @Component({
@@ -9,9 +10,11 @@ import * as xInterface from '../app.interface';
 export class LobbyComponent {
   myUsername: string;
   inputMessage: string;
+  inputUsername: string;
   rooms: xInterface.ROOMS = <xInterface.ROOMS> {};
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
-  constructor( private vc: VideocenterService ) {
+  constructor( private router: Router,
+  private vc: VideocenterService ) {
     this.initialize();
     this.joinLobby();
   }
@@ -48,6 +51,29 @@ export class LobbyComponent {
   */
   showRoomList( users: { (key: string) : Array<xInterface.USER> } ) {
     console.log("showRoomList()",users)
+  }
+  /**
+  *@desc Group of View Method
+  */
+
+  /**
+  *@desc This method will update the username of user
+  */
+  onUpdateUsername() {
+    if ( ! this.inputUsername ) return alert("Your Username input is empty!");
+    this.vc.updateUsername(this.inputUsername, ( user: xInterface.USER ) => {
+      this.inputUsername = "";
+      this.myUsername = user.name;
+    });
+  }
+  /**
+  *@desc This method will go to entrance page
+  *after you logout in the server
+  */
+  onClickLogout() {
+    this.vc.logout(()=> {
+      this.router.navigate(['entrance']);
+    });    
   }
   /**
   *@desc This method will subscribe to all events

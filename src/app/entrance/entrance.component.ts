@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { VideocenterService } from '../providers/videocenter.service';
 @Component({
   selector: 'app-entrance',
@@ -9,7 +9,6 @@ import { VideocenterService } from '../providers/videocenter.service';
 export class EntranceComponent {
   username:string;
   constructor( 
-    private route: ActivatedRoute, 
     private router: Router,
     private vc: VideocenterService ) {
   }

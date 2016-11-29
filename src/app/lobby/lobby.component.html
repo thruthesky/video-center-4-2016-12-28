@@ -1,3 +1,6 @@
 <h2>Lobby Page</h2>
-
 <h4>Welcome {{ myUsername }}</h4>
+
+  <input class="form-control" placeholder="Update Username" [(ngModel)]="inputUsername" (keyup.enter)="onUpdateUsername()">
+  <button class="btn btn-primary form-control" (click)="onUpdateUsername()">Update Username</button>
+  <button class="btn btn-warning form-control" (click)="onClickLogout()">Logout</button>
