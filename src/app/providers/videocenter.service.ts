@@ -1,6 +1,6 @@
 /// <reference path="rmc.d.ts" />
 import { Injectable, EventEmitter } from '@angular/core';
-
+import { Md5 } from 'ts-md5/dist/md5';
 @Injectable()
 export class VideocenterService {
   socketUrl: string = "http://localhost:9001/";
@@ -127,9 +127,14 @@ export class VideocenterService {
       data.eventType = "update-username";
       this.myEvent.emit(data);
     });
-    socket.on('join-room', re => {
+    socket.on('join-room', data => {
+      data.eventType = "join-room";
+      this.myEvent.emit(data);
     });
-    socket.on('leave-room', re => {
+    socket.on('leave-room', data => {
+      console.log("leave",data);
+      let item = {room:data, eventType: "leave-room"};
+      this.myEvent.emit(item);
     });
     socket.on('room-cast', re => {
     });
@@ -141,10 +146,38 @@ export class VideocenterService {
     });
     socket.on('whiteboard', re => {
     });
-    socket.on('log-out', re => {
+    socket.on('log-out', data => {
+      data.eventType = "log-out";
+      this.myEvent.emit(data);
     });
-    socket.on('disconnect', re => {
+    socket.on('disconnect', data => {
+      if(typeof data !== "string" )data.eventType = "disconnect";
+      this.myEvent.emit(data);
     });
   }
 
+  /**
+   * @desc Groups of other Functionality
+   */
+
+  /**
+   * @desc This method will get a string paramter 
+   * and return it on md5
+   * @param str
+   */
+  md5( str: string ) : string {
+    let md = new Md5();
+    md.appendStr( str );
+    return <string> md.end();
+  }
+  /**
+   * @desc This method will return a random number
+   * base on min, max parameter
+   * @param min, max
+   */
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 }

@@ -51,8 +51,57 @@ export class LobbyComponent {
   *@param re
   */
   showRoomList( users: { (key: string) : Array<xInterface.USER> } ) {
-    console.log("showRoomList()",users)
+    console.log( users );
+    for ( let socket_id in users ) {
+      let user: xInterface.USER = users[socket_id];
+      if(!user.room) continue;
+      let room_id = <string> this.vc.md5( user.room );   
+      if ( this.rooms[ room_id ] === void 0 ) this.initRoomOnRoomList( user );
+      let myuser = this.rooms[ room_id ].users; 
+      this.userSpliceList(user, myuser );  
+      this.rooms[ room_id ].users.push( user );    
+    }
   }
+  /**
+  *@desc This method will initialize rooms
+  *if it's not yet initialized
+  *@param user
+  */
+  initRoomOnRoomList( user ) {
+    let room_id = this.vc.md5( user.room );   
+    this.rooms[ room_id ] = { name: user.room, users: [] };   
+  }
+  /**
+  *@desc This method will run the userSpliceList
+  *@param user
+  */
+  removeUserList( user ) {  
+    for ( let room_id in this.rooms ) {
+      let users = this.rooms[ room_id ].users;      
+      this.userSpliceList(user, users );
+    }  
+  }
+  /**
+  *@desc This method will find a match on the given paramter 
+  *and splice it
+  *@param user, users
+  */
+  userSpliceList( user, users ) {
+    if ( users.length ) {
+      for( let i in users ) {
+        if ( users[i].socket == user.socket ) {
+            users.splice( i, 1 );
+        }
+      }
+    }
+  }
+  /**
+  *@desc This method is use in the view to list all the roomids
+  *@example *ngFor = " let id of roomIds "
+  */
+  get roomIds () {
+    return Object.keys( this.rooms );
+  } 
   /**
   *@desc Group of View Method
   */
@@ -91,14 +140,70 @@ export class LobbyComponent {
   */
   listenEvents() {
     this.vc.myEvent.subscribe( item => {
-      if( item.eventType == "update-username")console.log("update-username:",item); 
+      if( item.eventType == "update-username")this.updateUserOnUserList( item );
+      if( item.eventType == "join-room") this.onJoinRoomEvent( item );
+      if( item.eventType == "leave-room") this.onLeaveRoomEvent( item );
       if( item.eventType == "chatMessage") this.addMessage( item );
+      if( item.eventType == "log-out") this.removeUserList( item );
+      if( item.eventType == "disconnect") this.onDisconnectEvent( item );
     });
   }
   /**
-   *@desc Groups of onevent Method 
-   */ 
-
+  *@desc Groups of onevent Method 
+  */ 
+  /**
+  *@desc This method will add user in roomlist
+  *@param re
+  */
+  addUserList( user ) {
+    let room_id = this.vc.md5( user.room );
+    if ( this.rooms[ room_id ] === void 0 ) this.initRoomOnRoomList( user );      
+    this.rooms[ room_id ].users.push( user );
+  }
+  /**
+  *@desc This method will find a match on the given paramter 
+  *and update it
+  *@param re
+  */
+  updateUserOnUserList( user ) {  
+    let room_id = this.vc.md5( user.room );   
+    if ( this.rooms[ room_id ] === void 0 ) this.initRoomOnRoomList( user );
+    let users = this.rooms[ room_id ].users;        
+    for(let i in users) { 
+      if( users[i].socket === user.socket) {
+        this.rooms[ room_id ].users[i] = user;
+        break;
+      }          
+    }    
+  }
+  /**
+  *@desc This method will invoke all the methods
+  *that will be use after receiving the join room
+  *@param data
+  */
+  onJoinRoomEvent( data ) {  
+    this.removeUserList( data );
+    this.addUserList( data );
+    this.joinMessage( data ); 
+  }
+  /**
+  *@desc This method will delete the room
+  *inside roomlist
+  *@param data
+  */
+  onLeaveRoomEvent( data ) {  
+    let room_id = this.vc.md5( data.room );    
+    delete this.rooms[ room_id ];    
+  }
+  /**
+  *@desc This method will invoke all the methods
+  *that will be use after receiving the disconnect
+  *@param data
+  */
+  onDisconnectEvent( data ) {  
+    this.removeUserList( data );
+    this.disconnectMessage( data ); 
+  }
   /**
    *@desc Add to listMessage to be displayed in the view
    *@param message 
@@ -107,5 +212,25 @@ export class LobbyComponent {
     this.listMessage[0].messages.push( message );
     let data = { eventType: "scroll-to-bottom"};
     setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
+  /**
+   *@desc This method will create a join message variable that
+   *will be pass in addMessage
+   *@param data 
+   */  
+  joinMessage( data ){
+    let message = { name: data.name, message: ' joins into ' + data.room };
+    this.addMessage( message ); 
+  }
+  /**
+   *@desc This method will create a disconnect message variable that
+   *will be pass in addMessage
+   *@param data 
+   */ 
+  disconnectMessage( data ){
+    if( data.room ){
+      let message = { name: data.name, message: ' disconnect into ' + data.room };
+      this.addMessage( message );
+    } 
   }
 }
