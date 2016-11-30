@@ -13,10 +13,13 @@ export class RoomComponent {
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
   wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting;
   imageUrlPhoto: string; 
+  canvasPhoto: string;
+  connection:any;
   constructor( private router: Router,
   private vc: VideocenterService ) {
     this.initialize();
     this.joinRoom();
+    this.streamOnConnection();
     this.listenEvents();
    }
   /**
@@ -29,6 +32,12 @@ export class RoomComponent {
     this.wb.selectDrawSize = this.wb.size[0].value;
     this.wb.selectDrawColor = this.wb.colors[0].value;
     this.imageUrlPhoto = this.wb.canvasPhoto;
+    this.canvasPhoto = this.wb.canvasPhoto;
+    this.connection = VideocenterService.connection;
+      this.connection.sdpConstraints.mandatory = {
+          OfferToReceiveAudio: true,
+          OfferToReceiveVideo: true
+      };
   }
   ngOnInit() {
     this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
@@ -40,8 +49,12 @@ export class RoomComponent {
     let room = localStorage.getItem('roomname');
     this.vc.joinRoom( room, (data)=> {
       this.myRoomname = data.room;
-      this.getWhiteboardHistory( data.room )
+      this.getWhiteboardHistory( data.room );
+      this.openOrJoinSession( data.room );
     });
+  }
+  streamOnConnection() {
+    this.connection.onstream = (event) => this.addUserVideo( event ); 
   }
   /**
   *@desc This method will get the whiteboard history of the room
@@ -51,6 +64,18 @@ export class RoomComponent {
     let data :any = { room_name : roomName };
     data.command = "history";
     this.vc.whiteboard( data,() => { console.log("get whiteboard history")} );
+  }
+  /**
+  *@desc This method will open or join a session to have a video conference
+  *@param roomName
+  */
+  openOrJoinSession( roomName ) {
+    this.connection.openOrJoin( roomName, (roomExist) => {
+      if(roomExist)console.log("I Join the Room");
+      else console.log("I Open the Room");
+      this.connection.socket.on( this.connection.socketCustomEvent, message => { } );
+      this.connection.socket.emit( this.connection.socketCustomEvent, this.connection.userid);
+    });
   }
   /**
   *@desc Group of View Method
@@ -72,6 +97,35 @@ export class RoomComponent {
   onClickLobby() {
     this.router.navigate(['lobby']);
   }
+  /**
+   *@desc This method will add video when there's a new stream
+   */
+  addUserVideo( event ) {
+    let me: string = 'others';
+    let video = event.mediaElement;
+    let videos= document.getElementById('video-container');
+    if ( this.connection.userid == event.userid ) me = 'me';
+    video.setAttribute('class', me);
+    video.setAttribute('width', xInterface.videoSize );
+    if ( me == 'me' ) videos.insertBefore(video, videos.firstChild);
+    else videos.appendChild( video );
+  }
+  /**
+  *@desc This method will change the canvasPhoto to imageUrlPhoto
+  */
+  onClickPreviewPhoto() {
+    this.canvasPhoto = this.imageUrlPhoto;
+  }
+  /**
+  *@desc This method will set the dataPhoto for upload
+  *then upload it
+  *@param event
+  */
+  onChangeFile( event ) {
+    console.log( event );
+  }
+  
+  
   /**
    * @desc Group for Whiteboard Functionality
    */

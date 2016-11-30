@@ -1,10 +1,13 @@
-  <div id="room-settings">
+
+<div id="room-settings">
     <h2>Room Page</h2>
     <h4> {{myRoomname}}</h4>
     <button class="btn btn-warning form-control" (click)="onClickLobby()">Lobby</button>
-  </div>  <!--room-settings-->
-  
-  <div id="chat">
+</div>  <!--room-settings-->
+<div class="vc">
+<div id="video-container"></div>
+</div>
+<div id="chat">
     <div class="chatbox" myautoscroll>
         <div *ngFor="let messageData of listMessage[0].messages ">
             <b>{{messageData.name}} </b>{{ messageData.message }}
@@ -12,19 +15,19 @@
     </div>
     <input class="form-control" placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
     <button class="btn btn-success form-control" (click)="onSendMessage(inputMessage)">Send Message</button>
-  </div><!--chat-->
+</div><!--chat-->
 
-  <div id="image-directory">
+<div id="image-directory">
     <p>Image Directory</p>
-    <div *ngIf=" imageUrlPhoto " (click)="onClickPhoto()">
-      <img [src]="imageUrlPhoto">
+    <div *ngIf=" imageUrlPhoto " (click)="onClickPreviewPhoto()">
+    <img [src]="imageUrlPhoto">
     </div>
     <input type="file" (change)="onChangeFile($event)">
-  </div><!--image-directory-->
+</div><!--image-directory-->
 
-  <div id="whiteboard-container">
+<div id="whiteboard-container">
     <div id="canvas-image">
-      <img [src]="wb.canvasPhoto">
+    <img [src]="wb.canvasPhoto">
     </div>
     <canvas mycanvas id="mycanvas" [drawSize]="wb.optionDrawSize" [drawColor]="wb.optionDrawColor" [drawMode]="wb.optionDrawMode"></canvas>
     <div id="group-button">
@@ -32,10 +35,10 @@
         <button class="btn btn-warning" (click)="onClickEraseMode()">Erase</button> 
         <button class="btn btn-danger" (click)="onClickClear()">Clear</button>
         <select [(ngModel)]="wb.selectDrawColor" (ngModelChange)="wb.optionDrawColor = $event">
-          <option *ngFor="let color of wb.colors" value="{{ color.value }}" >{{color.text}}</option>
+        <option *ngFor="let color of wb.colors" value="{{ color.value }}" >{{color.text}}</option>
         </select>
         <select [(ngModel)]="wb.selectDrawSize" (ngModelChange)="wb.optionDrawSize = $event">
-          <option *ngFor="let size of wb.size" value="{{ size.value }}" >{{size.text}}</option>
+        <option *ngFor="let size of wb.size" value="{{ size.value }}" >{{size.text}}</option>
         </select>
     </div>
-  </div><!--whiteboard-container-->
+</div>

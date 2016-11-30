@@ -190,8 +190,8 @@ export class LobbyComponent {
     this.rooms[ room_id ].users.push( user );
   }
   /**
-  *@desc This method will find a match on the given paramter 
-  *and update it
+  *@desc This method will find a match on the given user parameter 
+  *and update it in userlist
   *@param re
   */
   updateUserOnUserList( user ) {  

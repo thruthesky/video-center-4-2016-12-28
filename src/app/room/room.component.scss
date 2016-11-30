@@ -5,6 +5,19 @@ $colorgrey:#4a5a71;
 $wb_width: 440px;
 $wb_height: 340px;
 
+
+#video-container {
+    position:relative;
+    width: 100%;
+    @media all and ( min-width: $large_break ) {
+        width: $left_large_width;
+    }
+    video {
+        display: block;
+    }
+   
+}
+
 #room-settings {
     width: 100%;
     background-color: $colorgrey;

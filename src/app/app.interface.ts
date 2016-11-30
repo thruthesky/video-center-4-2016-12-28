@@ -73,11 +73,11 @@ export let whiteboardColors = [
 ];
 
 export let whiteboardSize = [
-    {text:"Extra Small" , value: "1" },
-    {text:"Small" , value: "3" },
+    {text:"Extra Small" , value: "2" },
+    {text:"Small" , value: "4" },
     {text:"Medium" , value: "5" },
-    {text:"Large" , value: "7" },
-    {text:"Extra Large" , value: "9" }
+    {text:"Large" , value: "8" },
+    {text:"Extra Large" , value: "10" }
 ];
 export let whiteboardSetting:WhiteboardSetting = {
   optionDrawMode:"",
@@ -91,3 +91,4 @@ export let whiteboardSetting:WhiteboardSetting = {
   canvasWidth: "440px",
   canvasHeight: "340px"
 }
+export let videoSize:string = '226px'; 
