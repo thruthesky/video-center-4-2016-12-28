@@ -25,8 +25,8 @@ export class RoomComponent {
   initialize() {
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
-    this.wb.selectDrawColor = this.wb.colors[0].value;
     this.wb.selectDrawSize = this.wb.size[0].value;
+    this.wb.selectDrawColor = this.wb.colors[0].value;
   }
   ngOnInit() {
     this.setCanvasSize('340px', '500px');

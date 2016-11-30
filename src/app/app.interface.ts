@@ -73,8 +73,8 @@ export let whiteboardSize = [
     {text:"Extra Small" , value: "1" },
     {text:"Small" , value: "3" },
     {text:"Medium" , value: "5" },
-    {text:"Large" , value: "7" }
-    {text:"Extra Large" , value: "9" },
+    {text:"Large" , value: "7" },
+    {text:"Extra Large" , value: "9" }
 ];
 export let whiteboardSetting:WhiteboardSetting = {
   optionDrawMode:"",
