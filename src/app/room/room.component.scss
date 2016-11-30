@@ -1,17 +1,55 @@
-.chatbox {
-    background-color:#4a5a71;
-    color:white;
-    height: 140px;
-    overflow: hidden;
-    overflow-y: scroll;        
+$medium_break: 510px;
+$left_medium_width: 170px;
+$large_break: 680px;
+$left_large_width: 226px;
+$colorblue: #42bdec;
+$colorgrey:#4a5a71;
+#room-settings {
+    width: 100%;
+    background-color: $colorgrey;
+    color:#fff;
+    @media all and ( min-width: $medium_break ) {
+        width: $left_medium_width;
+    }
+    @media all and ( min-width: $large_break ) {
+        width: $left_large_width;
+    }
+}
+#chat{
+    width: 100%;
+    @media all and ( min-width: $medium_break ) {
+        width: $left_medium_width;
+    }
+    @media all and ( min-width: $large_break ) {
+        width: $left_large_width;
+    }
+    .chatbox {
+        background-color:$colorgrey;
+        color:white;
+        height: 140px;
+        overflow: hidden;
+        overflow-y: scroll;        
+    }
 }
 #whiteboard-container {
     position:relative;
     width: 500px;
     height: 340px;
+    @media all and ( min-width: $medium_break ) {
+        position: absolute;
+        z-index: 100;
+        top: 85px;
+        left: $left_medium_width + 2px;
+    }
+    @media all and ( min-width: $large_break ) {
+        position: absolute;
+        z-index: 100;
+        top: 85px;
+        left: $left_large_width + 2px;
+    }
     canvas {
         position: absolute;
-        border:solid 1px black;
+        border:solid 1px $colorgrey;
         z-index: 101;
     }
     #group-button {

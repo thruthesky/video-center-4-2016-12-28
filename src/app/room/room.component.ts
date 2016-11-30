@@ -38,7 +38,17 @@ export class RoomComponent {
     let room = localStorage.getItem('roomname');
     this.vc.joinRoom( room, (data)=> {
       this.myRoomname = data.room;
+      this.getWhiteboardHistory( data.room )
     });
+  }
+  /**
+  *@desc This method will get the whiteboard history of the room
+  *@param roomName 
+  */
+  getWhiteboardHistory( roomName ) {
+    let data :any = { room_name : roomName };
+    data.command = "history";
+    this.vc.whiteboard( data,() => { console.log("get whiteboard history")} );
   }
   /**
   *@desc Group of View Method
@@ -98,11 +108,8 @@ export class RoomComponent {
   */
   listenEvents() {
     this.vc.myEvent.subscribe( item => {
-      // if( item.eventType == "update-username")this.updateUserOnUserList( item );
       if( item.eventType == "join-room") this.onJoinRoomEvent( item );
-      // if( item.eventType == "leave-room") this.onLeaveRoomEvent( item );
       if( item.eventType == "chatMessage") this.addMessage( item );
-      // if( item.eventType == "log-out") this.removeUserList( item );
       if( item.eventType == "disconnect") this.onDisconnectEvent( item );
     });
   }

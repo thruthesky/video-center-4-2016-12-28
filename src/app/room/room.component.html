@@ -1,6 +1,9 @@
-  <h2>Room Page</h2>
-  <h4> {{myRoomname}}</h4>
-  <button class="btn btn-warning form-control" (click)="onClickLobby()">Lobby</button>
+  <div id="room-settings">
+    <h2>Room Page</h2>
+    <h4> {{myRoomname}}</h4>
+    <button class="btn btn-warning form-control" (click)="onClickLobby()">Lobby</button>
+  </div>  
+  
   <div id="chat">
     <div class="chatbox" myautoscroll>
         <div *ngFor="let messageData of listMessage[0].messages ">
@@ -8,7 +11,7 @@
         </div>
     </div>
     <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
-    <button class="btn btn-danger" (click)="onSendMessage(inputMessage)">Send Message</button>
+    <button class="btn btn-success" (click)="onSendMessage(inputMessage)">Send Message</button>
   </div>
   <div id="whiteboard-container">
     <!--<div id="canvas-image">
