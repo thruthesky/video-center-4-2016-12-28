@@ -1,3 +1,10 @@
   <h2>Room Page</h2>
   <h4> {{myRoomname}}</h4>
   <button class="btn btn-warning form-control" (click)="onClickLobby()">Lobby</button>
+  <div class="chatbox" myautoscroll>
+      <div *ngFor="let messageData of listMessage[0].messages ">
+          <b>{{messageData.name}} </b>{{ messageData.message }}
+      </div>
+  </div>
+  <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
+  <button class="btn btn-danger" (click)="onSendMessage(inputMessage)">Send Message</button>
