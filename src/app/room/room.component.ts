@@ -11,7 +11,8 @@ export class RoomComponent {
   myRoomname: string;
   inputMessage: string;
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
-  wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting; 
+  wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting;
+  imageUrlPhoto: string; 
   constructor( private router: Router,
   private vc: VideocenterService ) {
     this.initialize();
@@ -27,9 +28,10 @@ export class RoomComponent {
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
     this.wb.selectDrawSize = this.wb.size[0].value;
     this.wb.selectDrawColor = this.wb.colors[0].value;
+    this.imageUrlPhoto = this.wb.canvasPhoto;
   }
   ngOnInit() {
-    this.setCanvasSize('340px', '500px');
+    this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
   }
   /**
   *@desc This method will get roomname then join the roomname
@@ -95,13 +97,13 @@ export class RoomComponent {
   }
   /**
    *@desc This method will set the canvas size
-   *@param height
    *@param width
+   *@param height
    */
-  setCanvasSize( height, width ) {
+  setCanvasSize( width, height ) {
      let mycanvas= document.getElementById('mycanvas');
-     mycanvas.setAttribute('height', height);
      mycanvas.setAttribute('width', width);
+     mycanvas.setAttribute('height', height);
   }
   /**
   *@desc This method will subscribe to all events

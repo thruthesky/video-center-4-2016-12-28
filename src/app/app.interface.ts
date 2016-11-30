@@ -44,6 +44,9 @@ export interface WhiteboardSetting {
     selectDrawColor:any;
     colors:any;
     size:any;
+    canvasPhoto:any;
+    canvasWidth:string;
+    canvasHeight:string;
 }
 
 
@@ -83,5 +86,8 @@ export let whiteboardSetting:WhiteboardSetting = {
   selectDrawSize:null,
   selectDrawColor:null,
   colors: whiteboardColors,
-  size: whiteboardSize
+  size: whiteboardSize,
+  canvasPhoto: "../../assets/1.png",
+  canvasWidth: "440px",
+  canvasHeight: "340px"
 }
