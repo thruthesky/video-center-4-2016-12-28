@@ -61,17 +61,25 @@ export class RoomComponent {
   listenEvents() {
     this.vc.myEvent.subscribe( item => {
       // if( item.eventType == "update-username")this.updateUserOnUserList( item );
-      // if( item.eventType == "join-room") this.onJoinRoomEvent( item );
+      if( item.eventType == "join-room") this.onJoinRoomEvent( item );
       // if( item.eventType == "leave-room") this.onLeaveRoomEvent( item );
       if( item.eventType == "chatMessage") this.addMessage( item );
       // if( item.eventType == "log-out") this.removeUserList( item );
-      // if( item.eventType == "disconnect") this.onDisconnectEvent( item );
+      if( item.eventType == "disconnect") this.onDisconnectEvent( item );
     });
   }
   /**
   *@desc Groups of onevent Method 
   */
 
+  /**
+  *@desc This method will invoke all the methods
+  *that will be use after receiving the join room
+  *@param data
+  */
+  onJoinRoomEvent( data ) {  
+    this.joinMessage( data ); 
+  }
   /**
    *@desc Add to listMessage to be displayed in the view
    *@param message 
@@ -80,5 +88,33 @@ export class RoomComponent {
     this.listMessage[0].messages.push( message );
     let data = { eventType: "scroll-to-bottom"};
     setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
+  /**
+  *@desc This method will invoke all the methods
+  *that will be use after receiving the disconnect
+  *@param data
+  */
+  onDisconnectEvent( data ) {  
+    this.disconnectMessage( data ); 
+  }
+  /**
+   *@desc This method will create a join message variable that
+   *will be pass in addMessage
+   *@param data 
+   */  
+  joinMessage( data ){
+    let message = { name: data.name, message: ' joins into ' + data.room };
+    this.addMessage( message ); 
+  }
+  /**
+   *@desc This method will create a disconnect message variable that
+   *will be pass in addMessage
+   *@param data 
+   */ 
+  disconnectMessage( data ){
+    if( data.room ){
+      let message = { name: data.name, message: ' disconnect into ' + data.room };
+      this.addMessage( message );
+    } 
   }
 }
