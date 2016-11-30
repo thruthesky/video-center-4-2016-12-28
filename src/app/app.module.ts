@@ -16,7 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 
 import { AutoscrollDirective } from './components/autoscroll/autoscroll';
-
+import { MycanvasDirective } from './components/mycanvas/mycanvas';
 import { VideocenterService } from './providers/videocenter.service';
 
 
@@ -37,7 +37,8 @@ let link: Routes = [
     RoomComponent,
     HomeComponent,
     AboutComponent,
-    AutoscrollDirective
+    AutoscrollDirective,
+    MycanvasDirective
   ],
   imports: [
     BrowserModule,

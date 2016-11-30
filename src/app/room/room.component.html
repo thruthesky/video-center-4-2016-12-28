@@ -1,10 +1,57 @@
   <h2>Room Page</h2>
   <h4> {{myRoomname}}</h4>
   <button class="btn btn-warning form-control" (click)="onClickLobby()">Lobby</button>
-  <div class="chatbox" myautoscroll>
-      <div *ngFor="let messageData of listMessage[0].messages ">
-          <b>{{messageData.name}} </b>{{ messageData.message }}
-      </div>
+  <div id="chat">
+    <div class="chatbox" myautoscroll>
+        <div *ngFor="let messageData of listMessage[0].messages ">
+            <b>{{messageData.name}} </b>{{ messageData.message }}
+        </div>
+    </div>
+    <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
+    <button class="btn btn-danger" (click)="onSendMessage(inputMessage)">Send Message</button>
   </div>
-  <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
-  <button class="btn btn-danger" (click)="onSendMessage(inputMessage)">Send Message</button>
+  <div id="whiteboard-container">
+    <!--<div id="canvas-image">
+      <img [src]="canvasPhoto">
+    </div>-->
+    <canvas mycanvas id="mycanvas" [drawSize]="wb.optionDrawSize" [drawColor]="wb.optionDrawColor" [drawMode]="wb.optionDrawMode"></canvas>
+    <div id="group-button">
+        <button class="btn btn-primary" (click)="onClickDrawMode()">Draw</button>  
+        <button class="btn btn-warning" (click)="onClickEraseMode()">Erase</button> 
+        <button class="btn btn-danger" (click)="onClickClear()">Clear</button>
+        <select [(ngModel)]="wb.selectDrawColor" (ngModelChange)="wb.optionDrawColor = $event">
+         <option *ngFor="let color of wb.colors" value="{{ color.value }}" >{{color.text}}</option>
+        </select>
+        <select [(ngModel)]="wb.selectDrawSize" (ngModelChange)="wb.optionDrawSize = $event">
+         <option *ngFor="let size of wb.size" value="{{ size.value }}" >{{size.text}}</option>
+        </select>
+    </div>
+
+
+    <!--<i>
+    
+ 
+
+    <button ion-button color="dark" class="color">
+      <ion-icon name="md-color-palette"></ion-icon>
+      <ion-select [(ngModel)]="selectDrawColor" (ngModelChange)="optionDrawColor = $event" cancelText="Cancel" okText="Okay">
+        <ion-option value="#161515">Black</ion-option>
+        <ion-option value="#57646B">Grey</ion-option>
+        <ion-option value="#fff">White</ion-option>
+        <ion-option value="#D01B1B">Red</ion-option>
+        <ion-option value="#1DB73C">Green</ion-option>
+        <ion-option value="#2094D7">Blue</ion-option>             
+      </ion-select>
+    </button>
+
+    <button ion-button color="dark" class="size">
+      <ion-icon name="md-options"></ion-icon>
+      <ion-select [(ngModel)]="selectDrawSize" (ngModelChange)="optionDrawSize = $event" cancelText="Cancel" okText="Okay">
+        <ion-option value="2">Small</ion-option>
+        <ion-option value="5">Medium</ion-option>
+        <ion-option value="8">Large</ion-option>     
+      </ion-select>
+    </button>
+
+    </i>-->
+  </div>

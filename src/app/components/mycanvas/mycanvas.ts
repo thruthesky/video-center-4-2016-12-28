@@ -1,10 +1,8 @@
 import { Directive, ElementRef, HostListener, Input, Renderer } from '@angular/core';
-import { Events } from 'ionic-angular';
-import * as x from '../../providers/videocenter';
-
+import { VideocenterService } from '../../providers/videocenter.service';
+import * as xInterface from '../../app.interface';
 @Directive({
-  selector: '[mycanvas]' // Attribute selector
-  
+  selector: '[mycanvas]'
 })
 export class MycanvasDirective {
   @Input() drawSize: string;
@@ -12,23 +10,31 @@ export class MycanvasDirective {
   @Input() drawMode: string;
   private canvas: any;
   private canvas_context: any;
-  private mouse : x.Mouse = x.mouse;
+  private mouse : xInterface.Mouse = xInterface.mouse;
   constructor(
      private el: ElementRef,
      private renderer: Renderer,
-     private vc: x.Videocenter,
-     private events: Events) {
-      this.canvas = el.nativeElement;
-      this.canvas_context = this.canvas.getContext('2d');
-      this.drawSize = "2";
-      this.drawColor = "#161515";
-      this.drawMode = "l";
+     private vc: VideocenterService) {
+      this.initialize();
       this.listenEvents();
   }
-  //Mouse Event
+  /**
+  *@desc This method will initialize the MycanvasDirective
+  */
+  initialize() {
+    this.canvas = this.el.nativeElement;
+    this.canvas_context = this.canvas.getContext('2d');
+    this.drawSize = "2";
+    this.drawColor = "#161515";
+    this.drawMode = "l";
+  }
+  /**
+  *@desc Group of EventListener for Mouse Event
+  */
+  
   @HostListener('mousedown', ['$event'])
   onMouseDown(event) {
-    event.preventDefault();    
+    event.preventDefault();
     this.mouse.click = true;
     this.mouse.pos_prev = {x: -12345, y: -12345};
     this.draw(event, this.canvas);
@@ -50,10 +56,13 @@ export class MycanvasDirective {
     this.mouse.click = false;
     this.mouse.pos_prev = {x: -12345, y: -12345};
   }
-  //Touch Event
+  /**
+  *@desc Group of EventListener for Touch Event
+  */
+
   @HostListener('touchstart', ['$event'])
   onTouchStart(event) {
-    event.preventDefault();    
+    event.preventDefault();
     this.mouse.click = true;
     this.mouse.pos_prev = {x: -12345, y: -12345};
     this.draw(event, this.canvas);
@@ -69,47 +78,23 @@ export class MycanvasDirective {
     if( !this.mouse.click ) return;
     this.draw(event, this.canvas);   
   }
-  
-
-
-
-  //Canvas Functionality
+  /**
+  *@desc This method will set the data that will be pass
+  *in draw_on_canvas and the server
+  *@param e, obj
+  */    
   draw( e , obj) {
-    let m_posx = 0, m_posy = 0, e_posx = 0, e_posy = 0;
-    //get mouse position on document crossbrowser        
     if ( ! e ) e = window.event;
-    if (e.pageX || e.pageY){
-        m_posx = e.pageX;
-        m_posy = e.pageY;
-    } else if (e.clientX || e.clientY){
-        m_posx = e.clientX + document.body.scrollLeft
-            + document.documentElement.scrollLeft;
-        m_posy = e.clientY + document.body.scrollTop
-            + document.documentElement.scrollTop;
-    } else if ( e.changedTouches[0].pageX || e.changedTouches[0].pageY) {
-        m_posx = e.changedTouches[0].pageX;
-        m_posy = e.changedTouches[0].pageY;
-    } else if ( e.changedTouches[0].clientX || e.changedTouches[0].clientY) {
-        m_posx = e.changedTouches[0].clientX + document.body.scrollLeft
-            + document.documentElement.scrollLeft;
-        m_posy = e.changedTouches[0].clientY + document.body.scrollTop
-            + document.documentElement.scrollTop;
-    }
-
-    //get parent element position in document
-    if ( obj.offsetParent){
-        do {
-            e_posx += obj.offsetLeft;
-            e_posy += obj.offsetTop;
-        } while ( obj = obj.offsetParent);
-    }
-    let scrollContent = document.getElementsByClassName('scroll-content');
-    let scrollContentX = scrollContent[0].scrollLeft;
-    let scrollContentY = scrollContent[0].scrollTop;
-    let x : number = m_posx-e_posx;
-    let y : number = m_posy-e_posy;
-    this.mouse.pos.x = x+scrollContentX;
-    this.mouse.pos.y = y+scrollContentY;
+    let mouseTouchXY = this.getMouseTouchXY( e );
+    let elementXY = this.getElementXY( obj );
+    let mt_posx = mouseTouchXY.m_posx;
+    let mt_posy = mouseTouchXY.m_posy;
+    let e_posx = elementXY.e_posx;
+    let e_posy = elementXY.e_posy;
+    let x : number = mt_posx-e_posx;
+    let y : number = mt_posy-e_posy;
+    this.mouse.pos.x = x;
+    this.mouse.pos.y = y;
     if ( this.mouse.pos_prev.x == -12345 ) {
         this.mouse.pos_prev.x = this.mouse.pos.x;
         this.mouse.pos_prev.y = this.mouse.pos.y;
@@ -119,21 +104,59 @@ export class MycanvasDirective {
     data.color = this.drawColor;
     data.draw_mode = this.drawMode;
     data.command = "draw"; 
-    this.vc.getRoomname().then( roomname => {
-        data.room_name = roomname;
-        this.vc.whiteboard( data, ()=>{
-          console.log('success');
-        });
-        this.draw_on_canvas( data );
-        this.mouse.pos_prev.x = this.mouse.pos.x;
-        this.mouse.pos_prev.y = this.mouse.pos.y;
-    });
+    data.room_name = localStorage.getItem('roomname');
+    this.vc.whiteboard( data, ()=>{console.log('success'); });
+    this.draw_on_canvas( data );
+    this.mouse.pos_prev.x = this.mouse.pos.x;
+    this.mouse.pos_prev.y = this.mouse.pos.y;
   }
+  /**
+  *@desc This method will get the mouse or touch x and y
+  *and return it as data variable
+  *@param e
+  */ 
+  getMouseTouchXY( e ) {
+   let data = { m_posx:0, m_posy:0 };   
+   if (e.pageX || e.pageY){
+        data.m_posx = e.pageX;
+        data.m_posy = e.pageY;
+    } else if (e.clientX || e.clientY){
+        data.m_posx = e.clientX + document.body.scrollLeft
+            + document.documentElement.scrollLeft;
+        data.m_posy = e.clientY + document.body.scrollTop
+            + document.documentElement.scrollTop;
+    } else if ( e.changedTouches[0].pageX || e.changedTouches[0].pageY) {
+        data.m_posx = e.changedTouches[0].pageX;
+        data.m_posy = e.changedTouches[0].pageY;
+    } else if ( e.changedTouches[0].clientX || e.changedTouches[0].clientY) {
+        data.m_posx = e.changedTouches[0].clientX + document.body.scrollLeft
+            + document.documentElement.scrollLeft;
+        data.m_posy = e.changedTouches[0].clientY + document.body.scrollTop
+            + document.documentElement.scrollTop;
+    }
+    return data;
+  }
+  /**
+  *@desc This method will get the element position
+  *by calculating the position of element and it's parent
+  *@param obj
+  */ 
+  getElementXY( obj ) {
+   let data = { e_posx:0, e_posy:0 };   
+    if ( obj.offsetParent){
+        do {
+            data.e_posx += obj.offsetLeft;
+            data.e_posy += obj.offsetTop;
+        } while ( obj = obj.offsetParent);
+    }
+    return data;
+  }
+  
   draw_on_canvas( data ) {
     let line = data.line;
     if ( typeof data.lineJoin == 'undefined' ) data.lineJoin = 'round';
-    if ( typeof data.draw_mode == 'undefined' ) data.draw_mode = 'l';
-    if ( typeof data.lineWidth == 'undefined' ) data.lineWidth = 3;
+    if ( typeof data.draw_mode == 'undefined'  ) data.draw_mode = 'l';
+    if ( typeof data.lineWidth == 'undefined' || data.lineWidth == "" ) data.lineWidth = 1;
     if ( typeof data.color == 'undefined' ) data.color = 'black';
     let ox = line[0].x;
     let oy = line[0].y;
@@ -165,7 +188,6 @@ export class MycanvasDirective {
         ctx.arc( dx, dy, data.lineWidth * 0.5, 0, Math.PI*2, false);            
         ctx.closePath();
         ctx.fill();
-      
     }      
   }
   clear_my_canvas() {
@@ -181,43 +203,33 @@ export class MycanvasDirective {
     ctx.restore();
   }
   broadcastClearCanvas() {    
-    this.vc.getRoomname().then( roomname => {
-        let data :any = { command : "clear" };
-        data.room_name = roomname;
-        this.vc.whiteboard( data, ()=>{
-          console.log('clear whiteboard');
-        });
-    });
+    let data :any = { command : "clear" };
+    data.room_name = localStorage.getItem('roomname');
+    this.vc.whiteboard( data, ()=>{ console.log('clear whiteboard'); });
   }
-  // Event Listener
+  /**
+  *@desc This method will listen to incoming events in the server
+  */
   listenEvents() {
-    this.events.subscribe( 'click-clear-canvas', () => {
-      this.broadcastClearCanvas();
-    });
-    this.events.subscribe( 'whiteboard', re => {
-      let data = re[0];
-      if ( data.command == 'draw' ) {
-          this.draw_on_canvas(data);
-      }
-      else if ( data.command == 'history' ) { 
-          this.draw_on_canvas(data);
-      }     
-      else if ( data.command == 'clear' ) {
-          this.clear_my_canvas();        
-      }
-      // else if ( data.command == 'show-whiteboard' ) {
-      //     console.log('socket_on_from_server() : command = ' + data.command );
-      //     // this.show();
-      // }
-      // else if ( data.command == 'hide-whiteboard' ) {
-      //     console.log('socket_on_from_server() : command = ' + data.command );
-      //     this.hide();
-      // }
-      // else if ( data.command == 'canvas-size' ) { 
-      //     console.log('socket_on_from_server() : command = ' + data.command );
-      //     this.change_canvas_size( data.size );
-      // }   
-    });    
+    this.vc.myEvent.subscribe( item => {
+      if( item.eventType == "click-clear-canvas") this.broadcastClearCanvas();
+      if( item.eventType == "whiteboard")  this.onWhiteboardEvent( item ); 
+    });  
+  }
+  /**
+  *@desc This method will invoke the method depending on data.command
+  *@param data
+  */
+  onWhiteboardEvent( data ) {  
+    if ( data.command == 'draw' ) {
+        this.draw_on_canvas(data);
+    }
+    else if ( data.command == 'history' ) { 
+        this.draw_on_canvas(data);
+    }     
+    else if ( data.command == 'clear' ) {
+        this.clear_my_canvas();        
+    }
   }
 }
 

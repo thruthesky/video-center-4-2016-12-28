@@ -11,6 +11,7 @@ export class RoomComponent {
   myRoomname: string;
   inputMessage: string;
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
+  wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting; 
   constructor( private router: Router,
   private vc: VideocenterService ) {
     this.initialize();
@@ -24,6 +25,11 @@ export class RoomComponent {
   initialize() {
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
+    this.wb.selectDrawColor = this.wb.colors[0].value;
+    this.wb.selectDrawSize = this.wb.size[0].value;
+  }
+  ngOnInit() {
+    this.setCanvasSize('340px', '500px');
   }
   /**
   *@desc This method will get roomname then join the roomname
@@ -54,7 +60,39 @@ export class RoomComponent {
   onClickLobby() {
     this.router.navigate(['lobby']);
   }
+  /**
+   * @desc Group for Whiteboard Functionality
+   */
 
+  /**
+   *@desc This method clear the canvas
+   */
+  onClickClear() {
+    let data = { eventType: "click-clear-canvas"};
+    this.vc.myEvent.emit(data);
+  } 
+  /**
+   *@desc This method will change the optionDrawMode to l - line
+   */
+  onClickDrawMode() {
+    this.wb.optionDrawMode = "l";
+  } 
+  /**
+   *@desc This method will change the optionDrawMode to e - erase
+   */
+  onClickEraseMode() {
+    this.wb.optionDrawMode = "e";
+  }
+  /**
+   *@desc This method will set the canvas size
+   *@param height
+   *@param width
+   */
+  setCanvasSize( height, width ) {
+     let mycanvas= document.getElementById('mycanvas');
+     mycanvas.setAttribute('height', height);
+     mycanvas.setAttribute('width', width);
+  }
   /**
   *@desc This method will subscribe to all events
   */

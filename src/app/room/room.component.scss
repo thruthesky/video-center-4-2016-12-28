@@ -5,3 +5,20 @@
     overflow: hidden;
     overflow-y: scroll;        
 }
+#whiteboard-container {
+    position:relative;
+    width: 500px;
+    height: 340px;
+    canvas {
+        position: absolute;
+        border:solid 1px black;
+        z-index: 101;
+    }
+    #group-button {
+        z-index: 102;
+        display: block;
+        position: absolute;
+        top: 0.2em;
+        right: 0.2em;
+    }
+}

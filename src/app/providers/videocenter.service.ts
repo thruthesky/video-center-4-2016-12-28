@@ -126,6 +126,13 @@ export class VideocenterService {
     this.emit('log-out', callback );
   }
   /**
+   * @desc This method will pass the whiteboard data to server
+   * @param data, callback
+   */
+  whiteboard( data, callback : any ) : void {
+    this.emit('whiteboard', data, callback);
+  }
+  /**
    * @desc This Method listens to socket event and
    * pass it to eventEmmiter
    */
@@ -153,7 +160,9 @@ export class VideocenterService {
       data.eventType = "chatMessage";
       this.myEvent.emit(data);
     });
-    socket.on('whiteboard', re => {
+    socket.on('whiteboard', data => {
+      data.eventType = "whiteboard";
+      this.myEvent.emit(data);
     });
     socket.on('log-out', data => {
       data.eventType = "log-out";
