@@ -4,9 +4,15 @@
     <h4> {{myRoomname}}</h4>
     <button class="btn btn-warning form-control" (click)="onClickLobby()">Lobby</button>
 </div>  <!--room-settings-->
-<div class="vc">
-<div id="video-container"></div>
+<div id="device-settings">
+    <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
+        <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
+    </select>
+    <select [(ngModel)]="vs.selectVideo" (ngModelChange)="onChangeVideo($event)">
+        <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
+    </select>
 </div>
+<div id="video-container"></div>
 <div id="chat">
     <div class="chatbox" myautoscroll>
         <div *ngFor="let messageData of listMessage[0].messages ">

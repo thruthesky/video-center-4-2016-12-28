@@ -12,14 +12,18 @@ export class RoomComponent {
   inputMessage: string;
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
   wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting;
+  vs: xInterface.VideoSetting = xInterface.videoSetting;
   imageUrlPhoto: string; 
   canvasPhoto: string;
   connection:any;
+  videos:any =[];
+  audios: any = [];
   constructor( private router: Router,
   private vc: VideocenterService ) {
     this.initialize();
     this.joinRoom();
     this.streamOnConnection();
+    this.showSettings();
     this.listenEvents();
    }
   /**
@@ -40,9 +44,14 @@ export class RoomComponent {
           OfferToReceiveVideo: true
       };
   }
+  /**
+  *@desc This method will invoke the setCanvasSize Method
+  */
   ngOnInit() {
     this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
-  }
+    
+  }   
+      
   /**
   *@desc This method will get roomname then join the roomname
   */
@@ -82,6 +91,62 @@ export class RoomComponent {
     }
   }
   /**
+  *@desc This method will add device for video select and audio select
+  */
+  showSettings() {
+    setTimeout(()=>{
+      this.connection.DetectRTC.load(() => {
+      this.connection.DetectRTC.MediaDevices.forEach((device) => {
+        this.addVideoOption( device );
+        this.addAudioOption( device );
+      });
+      this.getDefaultAudio();
+      this.getDefaultVideo();
+     
+    });
+    }, 1000);
+  }
+  /**
+  *@desc This method will add video options on video select
+  *@param device 
+  */
+  addVideoOption( device ) {
+    if(device.kind.indexOf('video') !== -1) {
+      let video = {
+        text: device.label || device.id,
+        value: device.id
+      };
+      this.videos.push( video );
+      localStorage.setItem('default-video', video.value );
+    }
+  }
+  /**
+  *@desc This method will add audio options on audio select
+  *@param device
+  */
+  addAudioOption ( device ) {
+    if(device.kind === 'audioinput') {
+      let audio = {
+          text: device.label || device.id,
+          value: device.id
+        };
+      this.audios.push( audio );
+      localStorage.setItem('default-audio', audio.value );
+    }
+  }
+  /**
+  *@desc This method will get the selected audio from storage
+  */
+  getDefaultAudio(){
+    this.vs.selectAudio = localStorage.getItem('default-audio');
+  }
+  /**
+  *@desc This method will get the selected video from storage
+  */
+  getDefaultVideo(){
+    this.vs.selectVideo = localStorage.getItem('default-video');
+  }
+  /**
   *@desc Group of View Method
   */
 
@@ -106,6 +171,9 @@ export class RoomComponent {
     });
   }
   /**
+   *@desc Group Method for Audio and Video
+   */
+  /**
    *@desc This method will add video when there's a new stream
    */
   addUserVideo( event ) {
@@ -118,6 +186,98 @@ export class RoomComponent {
     if ( me == 'me' ) videos.insertBefore(video, videos.firstChild);
     else videos.appendChild( video );
     console.log('connection:',this.connection);
+  }
+  /**
+  *@desc This method will change video device
+  *@param videoSourceId
+  */
+  onChangeVideo( videoSourceId ) {
+    localStorage.setItem('default-video', videoSourceId );
+    if(this.videoSelectedAlready( videoSourceId )) return;
+    this.removeVideoTrackAndStream();
+    this.connection.mediaConstraints.video.optional = [{
+        sourceId: videoSourceId
+    }];
+    let video = document.getElementsByClassName('me')[0];
+    if(video) {
+      video.parentNode.removeChild( video );
+      this.connection.captureUserMedia();
+    }
+  }
+  /**
+  *@desc This method will check if video is already selected
+  *@param videoSourceId
+  *@return result 
+  */
+  videoSelectedAlready( videoSourceId ) {
+    let result = 0;
+    let videoOptionalLength = this.connection.mediaConstraints.video.optional.length;
+    let attachStreamsLength = this.connection.attachStreams.length;
+    
+    if( videoOptionalLength && attachStreamsLength ) {
+      if(this.connection.mediaConstraints.video.optional[0].sourceId === videoSourceId) {
+          alert('Selected video device is already selected.');
+          result = 1;
+      }
+    }
+    return result;
+  }
+  /**
+  *@desc This method will remove the track and stream of video
+  */
+  removeVideoTrackAndStream() {
+    this.connection.attachStreams.forEach((stream) =>{
+      stream.getVideoTracks().forEach((track) =>{
+        stream.removeTrack(track);
+        if(track.stop)track.stop();
+      });
+    });
+  }
+
+  /**
+  *@desc This method will change audio device
+  *@param audioSourceId
+  */
+  onChangeAudio( audioSourceId ) {
+    localStorage.setItem('default-audio', audioSourceId );
+    if(this.audioSelectedAlready( audioSourceId )) return;
+    this.removeAudioTrackAndStream();
+    this.connection.mediaConstraints.audio.optional = [{
+        sourceId: audioSourceId
+    }];
+    let video = document.getElementsByClassName('me')[0];
+    if(video) {
+      video.parentNode.removeChild( video )
+      this.connection.captureUserMedia();
+    }
+  }
+  /**
+  *@desc This method will check if audio is already selected
+  *@param audioSourceId
+  *@return result 
+  */
+  audioSelectedAlready( audioSourceId ) {
+    let result = 0;
+    let attachStreamsLength = this.connection.attachStreams.length;
+    let audioOptionalLength = this.connection.mediaConstraints.audio.optional.length;
+    if( audioOptionalLength && attachStreamsLength) {
+      if(this.connection.mediaConstraints.audio.optional[0].sourceId === audioSourceId) {
+          alert('Selected audio device is already selected.');
+          result = 1;
+      }
+    }
+    return result;
+  }
+  /**
+  *@desc This method will remove the track and stream of audio
+  */
+  removeAudioTrackAndStream() {
+    this.connection.attachStreams.forEach((stream) =>{
+      stream.getAudioTracks().forEach((track) =>{
+        stream.removeTrack(track);
+        if(track.stop)track.stop();
+      });
+    });
   }
   /**
   *@desc This method will change the canvasPhoto to imageUrlPhoto
@@ -133,7 +293,6 @@ export class RoomComponent {
   onChangeFile( event ) {
     console.log( event );
   }
-  
   
   /**
    * @desc Group for Whiteboard Functionality

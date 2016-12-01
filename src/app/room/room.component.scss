@@ -27,6 +27,14 @@ $wb_height: 340px;
         width: $left_large_width;
     }
 }
+#device-settings {
+    width: 100%;
+    background-color: $colorgrey;
+    color:#fff;
+    @media all and ( min-width: $large_break ) {
+        width: $left_large_width;
+    }
+}
 #chat{
     width: 100%;
     background-color:$colorgrey;

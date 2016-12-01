@@ -48,6 +48,10 @@ export interface WhiteboardSetting {
     canvasWidth:string;
     canvasHeight:string;
 }
+export interface VideoSetting {
+    selectAudio: any;
+    selectVideo: any;
+}
 
 
 
@@ -91,4 +95,8 @@ export let whiteboardSetting:WhiteboardSetting = {
   canvasWidth: "440px",
   canvasHeight: "340px"
 }
+export let videoSetting:VideoSetting = {
+    selectAudio: null,
+    selectVideo: null
+};
 export let videoSize:string = '226px'; 
