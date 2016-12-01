@@ -125,6 +125,13 @@ export class VideocenterService {
     localStorage.setItem('username', '');
     this.emit('log-out', callback );
   }
+   /**
+   * @desc This method will leave the user in the room
+   * @param  callback
+   */ 
+  leaveRoom( callback ) {
+    this.emit('leave-room', callback );
+  }
   /**
    * @desc This method will pass the whiteboard data to server
    * @param data, callback

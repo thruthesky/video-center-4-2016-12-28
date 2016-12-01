@@ -27,6 +27,7 @@ export class RoomComponent {
   *the some of the properties of RoomPage
   */
   initialize() {
+    
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
     this.wb.selectDrawSize = this.wb.size[0].value;
@@ -67,15 +68,18 @@ export class RoomComponent {
   }
   /**
   *@desc This method will open or join a session to have a video conference
+  *if the roomName is not lobby
   *@param roomName
   */
   openOrJoinSession( roomName ) {
-    this.connection.openOrJoin( roomName, (roomExist) => {
-      if(roomExist)console.log("I Join the Room");
-      else console.log("I Open the Room");
-      this.connection.socket.on( this.connection.socketCustomEvent, message => { } );
-      this.connection.socket.emit( this.connection.socketCustomEvent, this.connection.userid);
-    });
+    if( roomName !== xInterface.LobbyRoomName ) {
+      this.connection.openOrJoin( roomName, (roomExist) => {
+        if(roomExist)console.log("I Join the Room");
+        else console.log("I Open the Room");
+        this.connection.socket.on( this.connection.socketCustomEvent, message => { } );
+        this.connection.socket.emit( this.connection.socketCustomEvent, this.connection.userid);
+      });
+    }
   }
   /**
   *@desc Group of View Method
@@ -95,7 +99,11 @@ export class RoomComponent {
   *@desc This method will Leave the room and go back to lobby
   */
   onClickLobby() {
-    this.router.navigate(['lobby']);
+    this.vc.leaveRoom( ()=> {
+      // this.router.navigate(['lobby']);
+      localStorage.setItem('roomname', xInterface.LobbyRoomName );
+      location.reload();
+    });
   }
   /**
    *@desc This method will add video when there's a new stream
@@ -109,6 +117,7 @@ export class RoomComponent {
     video.setAttribute('width', xInterface.videoSize );
     if ( me == 'me' ) videos.insertBefore(video, videos.firstChild);
     else videos.appendChild( video );
+    console.log('connection:',this.connection);
   }
   /**
   *@desc This method will change the canvasPhoto to imageUrlPhoto
@@ -196,7 +205,12 @@ export class RoomComponent {
   *@param data
   */
   onDisconnectEvent( data ) {  
-    this.disconnectMessage( data ); 
+    this.disconnectMessage( data );
+    this.reloadPage(); 
+  }
+  reloadPage() {
+    let random = this.vc.getRandomInt(0,100);
+    setTimeout( ()=> { location.reload(); }, random);
   }
   /**
    *@desc This method will create a join message variable that
