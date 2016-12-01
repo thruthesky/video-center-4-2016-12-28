@@ -99,16 +99,17 @@ export class RoomComponent {
   *@desc This method will add device for video select and audio select
   */
   showSettings() {
-    setTimeout(()=>{
-      this.connection.DetectRTC.load(() => {
-      this.connection.DetectRTC.MediaDevices.forEach((device) => {
-        this.addVideoOption( device );
-        this.addAudioOption( device );
+     setTimeout(()=>{
+      this.connection.getUserMedia(()=> {
+          this.connection.DetectRTC.load(() => {
+          this.connection.DetectRTC.MediaDevices.forEach((device) => {
+            this.addVideoOption( device );
+            this.addAudioOption( device );
+          });
+          this.getDefaultAudio();
+          this.getDefaultVideo();
+        });
       });
-      this.getDefaultAudio();
-      this.getDefaultVideo();
-     
-    });
     }, 1000);
   }
   /**

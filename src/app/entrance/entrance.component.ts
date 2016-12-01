@@ -58,15 +58,16 @@ export class EntranceComponent {
   */
   showSettings() {
     setTimeout(()=>{
-      this.connection.DetectRTC.load(() => {
-      this.connection.DetectRTC.MediaDevices.forEach((device) => {
-        this.addVideoOption( device );
-        this.addAudioOption( device );
+      this.connection.getUserMedia(()=> {
+          this.connection.DetectRTC.load(() => {
+          this.connection.DetectRTC.MediaDevices.forEach((device) => {
+            this.addVideoOption( device );
+            this.addAudioOption( device );
+          });
+          this.getDefaultAudio();
+          this.getDefaultVideo();
+        });
       });
-      this.getDefaultAudio();
-      this.getDefaultVideo();
-     
-    });
     }, 1000);
   }
   /**
@@ -146,6 +147,7 @@ export class EntranceComponent {
     video.setAttribute('width', xInterface.videoSize );
     if ( me == 'me' ) videos.insertBefore(video, videos.firstChild);
     else videos.appendChild( video );
+    console.log("My Connection:",this.connection);
   }
   /**
   *@desc This method will change video device
