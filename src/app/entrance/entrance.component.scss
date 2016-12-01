@@ -1,0 +1,23 @@
+$large_break: 730px;
+$left_large_width: 226px;
+$colorblue: #42bdec;
+$colorgrey:#4a5a71;
+#video-container {
+    position:relative;
+    width: 100%;
+    @media all and ( min-width: $large_break ) {
+        width: $left_large_width;
+    }
+    video {
+        display: block;
+    }
+}
+
+#device-settings {
+    width: 100%;
+    background-color: $colorgrey;
+    color:#fff;
+    @media all and ( min-width: $large_break ) {
+        width: $left_large_width;
+    }
+}

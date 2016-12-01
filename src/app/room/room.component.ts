@@ -63,6 +63,11 @@ export class RoomComponent {
       this.openOrJoinSession( data.room );
     });
   }
+
+  /**
+  *@desc This method will check if there is new stream
+  *then invoke addUserVideo to add new stream
+  */
   streamOnConnection() {
     this.connection.onstream = (event) => this.addUserVideo( event ); 
   }
