@@ -57,18 +57,17 @@ export class EntranceComponent {
   *@desc This method will add device for video select and audio select
   */
   showSettings() {
-    setTimeout(()=>{
-      this.connection.getUserMedia(()=> {
-          this.connection.DetectRTC.load(() => {
-          this.connection.DetectRTC.MediaDevices.forEach((device) => {
-            this.addVideoOption( device );
-            this.addAudioOption( device );
-          });
-          this.getDefaultAudio();
-          this.getDefaultVideo();
+    this.connection.getUserMedia( () => { 
+      this.connection.DetectRTC.load(() => {
+        this.connection.DetectRTC.MediaDevices.forEach((device) => {
+          this.addVideoOption( device );
+          this.addAudioOption( device );
         });
+        this.getDefaultAudio();
+        this.getDefaultVideo();
       });
-    }, 1000);
+    });
+  
   }
   /**
   *@desc This method will add video options on video select
@@ -145,9 +144,9 @@ export class EntranceComponent {
     if ( this.connection.userid == event.userid ) me = 'me';
     video.setAttribute('class', me);
     video.setAttribute('width', xInterface.videoSize );
-    if ( me == 'me' ) videos.insertBefore(video, videos.firstChild);
-    else videos.appendChild( video );
-    console.log("My Connection:",this.connection);
+    let meElement = document.getElementsByClassName('me')[0];
+    if( !meElement && video )  videos.insertBefore(video, videos.firstChild);
+    if ( me != 'me' ) videos.appendChild( video );
   }
   /**
   *@desc This method will change video device
