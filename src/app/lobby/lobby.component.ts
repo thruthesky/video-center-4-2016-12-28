@@ -12,6 +12,8 @@ export class LobbyComponent {
   inputUsername: string;
   inputRoomname: string;
   inputMessage: string;
+  updateUsername: boolean = false;
+  createRoom: boolean = false;
   rooms: xInterface.ROOMS = <xInterface.ROOMS> {};
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
   constructor( private router: Router,
@@ -114,6 +116,7 @@ export class LobbyComponent {
     this.vc.updateUsername(this.inputUsername, ( user: xInterface.USER ) => {
       this.inputUsername = "";
       this.myUsername = user.name;
+      this.updateUsername = false;
     });
   }
   /**

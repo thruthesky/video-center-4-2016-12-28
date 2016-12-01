@@ -185,7 +185,6 @@ export class RoomComponent {
     video.setAttribute('width', xInterface.videoSize );
     if ( me == 'me' ) videos.insertBefore(video, videos.firstChild);
     else videos.appendChild( video );
-    console.log('connection:',this.connection);
   }
   /**
   *@desc This method will change video device

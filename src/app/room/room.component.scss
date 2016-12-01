@@ -5,7 +5,9 @@ $colorgrey:#4a5a71;
 $wb_width: 440px;
 $wb_height: 340px;
 
-
+#room-page {
+    background-color: #c9ffe3;
+}
 #video-container {
     position:relative;
     width: 100%;
@@ -76,7 +78,7 @@ $wb_height: 340px;
     @media all and ( min-width: $large_break ) {
         position: absolute;
         z-index: 100;
-        top: 85px;
+        top: 62px;
         left: $left_large_width + 2px;
     }
     canvas {

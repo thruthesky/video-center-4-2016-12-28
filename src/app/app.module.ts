@@ -21,11 +21,10 @@ import { VideocenterService } from './providers/videocenter.service';
 
 
 let link: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: '/entrance', pathMatch: 'full'},
   { path: 'entrance', component: EntranceComponent },
   { path: 'lobby', component: LobbyComponent },
-  { path: 'room', component: RoomComponent },
-  { path: 'about', component: AboutComponent }
+  { path: 'room', component: RoomComponent }
 ];
 
 @NgModule({
