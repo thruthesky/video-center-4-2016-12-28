@@ -22,6 +22,7 @@ export class EntranceComponent {
       this.streamOnConnection();
       this.showSettings();
   }
+  
   /**
   *@desc This method will update the username 
   *then navigate the router to lobby

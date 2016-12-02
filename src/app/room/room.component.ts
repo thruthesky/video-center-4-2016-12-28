@@ -31,7 +31,8 @@ export class RoomComponent {
   *the some of the properties of RoomPage
   */
   initialize() {
-    
+    let room = localStorage.getItem('roomname');
+    if( room == xInterface.LobbyRoomName ) this.router.navigate(['lobby']);
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
     this.wb.selectDrawSize = this.wb.size[0].value;
@@ -49,8 +50,21 @@ export class RoomComponent {
   */
   ngOnInit() {
     this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
+    this.setDefaultDevice();
     
-  }   
+  }
+  /**
+  *@desc This method will set the default device to be use
+  */
+  setDefaultDevice() {
+    let videoSourceId = localStorage.getItem('default-video');
+    let audioSourceId = localStorage.getItem('default-audio');
+    console.log("videoSourceId:",videoSourceId);
+    console.log("audioSourceId:",audioSourceId);
+    if ( videoSourceId ) this.onChangeVideo( videoSourceId );
+    if ( audioSourceId ) this.onChangeAudio( audioSourceId );
+  }
+  
       
   /**
   *@desc This method will get roomname then join the roomname
@@ -71,6 +85,7 @@ export class RoomComponent {
   streamOnConnection() {
     this.connection.onstream = (event) => this.addUserVideo( event ); 
   }
+
   /**
   *@desc This method will get the whiteboard history of the room
   *@param roomName 
@@ -108,8 +123,8 @@ export class RoomComponent {
               this.addVideoOption( device );
               this.addAudioOption( device );
             });
-            this.getDefaultAudio();
-            this.getDefaultVideo();
+            this.setDefaultAudioSelected();
+            this.setDefaultVideoSelected();
           });
         });
        }
@@ -126,7 +141,6 @@ export class RoomComponent {
         value: device.id
       };
       this.videos.push( video );
-      localStorage.setItem('default-video', video.value );
     }
   }
   /**
@@ -140,19 +154,18 @@ export class RoomComponent {
           value: device.id
         };
       this.audios.push( audio );
-      localStorage.setItem('default-audio', audio.value );
     }
   }
   /**
-  *@desc This method will get the selected audio from storage
+  *@desc This method will set the selected audio from storage
   */
-  getDefaultAudio(){
+  setDefaultAudioSelected(){
     this.vs.selectAudio = localStorage.getItem('default-audio');
   }
   /**
-  *@desc This method will get the selected video from storage
+  *@desc This method will set the selected video from storage
   */
-  getDefaultVideo(){
+  setDefaultVideoSelected(){
     this.vs.selectVideo = localStorage.getItem('default-video');
   }
   /**
@@ -174,7 +187,6 @@ export class RoomComponent {
   */
   onClickLobby() {
     this.vc.leaveRoom( ()=> {
-      // this.router.navigate(['lobby']);
       localStorage.setItem('roomname', xInterface.LobbyRoomName );
       location.reload();
     });
@@ -183,18 +195,43 @@ export class RoomComponent {
    *@desc Group Method for Audio and Video
    */
   /**
-   *@desc This method will add video when there's a new stream
+   *@desc This method will first check
+   *if the userid is others or his/her self
    */
   addUserVideo( event ) {
-    let me: string = 'others';
-    let video = event.mediaElement;
-    let videos= document.getElementById('video-container');
-    if ( this.connection.userid == event.userid ) me = 'me';
-    video.setAttribute('class', me);
-    video.setAttribute('width', xInterface.videoSize );
-    let meElement = document.getElementsByClassName('me')[0];
-    if( !meElement && video )  videos.insertBefore(video, videos.firstChild);
-    if ( me != 'me' ) videos.appendChild( video );
+    if( this.connection.userid == event.userid ) this.addLocalVideo( event ); 
+    else this.addRemoteVideo( event ); 
+    
+  }
+  /**
+   *@desc This method will add 
+   *local video stream
+   *@param event
+   */
+  addLocalVideo( event ) {
+    let newvideo = event.mediaElement;
+    let videoParent = document.getElementById('video-container');
+    let oldVideo = document.getElementById(event.streamid);
+    newvideo.setAttribute('class', 'me');
+    newvideo.setAttribute('width', xInterface.videoSize );
+    if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
+    if( videoParent ) videoParent.insertBefore(newvideo, videoParent.firstChild);
+  }
+  /**
+   *@desc This method will add 
+   *remote video stream
+   *@param event
+   */
+  addRemoteVideo( event ) {
+    setTimeout(()=> {
+      let newvideo = event.mediaElement;
+      let videoParent = document.getElementById('video-container');
+      let oldVideo = document.getElementById(event.streamid);
+      newvideo.setAttribute('class', 'others');
+      newvideo.setAttribute('width', xInterface.videoSize );
+      if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
+      if( videoParent ) videoParent.appendChild( newvideo );
+    },700);
   }
   /**
   *@desc This method will change video device
@@ -204,13 +241,16 @@ export class RoomComponent {
     localStorage.setItem('default-video', videoSourceId );
     if(this.videoSelectedAlready( videoSourceId )) return;
     this.removeVideoTrackAndStream();
+    this.removeAudioTrackAndStream();
     this.connection.mediaConstraints.video.optional = [{
         sourceId: videoSourceId
     }];
     let video = document.getElementsByClassName('me')[0];
     if(video) {
       video.parentNode.removeChild( video );
-      this.connection.captureUserMedia();
+      this.connection.captureUserMedia( ()=> {
+        this.connection.renegotiate();
+      });
     }
   }
   /**
@@ -251,13 +291,16 @@ export class RoomComponent {
     localStorage.setItem('default-audio', audioSourceId );
     if(this.audioSelectedAlready( audioSourceId )) return;
     this.removeAudioTrackAndStream();
+    this.removeVideoTrackAndStream();
     this.connection.mediaConstraints.audio.optional = [{
         sourceId: audioSourceId
     }];
     let video = document.getElementsByClassName('me')[0];
     if(video) {
-      video.parentNode.removeChild( video )
-      this.connection.captureUserMedia();
+      video.parentNode.removeChild( video );
+      this.connection.captureUserMedia( ()=> {
+        this.connection.renegotiate();
+      });
     }
   }
   /**
@@ -377,7 +420,7 @@ export class RoomComponent {
     this.reloadPage(); 
   }
   reloadPage() {
-    let random = this.vc.getRandomInt(0,100);
+    let random = this.vc.getRandomInt(0,500);
     setTimeout( ()=> { location.reload(); }, random);
   }
   /**
