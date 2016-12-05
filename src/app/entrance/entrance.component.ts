@@ -150,18 +150,45 @@ export class EntranceComponent {
    *@desc Group Method for Audio and Video
    */
   /**
-   *@desc This method will add video when there's a new stream
+   *@desc This method will first check
+   *if the userid is others or his/her self
    */
   addUserVideo( event ) {
-    let me: string = 'others';
-    let video = event.mediaElement;
-    let videos= document.getElementById('video-container');
-    if ( this.connection.userid == event.userid ) me = 'me';
-    video.setAttribute('class', me);
-    video.setAttribute('width', xInterface.videoSize );
-    let meElement = document.getElementsByClassName('me')[0];
-    if( !meElement && video )  videos.insertBefore(video, videos.firstChild);
-    if ( me != 'me' ) videos.appendChild( video );
+    if( this.connection.userid == event.userid ) this.addLocalVideo( event ); 
+    else this.addRemoteVideo( event ); 
+    
+  }
+  /**
+   *@desc This method will add 
+   *local video stream
+   *@param event
+   */
+  addLocalVideo( event ) {
+    setTimeout(()=> {
+      let newvideo = event.mediaElement;
+      let videoParent = document.getElementById('video-container');
+      let oldVideo = document.getElementById(event.streamid);
+      newvideo.setAttribute('class', 'me');
+      newvideo.setAttribute('width', xInterface.videoSize );
+      if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
+      if( videoParent ) videoParent.insertBefore(newvideo, videoParent.firstChild);
+    },700);
+  }
+  /**
+   *@desc This method will add 
+   *remote video stream
+   *@param event
+   */
+  addRemoteVideo( event ) {
+    setTimeout(()=> {
+      let newvideo = event.mediaElement;
+      let videoParent = document.getElementById('video-container');
+      let oldVideo = document.getElementById(event.streamid);
+      newvideo.setAttribute('class', 'others');
+      newvideo.setAttribute('width', xInterface.videoSize );
+      if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
+      if( videoParent ) videoParent.appendChild( newvideo );
+    },700);
   }
   /**
   *@desc This method will change video device
