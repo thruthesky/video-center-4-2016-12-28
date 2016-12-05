@@ -46,7 +46,7 @@ export class RoomComponent {
       };
   }
   /**
-  *@desc This method will invoke the setCanvasSize Method
+  *@desc This method will invoke the setCanvasSize and setDefaultDevice Method
   */
   ngOnInit() {
     this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
@@ -59,8 +59,6 @@ export class RoomComponent {
   setDefaultDevice() {
     let videoSourceId = localStorage.getItem('default-video');
     let audioSourceId = localStorage.getItem('default-audio');
-    console.log("videoSourceId:",videoSourceId);
-    console.log("audioSourceId:",audioSourceId);
     if ( videoSourceId ) this.onChangeVideo( videoSourceId );
     if ( audioSourceId ) this.onChangeAudio( audioSourceId );
   }

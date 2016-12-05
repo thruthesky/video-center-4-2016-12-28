@@ -22,7 +22,22 @@ export class EntranceComponent {
       this.streamOnConnection();
       this.showSettings();
   }
-  
+  /**
+  *@desc This method will invoke the setDefaultDevice Method
+  */
+  ngOnInit() {
+    this.setDefaultDevice();
+    
+  }
+  /**
+  *@desc This method will set the default device to be use
+  */
+  setDefaultDevice() {
+    let videoSourceId = localStorage.getItem('default-video');
+    let audioSourceId = localStorage.getItem('default-audio');
+    if ( videoSourceId ) this.onChangeVideo( videoSourceId );
+    if ( audioSourceId ) this.onChangeAudio( audioSourceId );
+  }
   /**
   *@desc This method will update the username 
   *then navigate the router to lobby
@@ -58,17 +73,18 @@ export class EntranceComponent {
   *@desc This method will add device for video select and audio select
   */
   showSettings() {
-    this.connection.getUserMedia( () => { 
-      this.connection.DetectRTC.load(() => {
-        this.connection.DetectRTC.MediaDevices.forEach((device) => {
-          this.addVideoOption( device );
-          this.addAudioOption( device );
+    setTimeout(()=>{
+      this.connection.getUserMedia(()=> {
+          this.connection.DetectRTC.load(() => {
+          this.connection.DetectRTC.MediaDevices.forEach((device) => {
+            this.addVideoOption( device );
+            this.addAudioOption( device );
+          });
+          this.setDefaultAudioSelected();
+          this.setDefaultVideoSelected();
         });
-        this.getDefaultAudio();
-        this.getDefaultVideo();
       });
-    });
-  
+    }, 1000);
   }
   /**
   *@desc This method will add video options on video select
@@ -81,7 +97,6 @@ export class EntranceComponent {
         value: device.id
       };
       this.videos.push( video );
-      localStorage.setItem('default-video', video.value );
     }
   }
   /**
@@ -95,19 +110,18 @@ export class EntranceComponent {
           value: device.id
         };
       this.audios.push( audio );
-      localStorage.setItem('default-audio', audio.value );
     }
   }
   /**
   *@desc This method will get the selected audio from storage
   */
-  getDefaultAudio(){
+  setDefaultAudioSelected(){
     this.vs.selectAudio = localStorage.getItem('default-audio');
   }
   /**
   *@desc This method will get the selected video from storage
   */
-  getDefaultVideo(){
+  setDefaultVideoSelected(){
     this.vs.selectVideo = localStorage.getItem('default-video');
   }
   /**
