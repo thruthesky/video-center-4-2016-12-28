@@ -51,6 +51,8 @@ export interface WhiteboardSetting {
 export interface VideoSetting {
     selectAudio: any;
     selectVideo: any;
+    defaultAudio: boolean;
+    defaultVideo: boolean;
 }
 
 
@@ -97,6 +99,8 @@ export let whiteboardSetting:WhiteboardSetting = {
 }
 export let videoSetting:VideoSetting = {
     selectAudio: null,
-    selectVideo: null
+    selectVideo: null,
+    defaultAudio: false,
+    defaultVideo: false
 };
 export let videoSize:string = '226px'; 

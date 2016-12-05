@@ -31,8 +31,10 @@ export class RoomComponent {
   *the some of the properties of RoomPage
   */
   initialize() {
+    this.vs.defaultAudio = false;
+    this.vs.defaultVideo = false;
     let room = localStorage.getItem('roomname');
-    if( room == xInterface.LobbyRoomName ) this.router.navigate(['lobby']);
+    if( room == xInterface.LobbyRoomName || room == "" ) this.router.navigate(['lobby']);
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
     this.wb.selectDrawSize = this.wb.size[0].value;
@@ -238,8 +240,8 @@ export class RoomComponent {
   *@param videoSourceId
   */
   onChangeVideo( videoSourceId ) {
+    if( this.vs.defaultVideo )  if(this.videoSelectedAlready( videoSourceId )) return;
     localStorage.setItem('default-video', videoSourceId );
-    if(this.videoSelectedAlready( videoSourceId )) return;
     this.removeVideoTrackAndStream();
     this.removeAudioTrackAndStream();
     this.connection.mediaConstraints.video.optional = [{
@@ -252,6 +254,7 @@ export class RoomComponent {
         this.connection.renegotiate();
       });
     }
+    this.vs.defaultVideo = true;
   }
   /**
   *@desc This method will check if video is already selected
@@ -288,8 +291,8 @@ export class RoomComponent {
   *@param audioSourceId
   */
   onChangeAudio( audioSourceId ) {
+    if( this.vs.defaultAudio ) if(this.audioSelectedAlready( audioSourceId )) return;
     localStorage.setItem('default-audio', audioSourceId );
-    if(this.audioSelectedAlready( audioSourceId )) return;
     this.removeAudioTrackAndStream();
     this.removeVideoTrackAndStream();
     this.connection.mediaConstraints.audio.optional = [{
@@ -302,6 +305,7 @@ export class RoomComponent {
         this.connection.renegotiate();
       });
     }
+    this.vs.defaultAudio = true;
   }
   /**
   *@desc This method will check if audio is already selected

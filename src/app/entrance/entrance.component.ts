@@ -58,6 +58,8 @@ export class EntranceComponent {
   *some of the properties of EntrancePage
   */
   initialize() {
+    this.vs.defaultAudio = false;
+    this.vs.defaultVideo = false;
     this.connection = VideocenterService.connection;
       this.connection.sdpConstraints.mandatory = {
           OfferToReceiveAudio: true,
@@ -195,8 +197,8 @@ export class EntranceComponent {
   *@param videoSourceId
   */
   onChangeVideo( videoSourceId ) {
+    if( this.vs.defaultVideo )  if(this.videoSelectedAlready( videoSourceId )) return;
     localStorage.setItem('default-video', videoSourceId );
-    if(this.videoSelectedAlready( videoSourceId )) return;
     this.removeVideoTrackAndStream();
     this.connection.mediaConstraints.video.optional = [{
         sourceId: videoSourceId
@@ -206,6 +208,7 @@ export class EntranceComponent {
       video.parentNode.removeChild( video );
       this.connection.captureUserMedia();
     }
+    this.vs.defaultVideo = true;
   }
   /**
   *@desc This method will check if video is already selected
@@ -242,8 +245,8 @@ export class EntranceComponent {
   *@param audioSourceId
   */
   onChangeAudio( audioSourceId ) {
+    if( this.vs.defaultAudio ) if(this.audioSelectedAlready( audioSourceId )) return;
     localStorage.setItem('default-audio', audioSourceId );
-    if(this.audioSelectedAlready( audioSourceId )) return;
     this.removeAudioTrackAndStream();
     this.connection.mediaConstraints.audio.optional = [{
         sourceId: audioSourceId
@@ -253,6 +256,7 @@ export class EntranceComponent {
       video.parentNode.removeChild( video )
       this.connection.captureUserMedia();
     }
+    this.vs.defaultAudio = true;
   }
   /**
   *@desc This method will check if audio is already selected
