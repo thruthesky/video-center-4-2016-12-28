@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { VideocenterService } from '../providers/videocenter.service';
 import * as xInterface from '../app.interface';
+import { FirebaseStorage } from '../firebase-api/firebase-storage';
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
@@ -18,7 +19,10 @@ export class RoomComponent {
   connection:any;
   videos:any =[];
   audios: any = [];
+  position: any = null;
+  file_progress: any = null;
   constructor( private router: Router,
+  private fileStorage: FirebaseStorage,
   private vc: VideocenterService ) {
     this.initialize();
     this.joinRoom();
@@ -347,9 +351,29 @@ export class RoomComponent {
   *@param event
   */
   onChangeFile( event ) {
-    console.log( event );
+    let file = event.target.files[0];
+    if ( file === void 0 ) return;
+    this.file_progress = true;
+    let ref = 'vc4/' +  file.name;
+    this.fileStorage.upload( { file: file, ref: ref }, uploaded => {
+      this.onFileUploaded( uploaded.url, uploaded.ref );
+     },
+      e => {
+          this.file_progress = false;
+          alert(e);
+      },
+      percent => {
+          this.position = percent;
+      } );
   }
-  
+  /**
+  *@desc This method will be fired after uploading the image
+  *@param url, ref
+  */
+  onFileUploaded( url, ref ) {
+    this.file_progress = false;
+    this.imageUrlPhoto = url;
+  }
   /**
    * @desc Group for Whiteboard Functionality
    */

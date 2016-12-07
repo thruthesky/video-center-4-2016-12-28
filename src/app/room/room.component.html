@@ -29,6 +29,9 @@
         <img [src]="imageUrlPhoto">
         </div>
         <input type="file" (change)="onChangeFile($event)">
+        <div *ngIf="position && file_progress">
+            <progress [value]="position" max="100"></progress>
+        </div>
     </div><!--image-directory-->
 
     <div id="whiteboard-container">

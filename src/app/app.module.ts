@@ -19,6 +19,8 @@ import { AutoscrollDirective } from './components/autoscroll/autoscroll';
 import { MycanvasDirective } from './components/mycanvas/mycanvas';
 import { VideocenterService } from './providers/videocenter.service';
 
+import { FirebaseApiModule } from './firebase-api/firebase-api-module';
+
 
 let link: Routes = [
   { path: '', redirectTo: '/entrance', pathMatch: 'full'},
@@ -44,7 +46,8 @@ let link: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot( link ),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    FirebaseApiModule
   ],
   providers: [ VideocenterService ],
   bootstrap: [AppComponent]

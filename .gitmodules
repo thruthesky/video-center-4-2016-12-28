@@ -1,0 +1,3 @@
+[submodule "src/app/firebase-api"]
+	path = src/app/firebase-api
+	url = https://github.com/thruthesky/firebase-api
