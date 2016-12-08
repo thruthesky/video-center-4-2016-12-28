@@ -1,5 +1,6 @@
-  <h2>Entrance Page</h2>
-  <div id="device-settings">
+  <h2>WELCOME</h2>
+  <div id="media-container">
+    <div id="device-settings">
         <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
             <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
         </select>
@@ -7,6 +8,9 @@
             <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
         </select>
     </div>
-  <div id="video-container"></div>
-  <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
-  <button class="btn btn-primary form-control" (click)="onClickSignin()">Sign In</button>
+    <div id="video-container"></div>
+  </div>
+  <div id="form-container">
+    <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
+    <button class="btn btn-primary form-control" (click)="onClickSignin()">Sign In</button>
+  </div>

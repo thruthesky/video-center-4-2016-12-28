@@ -343,7 +343,7 @@ export class RoomComponent {
   *@desc This method will change the canvasPhoto to imageUrlPhoto
   */
   onClickPreviewPhoto() {
-    this.canvasPhoto = this.imageUrlPhoto;
+    this.wb.canvasPhoto = this.imageUrlPhoto;
   }
   /**
   *@desc This method will set the dataPhoto for upload

@@ -1,11 +1,14 @@
-header, footer {
-    background-color: #efefef;
-    h1 {
-        margin: 0;
-        padding: 0.4em;
-    }
-}
-
 main {
     min-height: 20em;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #efefef;
+    h4 {
+        margin: 0;
+        padding: 0.4em;
+        color:white;
+    }
 }

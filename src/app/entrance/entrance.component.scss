@@ -1,23 +1,51 @@
 $large_break: 730px;
-$left_large_width: 226px;
+$leftwidth: 226px;
 $colorblue: #42bdec;
-$colorgrey:#4a5a71;
+$boxsize: 300px;
+h2{
+    text-align: center;
+}
+
+#media-container {
+    background-color: $colorblue;
+    width: $boxsize;
+    height: $boxsize;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    padding-top:40px;
+    #device-settings {
+        text-align: center;
+        margin: auto;
+        width:$leftwidth;
+        select {
+            position:relative;
+            text-align: center;
+            width:$leftwidth;
+        }
+        @media all and ( min-width: $large_break ) {
+            
+        }
+    }
+}
+
 #video-container {
+    text-align: center;
     position:relative;
+    width:$leftwidth;
     width: 100%;
     @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
+   
     }
     video {
         display: block;
     }
 }
 
-#device-settings {
-    width: 100%;
-    background-color: $colorgrey;
-    color:#fff;
-    @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
-    }
+#form-container {
+    width: $boxsize;
+    text-align: center;
+    position:relative;
+    margin: auto;
 }
+

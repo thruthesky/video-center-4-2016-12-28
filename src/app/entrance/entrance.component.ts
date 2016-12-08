@@ -174,7 +174,7 @@ export class EntranceComponent {
       newvideo.setAttribute('width', xInterface.videoSize );
       if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
       if( videoParent ) videoParent.insertBefore(newvideo, videoParent.firstChild);
-    },700);
+    },1000);
   }
   /**
    *@desc This method will add 
@@ -190,7 +190,7 @@ export class EntranceComponent {
       newvideo.setAttribute('width', xInterface.videoSize );
       if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
       if( videoParent ) videoParent.appendChild( newvideo );
-    },700);
+    },1000);
   }
   /**
   *@desc This method will change video device
