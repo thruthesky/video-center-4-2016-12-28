@@ -88,6 +88,7 @@ export class EntranceComponent {
       });
     }, 1000);
   }
+  
   /**
   *@desc This method will add video options on video select
   *@param device 
