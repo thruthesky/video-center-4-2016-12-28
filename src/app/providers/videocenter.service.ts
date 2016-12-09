@@ -3,8 +3,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 @Injectable()
 export class VideocenterService {
-  // socketUrl: string = "http://localhost:9001/";
-  socketUrl: string = "https://videocenter.co.kr:9001/";
+  socketUrl: string = "http://localhost:9001/";
+  // socketUrl: string = "https://videocenter.co.kr:9001/";
   static socket:any = false;
   static connection: any;
   public myEvent: EventEmitter<any>;

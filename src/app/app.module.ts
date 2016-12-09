@@ -15,6 +15,10 @@ import { RoomComponent } from './room/room.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 
+import { NgbdModalAudio } from './ngbootstrap/modal/audio.component';
+import { NgbdModalEntranceMenu } from './ngbootstrap/modal/entrance-menu.component';
+
+
 import { AutoscrollDirective } from './components/autoscroll/autoscroll';
 import { MycanvasDirective } from './components/mycanvas/mycanvas';
 import { VideocenterService } from './providers/videocenter.service';
@@ -39,7 +43,13 @@ let link: Routes = [
     HomeComponent,
     AboutComponent,
     AutoscrollDirective,
-    MycanvasDirective
+    MycanvasDirective,
+    NgbdModalEntranceMenu,
+    NgbdModalAudio
+  ],
+  entryComponents: [
+    NgbdModalEntranceMenu,
+    NgbdModalAudio
   ],
   imports: [
     BrowserModule,

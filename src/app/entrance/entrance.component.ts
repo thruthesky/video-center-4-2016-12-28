@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import * as xInterface from '../app.interface';
 import { VideocenterService } from '../providers/videocenter.service';
+import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalEntranceMenu } from '../ngbootstrap/modal/entrance-menu.component';
 @Component({
   selector: 'app-entrance',
   templateUrl: './entrance.component.html',
@@ -16,7 +18,8 @@ export class EntranceComponent {
   vs: xInterface.VideoSetting = xInterface.videoSetting;
   constructor( 
     private router: Router,
-    private vc: VideocenterService ) {
+    private vc: VideocenterService,
+    private modalService: NgbModal ) {
       this.initialize();
       this.joinRoom();
       this.streamOnConnection();
@@ -47,6 +50,12 @@ export class EntranceComponent {
     this.vc.updateUsername(this.username, () => {
       this.router.navigate(['lobby']);
     });
+  }
+  /**
+  *@desc This method will show a menu modal
+  */
+  onClickMenu() {
+    const modalRef = this.modalService.open(NgbdModalEntranceMenu);
   }
 
   /**

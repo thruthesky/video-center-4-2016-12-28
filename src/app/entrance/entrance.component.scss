@@ -5,6 +5,20 @@ $boxsize: 300px;
 h2{
     text-align: center;
 }
+nav {
+    border-radius: 0;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #efefef;
+    h4 {
+        margin: 0 auto;
+        padding: 0.4em;
+        color:white;
+    }
+}
 
 #media-container {
     background-color: $colorblue;
@@ -12,11 +26,11 @@ h2{
     height: $boxsize;
     text-align: center;
     position: relative;
-    margin: auto;
+    margin: 0 auto;
     padding-top:40px;
     #device-settings {
         text-align: center;
-        margin: auto;
+        margin: 0 auto;
         width:$leftwidth;
         select {
             position:relative;
@@ -46,6 +60,6 @@ h2{
     width: $boxsize;
     text-align: center;
     position:relative;
-    margin: auto;
+    margin: 0 auto;
 }
 

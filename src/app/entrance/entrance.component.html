@@ -1,3 +1,8 @@
+  <nav class="navbar navbar-dark bg-info">
+      <h1 class="navbar-brand">Video Center 4</h1>
+      <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
+  </nav>  
+  
   <h2>WELCOME</h2>
   <div id="media-container">
     <div id="device-settings">
@@ -14,3 +19,6 @@
     <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
     <button class="btn btn-primary form-control" (click)="onClickSignin()">Sign In</button>
   </div>
+
+  <footer class="footer bg-info"><h4>Withcenter, Inc.</h4></footer>
+  <template ngbModalContainer></template> 
