@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 
 import { NgbdModalAudio } from './ngbootstrap/modal/audio.component';
+import { NgbdModalVideo } from './ngbootstrap/modal/video.component';
 import { NgbdModalEntranceMenu } from './ngbootstrap/modal/entrance-menu.component';
 
 
@@ -45,11 +46,13 @@ let link: Routes = [
     AutoscrollDirective,
     MycanvasDirective,
     NgbdModalEntranceMenu,
-    NgbdModalAudio
+    NgbdModalAudio,
+    NgbdModalVideo
   ],
   entryComponents: [
     NgbdModalEntranceMenu,
-    NgbdModalAudio
+    NgbdModalAudio,
+    NgbdModalVideo
   ],
   imports: [
     BrowserModule,

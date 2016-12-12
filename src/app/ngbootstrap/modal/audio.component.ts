@@ -31,14 +31,15 @@ export class NgbdModalAudio {
   constructor(public activeModal: NgbActiveModal) {
     this.initialize();
     this.showSettings();
+    this.streamOnConnection();
   }
   /**
   *@desc This method will invoke the setDefaultDevice Method
   */
   ngOnInit() {
     this.setDefaultDevice();
-    
   }
+  
   /**
   *@desc This method will initialize 
   *some of the properties of EntrancePage
@@ -46,10 +47,19 @@ export class NgbdModalAudio {
   initialize() {
     this.vs.defaultAudio = false;
     this.connection = VideocenterService.connection;
-      this.connection.sdpConstraints.mandatory = {
-          OfferToReceiveAudio: true,
-          OfferToReceiveVideo: true
-      };
+  }
+  /**
+  *@desc This method will invoke the removeStream Method
+  */
+  ngOnDestroy() {
+    this.removeStream();
+  }
+  /**
+  *@desc This method will check if there is new stream
+  *then invoke addUserVideo to add new stream
+  */
+  streamOnConnection() {
+    this.connection.onstream = (event) => console.log(); 
   }
   /**
   *@desc This method will set the default device to be use
@@ -73,6 +83,7 @@ export class NgbdModalAudio {
       });
     }, 1000);
   }
+  
   /**
   *@desc This method will change audio device
   *@param audioSourceId
@@ -81,9 +92,11 @@ export class NgbdModalAudio {
     if( this.vs.defaultAudio ) if(this.audioSelectedAlready( audioSourceId )) return;
     localStorage.setItem('default-audio', audioSourceId );
     this.removeAudioTrackAndStream();
+    this.removeVideoTrackAndStream();
     this.connection.mediaConstraints.audio.optional = [{
         sourceId: audioSourceId
     }];
+    this.connection.captureUserMedia();
     this.vs.defaultAudio = true;
   }
   /**
@@ -121,6 +134,24 @@ export class NgbdModalAudio {
       }
     }
     return result;
+  }
+  /**
+  *@desc This method will remove video device stream
+  */
+  removeStream() {
+    this.removeAudioTrackAndStream();
+    this.removeVideoTrackAndStream();
+  }
+  /**
+  *@desc This method will remove the track and stream of video
+  */
+  removeVideoTrackAndStream() {
+    this.connection.attachStreams.forEach((stream) =>{
+      stream.getVideoTracks().forEach((track) =>{
+        stream.removeTrack(track);
+        if(track.stop)track.stop();
+      });
+    });
   }
   /**
   *@desc This method will remove the track and stream of audio

@@ -4,7 +4,7 @@
   </nav>  
   
   <h2>WELCOME</h2>
-  <div id="media-container">
+  <!--<div id="media-container">
     <div id="device-settings">
         <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
             <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
@@ -14,7 +14,7 @@
         </select>
     </div>
     <div id="video-container"></div>
-  </div>
+  </div>-->
   <div id="form-container">
     <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
     <button class="btn btn-primary form-control" (click)="onClickSignin()">Sign In</button>

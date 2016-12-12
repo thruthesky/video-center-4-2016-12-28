@@ -3,6 +3,7 @@ import * as xInterface from '../../app.interface';
 import { VideocenterService } from '../../providers/videocenter.service';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalAudio } from './audio.component';
+import { NgbdModalVideo } from './video.component';
 
 @Component({
   selector: 'ngbd-modal-entrance-menu',
@@ -14,7 +15,7 @@ import { NgbdModalAudio } from './audio.component';
       <h4 class="modal-title">Entrance Menu</h4>
     </div>
     <div class="modal-body">
-      <button class='btn btn-primary'>
+      <button class='btn btn-primary' (click)="activeModal.close('Close click'); openVideoSettings();">
         Video Settings <i class="fa fa-video-camera" aria-hidden="true"></i>
       </button>
       <button class='btn btn-success' (click)="activeModal.close('Close click'); openAudioSettings();">
@@ -32,9 +33,12 @@ export class NgbdModalEntranceMenu {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private modalService: NgbModal ) {}
+    private modalService: NgbModal ) {
+    }
   openAudioSettings() {
-    const modalRef = this.modalService.open(NgbdModalAudio);
-    modalRef.componentInstance.name = 'Hello';
+    const modalRefAud = this.modalService.open(NgbdModalAudio);
+  }
+  openVideoSettings() {
+    const modalRefVid = this.modalService.open(NgbdModalVideo);
   }
 }
