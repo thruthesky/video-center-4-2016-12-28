@@ -10,3 +10,14 @@ h5 {
     overflow-y: scroll;        
 }
 
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #efefef;
+    h4 {
+        margin: 0 auto;
+        padding: 0.4em;
+        color:white;
+    }
+}

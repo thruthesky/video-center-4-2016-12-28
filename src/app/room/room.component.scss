@@ -4,7 +4,17 @@ $colorblue: #42bdec;
 $colorgrey:#4a5a71;
 $wb_width: 440px;
 $wb_height: 340px;
-
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #efefef;
+    h4 {
+        margin: 0 auto;
+        padding: 0.4em;
+        color:white;
+    }
+}
 #room-page {
     background-color: #c9ffe3;
 }
@@ -58,6 +68,10 @@ $wb_height: 340px;
     width: 100%;
     input,p {
         color:white;
+    }
+    #files {
+        min-height: 150px;
+        background-color: #bff9f8;
     }
     @media all and ( min-width: $large_break ) {
         width: $left_large_width;
