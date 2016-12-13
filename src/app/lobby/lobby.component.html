@@ -1,46 +1,73 @@
   <nav class="navbar navbar-dark bg-info">
       <h1 class="navbar-brand">Video Center 4</h1>
+      <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
+      <button class="btn btn-info float-xs-right" (click)="chatDisplay = ! chatDisplay"><i class="fa fa-comments" aria-hidden="true" ></i></button>
+      <button class="btn btn-info float-xs-right" (click)="onToggleCreateRoom()"><i class="fa fa-sign-in" aria-hidden="true" ></i></button>
   </nav>  
 
-  <h2>Lobby Page</h2>
-  <h4>Welcome {{ myUsername }}</h4>
-  <div class="row col-sm-12">
-    <button class="btn btn-primary" (click)="updateUsername = ! updateUsername">Update Name</button>
-    <button class="btn btn-success" (click)="createRoom = ! createRoom">Create Room</button>
-    <button class="btn btn-warning" (click)="onClickLogout()">Logout</button>
-  </div>
-  <div class="row col-sm-12" *ngIf="updateUsername"> 
+    <div id="lobby-settings" *ngIf="settingsDisplay">
+      <h4>Settings</h4>
+      <div>
+        <button class='btn btn-info' (click)="onClickDevice()">
+            Device Settings <i class="fa fa-cog" aria-hidden="true"></i> 
+        </button>
+    
+        <button class='btn btn-info' (click)="chatDisplay = ! chatDisplay">
+            Chat Message <i class="fa fa-comments" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div>
+        <button class='btn btn-info' (click)="onToggleUpdateName()">
+            Update Name <i class="fa fa-user-plus" aria-hidden="true"></i>
+        </button>
+     
+        <button class='btn btn-info' (click)="onToggleCreateRoom()">
+            Create Room <i class="fa fa-sign-in" aria-hidden="true"></i>
+        </button>
+      </div>
+      
+      <div>
+        <button class='btn btn-info' (click)="onClickLogout()">
+            Sign out <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  <div  *ngIf="updateUsername" id="update-username">
+    <h4>Update Username</h4> 
     <input  placeholder="Update Username" [(ngModel)]="inputUsername" (keyup.enter)="onUpdateUsername()">
     <button class="btn btn-info" (click)="onUpdateUsername()">Update Username</button>
+    
   </div>
-  <div class="row col-sm-12" *ngIf="createRoom">
+  <div  *ngIf="createRoom" id="create-room">
+    <h4>Create Room</h4>
     <input placeholder="Create Room" [(ngModel)]="inputRoomname" (keyup.enter)="onCreateRoom()">
-    <button class="btn btn-success" (click)="onCreateRoom()">Create Room</button>
+    <button class="btn btn-info" (click)="onCreateRoom()">Create Room</button>
   </div>
   
-    <section id="room-list">
-        <h4>Room List</h4>
-        <div *ngFor = " let id of roomIds " >
-            <div *ngIf="rooms[id].name ">
-                <h5 (click)="onJoinRoom(rooms[id].name)">
-                    {{ rooms[id].name }}
-                </h5>
-                <div>
-                    <span *ngFor = " let user of rooms[id].users " socket=" user.socket">
-                        {{ user.name }}
-                    </span>
-                </div>
+  <div id="room-list">
+    <h4>Room List</h4>
+    <div *ngFor = " let id of roomIds " >
+        <div *ngIf="rooms[id]?.name !=''" class="rooms">
+            <h5 (click)="onJoinRoom(rooms[id].name)">
+                {{ rooms[id].name }}
+            </h5>
+            <div>
+                <span *ngFor = " let user of rooms[id].users " socket=" user.socket">
+                    {{ user.name }}
+                </span>
             </div>
         </div>
-    </section>
-
-    <div class="chatbox" myautoscroll>
+    </div>
+  </div>
+  <div *ngIf="chatDisplay" id="chat-container">
+    <h4>Chat Message</h4>
+    <div class="chatbox" myautoscroll >
         <div *ngFor="let messageData of listMessage[0].messages ">
             <b>{{messageData.name}} </b>{{ messageData.message }}
         </div>
     </div>
-
-  <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
-  <button class="btn btn-warning" (click)="onSendMessage(inputMessage)">Send Message</button>
-
+    <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
+    <button class="btn btn-info" (click)="onSendMessage(inputMessage)">Send Message</button>
+  </div> 
   <footer class="footer bg-info"><h4>Withcenter, Inc.</h4></footer>
+  <template ngbModalContainer></template> 

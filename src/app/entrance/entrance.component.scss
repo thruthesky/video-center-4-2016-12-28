@@ -2,6 +2,7 @@ $large_break: 730px;
 $leftwidth: 226px;
 $colorblue: #42bdec;
 $boxsize: 300px;
+$blueborder: #3e9eff;
 h2{
     text-align: center;
 }
@@ -20,41 +21,6 @@ footer {
     }
 }
 
-#media-container {
-    background-color: $colorblue;
-    width: $boxsize;
-    height: $boxsize;
-    text-align: center;
-    position: relative;
-    margin: 0 auto;
-    padding-top:40px;
-    #device-settings {
-        text-align: center;
-        margin: 0 auto;
-        width:$leftwidth;
-        select {
-            position:relative;
-            text-align: center;
-            width:$leftwidth;
-        }
-        @media all and ( min-width: $large_break ) {
-            
-        }
-    }
-}
-
-#video-container {
-    text-align: center;
-    position:relative;
-    width:$leftwidth;
-    width: 100%;
-    @media all and ( min-width: $large_break ) {
-   
-    }
-    video {
-        display: block;
-    }
-}
 
 #form-container {
     width: $boxsize;
@@ -63,6 +29,13 @@ footer {
     margin: 0 auto;
 }
 #entrance-container {
+    max-width: 350px;
+    height: 250px;
+    text-align: center;
+    margin:0 auto;
+    margin-top: 10px;
+    border: 0.5px solid $blueborder;
+    display: block;
     margin-top:25vh;
-
+    padding-top:40px;
 }

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { VideocenterService } from '../providers/videocenter.service';
+import { NgbdModalDeviceMenu } from '../ngbootstrap/modal/device-menu.component';
 import * as xInterface from '../app.interface';
+
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -14,10 +17,12 @@ export class LobbyComponent {
   inputMessage: string;
   updateUsername: boolean = false;
   createRoom: boolean = false;
+  chatDisplay: boolean = false;
+  settingsDisplay: boolean = false;
   rooms: xInterface.ROOMS = <xInterface.ROOMS> {};
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
   constructor( private router: Router,
-  private vc: VideocenterService ) {
+  private vc: VideocenterService, private modalService: NgbModal  ) {
     this.initialize();
     this.joinLobby();
     this.listenEvents();
@@ -109,6 +114,42 @@ export class LobbyComponent {
   */
 
   /**
+  *@desc This method will show the settings in lobby
+  */
+  onClickMenu() {
+    this.settingsDisplay = ! this.settingsDisplay;
+  }
+  /**
+  *@desc This method will toggle update name
+  */
+  onToggleUpdateName() {
+    this.updateUsername = ! this.updateUsername;
+    this.createRoom = false;
+  }
+  /**
+  *@desc This method will toggle create room
+  */
+  onToggleCreateRoom() {
+    this.createRoom = ! this.createRoom;
+    this.updateUsername = false;
+  }
+  /**
+  *@desc This method will show the device settings in lobby
+  */
+  onClickDevice() {
+    const modalRef = this.modalService.open(NgbdModalDeviceMenu);
+  }
+  
+  /**
+  *@desc This method will go to entrance page
+  *after you logout in the server
+  */
+  onClickLogout() {
+    this.vc.logout(()=> {
+      this.router.navigate(['entrance']);
+    });    
+  }
+  /**
   *@desc This method will update the username of user
   */
   onUpdateUsername() {
@@ -158,15 +199,7 @@ export class LobbyComponent {
       this.inputMessage = ''; 
     });
   }
-  /**
-  *@desc This method will go to entrance page
-  *after you logout in the server
-  */
-  onClickLogout() {
-    this.vc.logout(()=> {
-      this.router.navigate(['entrance']);
-    });    
-  }
+  
   /**
   *@desc This method will subscribe to all events
   */
@@ -178,6 +211,7 @@ export class LobbyComponent {
       if( item.eventType == "chatMessage") this.addMessage( item );
       if( item.eventType == "log-out") this.removeUserList( item );
       if( item.eventType == "disconnect") this.onDisconnectEvent( item );
+
     });
   }
   /**
@@ -208,6 +242,7 @@ export class LobbyComponent {
       }          
     }    
   }
+ 
   /**
   *@desc This method will invoke all the methods
   *that will be use after receiving the join room

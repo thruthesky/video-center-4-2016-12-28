@@ -1,17 +1,18 @@
+$blueborder: #3e9eff;
 h5 {
     background-color: #51c2ee;
     color:#fff;
 }
-.chatbox {
-    background-color:#4a5a71;
-    color:white;
-    height: 140px;
-    overflow: hidden;
-    overflow-y: scroll;        
+input {
+    width: 175px;
+    height: 40px;
 }
 
+nav {
+    border-radius: 0;
+}
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #efefef;
@@ -19,5 +20,58 @@ footer {
         margin: 0 auto;
         padding: 0.4em;
         color:white;
+    }
+}
+#lobby-settings {
+    max-width: 500px;
+    text-align: center;
+    margin:0 auto;
+    margin-top: 10px;
+    border: 0.5px solid $blueborder;
+    display: block;
+    div {
+        margin:10px;
+    }
+}
+#room-list {
+    display: block;
+    max-width: 500px;
+    text-align: center;
+    margin:0 auto;
+    .rooms {
+        margin-top: 10px;
+        border: 0.5px solid $blueborder;
+    }
+}
+#update-username {
+    max-width: 500px;
+    text-align: center;
+    margin:0 auto;
+    margin-top: 10px;
+    border: 0.5px solid $blueborder;
+    display: block;
+}
+#create-room {
+    max-width: 500px;
+    text-align: center;
+    margin:0 auto;
+    margin-top: 10px;
+    border: 0.5px solid $blueborder;
+}
+#chat-container {
+    max-width: 500px;
+    text-align: center;
+    margin:0 auto;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    border: 0.5px solid $blueborder;
+    padding: 0 10px;
+    .chatbox {
+        background-color: #97d3ff;
+        color: black;
+        height: 140px;
+        overflow: hidden;
+        overflow-y: scroll;
+        text-align: left;        
     }
 }

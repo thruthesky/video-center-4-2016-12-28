@@ -2,50 +2,14 @@ import { Component } from '@angular/core';
 import * as xInterface from '../../app.interface';
 import { VideocenterService } from '../../providers/videocenter.service';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalAudio } from './audio.component';
-import { NgbdModalVideo } from './video.component';
+
 
 @Component({
-  selector: 'ngbd-modal-entrance-menu',
-  template: `
-    <div class="modal-header">
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="modal-title">Entrance Menu</h4>
-    </div>
-    <div class="modal-body">
-      <button class='btn btn-primary' (click)="onClickVideo(); ">
-        Video Settings <i class="fa fa-video-camera" aria-hidden="true"></i>
-      </button>
-      <button class='btn btn-success' (click)="onClickAudio(); ">
-        Audio Settings <i class="fa fa-volume-up" aria-hidden="true"></i>
-      </button>
-      
-      <div *ngIf=" displayVideo">
-        <h4 class="modal-title">Video Settings</h4>
-        <div id="device-video-settings">
-          <select [(ngModel)]="vs.selectVideo" (ngModelChange)="onChangeVideo($event)">
-              <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
-          </select>
-          <div id="video-modal-container"></div> 
-        </div>  
-      </div>
-      <div *ngIf=" displayAudio">
-        <h4 class="modal-title">Audio Settings</h4>
-        <div id="device-audio-settings">
-          <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
-              <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
-          </select>
-        </div>  
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    </div>
-  `
+  selector: 'ngbd-modal-device-menu',
+  templateUrl: 'device-menu.component.html',
+  styleUrls: ['device-menu.component.scss']
 })
-export class NgbdModalEntranceMenu {
+export class NgbdModalDeviceMenu {
   displayAudio: boolean = false;
   displayVideo: boolean = false;
   videos: any = [];
@@ -82,7 +46,7 @@ export class NgbdModalEntranceMenu {
     }
     /**
     *@desc This method will initialize 
-    *some of the properties of EntrancePage
+    *some of the properties of DeviceSettings
     */
     initialize() {
       this.vs.defaultVideo = false;
@@ -158,6 +122,7 @@ export class NgbdModalEntranceMenu {
     *@param audioSourceId
     */
     onChangeAudio( audioSourceId ) {
+      if ( !audioSourceId ) return;
       if( this.vs.defaultAudio ) if(this.audioSelectedAlready( audioSourceId )) return;
       localStorage.setItem('default-audio', audioSourceId );
       this.removeAudioTrackAndStream();
@@ -173,6 +138,7 @@ export class NgbdModalEntranceMenu {
     *@param videoSourceId
     */
     onChangeVideo( videoSourceId ) {
+      if ( !videoSourceId ) return;
       if( this.vs.defaultVideo )  if(this.videoSelectedAlready( videoSourceId )) return;
       localStorage.setItem('default-video', videoSourceId );
       this.removeAudioTrackAndStream();
@@ -238,7 +204,9 @@ export class NgbdModalEntranceMenu {
     *@desc This method will get the selected video from storage
     */
     setDefaultVideoSelected(){
-      this.vs.selectVideo = localStorage.getItem('default-video');
+      let video = localStorage.getItem('default-video')
+      if(video)this.vs.selectVideo = video;
+      else this.vs.selectVideo = '';
     }
     /**
     *@desc This method will add audio options on audio select
@@ -257,7 +225,9 @@ export class NgbdModalEntranceMenu {
     *@desc This method will get the selected audio from storage
     */
     setDefaultAudioSelected(){
-      this.vs.selectAudio = localStorage.getItem('default-audio');
+      let audio = localStorage.getItem('default-audio')
+      if(audio)this.vs.selectAudio = audio;
+      else this.vs.selectAudio = '';
     }   
     /**
     *@desc This method will check if there is new stream
