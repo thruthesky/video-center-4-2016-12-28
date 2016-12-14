@@ -91,6 +91,7 @@ export class NgbdModalDeviceMenu {
     */
     showVideoSettings() {
       setTimeout(()=>{
+        let session = { audio: false, video: true };
         this.connection.getUserMedia(()=> {
             this.connection.DetectRTC.load(() => {
             this.connection.DetectRTC.MediaDevices.forEach((device) => {
@@ -99,7 +100,7 @@ export class NgbdModalDeviceMenu {
             this.setDefaultVideoSelected();
             
           });
-        });
+        }, session);
       }, 1000);
     }
     /**
@@ -107,6 +108,7 @@ export class NgbdModalDeviceMenu {
     */
     showAudioSettings() {
       setTimeout(()=>{
+        let session = { audio: true, video: false };
         this.connection.getUserMedia(()=> {
             this.connection.DetectRTC.load(() => {
             this.connection.DetectRTC.MediaDevices.forEach((device) => {
@@ -114,7 +116,7 @@ export class NgbdModalDeviceMenu {
             });
             this.setDefaultAudioSelected();
           });
-        });
+        }, session);
       }, 1000);
     }
     /**
