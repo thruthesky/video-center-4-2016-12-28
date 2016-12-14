@@ -256,7 +256,7 @@ export class NgbdModalDeviceMenu {
         let videoParent = document.getElementById('video-modal-container');
         let oldVideo = document.getElementById(event.streamid);
         newvideo.setAttribute('class', 'me');
-        newvideo.setAttribute('width', xInterface.videoSize );
+        newvideo.setAttribute('width', '100%' );
         if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
         if( videoParent ) videoParent.insertBefore(newvideo, videoParent.firstChild);
       },1000);
