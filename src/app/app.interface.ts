@@ -47,12 +47,20 @@ export interface WhiteboardSetting {
     canvasPhoto:any;
     canvasWidth:string;
     canvasHeight:string;
+    whiteboardDisplay:boolean;
 }
 export interface VideoSetting {
     selectAudio: any;
     selectVideo: any;
     defaultAudio: boolean;
     defaultVideo: boolean;
+}
+
+export interface DisplayElement {
+    settingsDisplay:boolean;
+    chatDisplay:boolean;
+    assetDisplay:boolean;
+    deviceDisplay:boolean;
 }
 
 
@@ -95,7 +103,8 @@ export let whiteboardSetting:WhiteboardSetting = {
   size: whiteboardSize,
   canvasPhoto: "../../assets/1.png",
   canvasWidth: "440px",
-  canvasHeight: "340px"
+  canvasHeight: "340px",
+  whiteboardDisplay: false
 }
 export let videoSetting:VideoSetting = {
     selectAudio: null,
@@ -103,4 +112,10 @@ export let videoSetting:VideoSetting = {
     defaultAudio: false,
     defaultVideo: false
 };
+export let displayElement: DisplayElement =  {
+    settingsDisplay:false,
+    chatDisplay:true,
+    assetDisplay:false,
+    deviceDisplay:false
+}
 export let videoSize:string = '226px'; 

@@ -20,7 +20,7 @@
               <option value="">Select default Video</option>
               <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
           </select>
-          <div id="video-modal-container"></div> 
+          <div id="video-modal-container"></div>
         </div>  
       </div>
       <div *ngIf=" displayAudio">

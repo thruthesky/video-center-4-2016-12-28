@@ -11,9 +11,6 @@ import { FirebaseStorage } from '../firebase-api/firebase-storage';
 export class RoomComponent {
   myRoomname: string;
   inputMessage: string;
-  listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
-  wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting;
-  vs: xInterface.VideoSetting = xInterface.videoSetting;
   imageUrlPhoto: string; 
   canvasPhoto: string;
   connection:any;
@@ -21,6 +18,11 @@ export class RoomComponent {
   audios: any = [];
   position: any = null;
   file_progress: any = null;
+  
+  listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
+  wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting;
+  vs: xInterface.VideoSetting = xInterface.videoSetting;
+  show: xInterface.DisplayElement = xInterface.displayElement;
   constructor( private router: Router,
   private fileStorage: FirebaseStorage,
   private vc: VideocenterService ) {
@@ -31,16 +33,27 @@ export class RoomComponent {
     this.listenEvents();
    }
   /**
+  *@desc This method will validate if there is username and room
+  */
+  validate() {
+    let name = localStorage.getItem('username');
+    let room = localStorage.getItem('roomname');
+    if( this.validateUserRoom( name, room) ){
+      this.vc.leaveRoom( ()=> {
+        this.router.navigate(['entrance']);
+      });  
+    } 
+  }
+  /**
   *@desc This method will initialize 
   *the some of the properties of RoomPage
   */
   initialize() {
     this.vs.defaultAudio = false;
     this.vs.defaultVideo = false;
-    let room = localStorage.getItem('roomname');
-    if( room == xInterface.LobbyRoomName || room == "" ) this.router.navigate(['lobby']);
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
+    this.wb.whiteboardDisplay = false;
     this.wb.selectDrawSize = this.wb.size[0].value;
     this.wb.selectDrawColor = this.wb.colors[0].value;
     this.imageUrlPhoto = this.wb.canvasPhoto;
@@ -51,11 +64,14 @@ export class RoomComponent {
           OfferToReceiveVideo: true
       };
   }
+  validateUserRoom(user, room) {
+    return name == "" || name === null || room == xInterface.LobbyRoomName || room == "" || room === null ;
+  }
   /**
   *@desc This method will invoke the setCanvasSize and setDefaultDevice Method
   */
   ngOnInit() {
-    this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
+    
     this.setDefaultDevice();
     
   }
@@ -164,13 +180,17 @@ export class RoomComponent {
   *@desc This method will set the selected audio from storage
   */
   setDefaultAudioSelected(){
-    this.vs.selectAudio = localStorage.getItem('default-audio');
+    let audio = localStorage.getItem('default-audio')
+    if(audio)this.vs.selectAudio = audio;
+    else this.vs.selectAudio = '';
   }
   /**
   *@desc This method will set the selected video from storage
   */
   setDefaultVideoSelected(){
-    this.vs.selectVideo = localStorage.getItem('default-video');
+    let video = localStorage.getItem('default-video')
+    if(video)this.vs.selectVideo = video;
+    else this.vs.selectVideo = '';
   }
   /**
   *@desc Group of View Method
@@ -187,6 +207,12 @@ export class RoomComponent {
     });
   }
   /**
+  *@desc This method will show the settings in room
+  */
+  onClickMenu() {
+    this.show.settingsDisplay = ! this.show.settingsDisplay;
+  }
+  /**
   *@desc This method will Leave the room and go back to lobby
   */
   onClickLobby() {
@@ -195,6 +221,21 @@ export class RoomComponent {
       location.reload();
     });
   }
+  /**
+  *@desc This method will toggle the whiteboard
+  *and get whiteboard history
+  */
+  onClickWhiteboard() {
+    this.wb.whiteboardDisplay = ! this.wb.whiteboardDisplay;
+    if(this.wb.whiteboardDisplay){
+      setTimeout(()=>{
+        let room = localStorage.getItem('roomname');
+        this.getWhiteboardHistory( room );
+        this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
+      },100);
+    }
+  }
+  
   /**
    *@desc Group Method for Audio and Video
    */

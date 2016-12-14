@@ -23,14 +23,32 @@ export class LobbyComponent {
   listMessage: xInterface.MESSAGELIST = <xInterface.MESSAGELIST> {};
   constructor( private router: Router,
   private vc: VideocenterService, private modalService: NgbModal  ) {
+    this.validate();
     this.initialize();
     this.joinLobby();
     this.listenEvents();
   }
   /**
+  *@desc This method will validate if there is username
+  */
+  validate() {
+    let name = localStorage.getItem('username');
+    if( name == "" || name === null ) {
+      this.vc.leaveRoom( ()=> {
+        this.router.navigate(['entrance']);
+      });  
+    } 
+  }
+  /**
   *@desc This method will initialize the roompage
   */
   initialize() {
+    let name = localStorage.getItem('username');
+    if( name == "" || name === null ) {
+      this.vc.leaveRoom( ()=> {
+        this.router.navigate(['entrance']);
+      });  
+    } 
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
   }

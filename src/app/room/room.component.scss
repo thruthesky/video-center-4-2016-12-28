@@ -1,5 +1,5 @@
 $large_break: 730px;
-$left_large_width: 226px;
+$my_width: 226px;
 $colorblue: #42bdec;
 $colorgrey:#4a5a71;
 $wb_width: 440px;
@@ -15,14 +15,33 @@ footer {
         color:white;
     }
 }
-#room-page {
-    background-color: #c9ffe3;
+nav {
+    border-radius: 0;
 }
+#room-page {
+    margin-bottom: 50px;
+}
+#room-settings {
+    z-index:110; 
+    width: 100%;
+    position: relative;
+    right: 0;
+    button {
+        border-radius: 0;
+        border-color: white;
+    }
+    @media all and ( min-width: $large_break ) {
+        width: 200px;
+        position: absolute;
+    }
+    
+}
+
 #video-container {
     position:relative;
     width: 100%;
     @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
+        width: $my_width;
     }
     video {
         display: block;
@@ -31,32 +50,24 @@ footer {
 }
 
 #device-settings {
-    width: 100%;
     background-color: $colorgrey;
     color:#fff;
+    select {
+        max-width: $my_width;
+    }
+    width: $my_width;
     @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
+        width: $my_width;
     }
 }
 
-#room-settings {
-    width: 100%;
-    background-color: $colorgrey;
-    color:#fff;
-  
-    @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
-    }
-}
 #chat{
     width: 100%;
-    background-color:$colorgrey;
     @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
+        width: $my_width;
     }
     .chatbox {
-        background-color:#353e4a;
-        color:white;
+        background-color:#97d3ff;
         height: 140px;
         overflow: hidden;
         overflow-y: scroll;        
@@ -71,16 +82,16 @@ footer {
     }
     #files {
         min-height: 150px;
-        background-color: #bff9f8;
+        background-color: #97d3ff;
     }
     @media all and ( min-width: $large_break ) {
-        width: $left_large_width;
+        width: $my_width;
         input {
             color:white;
             font-size:13px;
         }
         img {
-            width: $left_large_width;
+            width: $my_width;
         }
     }
 }
@@ -94,11 +105,10 @@ footer {
         position: absolute;
         z-index: 100;
         top: 62px;
-        left: $left_large_width + 2px;
+        left: $my_width + 2px;
     }
     canvas {
         position: absolute;
-        border:solid 1px $colorgrey;
         z-index: 101;
     }
     #canvas-image {
