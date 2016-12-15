@@ -42,8 +42,10 @@ export interface WhiteboardSetting {
     optionDrawColor:string;
     selectDrawSize:any;
     selectDrawColor:any;
+    selectSizeCanvas:any;
     colors:any;
-    size:any;
+    size: any;
+    sizeCanvas: any;
     canvasPhoto:any;
     canvasWidth:string;
     canvasHeight:string;
@@ -93,17 +95,24 @@ export let whiteboardSize = [
     {text:"Large" , value: "8" },
     {text:"Extra Large" , value: "10" }
 ];
+export let sizeCanvas = [
+    {text:"340x400" , value: "small" },
+    {text:"480x600" , value: "medium" },
+    {text:"600x720" , value: "large" }
+];
 export let whiteboardSetting:WhiteboardSetting = {
   optionDrawMode:"",
   optionDrawSize:"",
   optionDrawColor:"",
-  selectDrawSize:null,
   selectDrawColor:null,
+  selectDrawSize:null,
+  selectSizeCanvas:null,
   colors: whiteboardColors,
   size: whiteboardSize,
+  sizeCanvas: sizeCanvas,
   canvasPhoto: "../../assets/1.png",
-  canvasWidth: "440px",
-  canvasHeight: "340px",
+  canvasWidth: "340px",
+  canvasHeight: "400px",
   whiteboardDisplay: false
 }
 export let videoSetting:VideoSetting = {

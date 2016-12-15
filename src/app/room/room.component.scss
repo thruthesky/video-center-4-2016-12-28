@@ -2,13 +2,14 @@ $large_break: 730px;
 $my_width: 226px;
 $colorblue: #42bdec;
 $colorgrey:#4a5a71;
-$wb_width: 440px;
-$wb_height: 340px;
+$wb_width: 340px;
+$wb_height: 400px;
 footer {
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #efefef;
+    z-index: 120;
     h4 {
         margin: 0 auto;
         padding: 0.4em;
@@ -98,9 +99,23 @@ nav {
 
 #whiteboard-container {
     position:relative;
+    border:1px solid $colorblue;
     width: $wb_width;
     height: $wb_height;
-   
+    margin-bottom: 50px;
+    &[size="small"] {
+        width: $wb_width;
+        height: $wb_height;
+    }
+    &[size="medium"] {
+        width: 480px;
+        height: 600px;
+    }
+    &[size="large"] {
+        width: 600px;
+        height: 720px;
+    }
+    // overflow: hidden;
     @media all and ( min-width: $large_break ) {
         position: absolute;
         z-index: 100;
@@ -110,6 +125,7 @@ nav {
     canvas {
         position: absolute;
         z-index: 101;
+        border: solid 1px darkred;
     }
     #canvas-image {
         position: absolute;

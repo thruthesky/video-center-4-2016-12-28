@@ -79,10 +79,13 @@
                 <button class="btn btn-info" (click)="onClickEraseMode()"><i class="fa fa-eraser" aria-hidden="true"></i></button> 
                 <button class="btn btn-info" (click)="onClickClear()"><i class="fa fa-square-o" aria-hidden="true"></i></button>
                 <select [(ngModel)]="wb.selectDrawColor" (ngModelChange)="wb.optionDrawColor = $event">
-                <option *ngFor="let color of wb.colors" value="{{ color.value }}" >{{color.text}}</option>
+                    <option *ngFor="let color of wb.colors" value="{{ color.value }}" >{{color.text}}</option>
                 </select>
                 <select [(ngModel)]="wb.selectDrawSize" (ngModelChange)="wb.optionDrawSize = $event">
-                <option *ngFor="let size of wb.size" value="{{ size.value }}" >{{size.text}}</option>
+                    <option *ngFor="let size of wb.size" value="{{ size.value }}" >{{size.text}}</option>
+                </select>
+                <select [(ngModel)]="wb.selectSizeCanvas" (ngModelChange)="onChangeCanvasSize($event)">
+                    <option *ngFor="let csize of wb.sizeCanvas" value="{{ csize.value }}" >{{csize.text}}</option>
                 </select>
             </div>
         </div>

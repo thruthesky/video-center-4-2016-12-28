@@ -56,6 +56,7 @@ export class RoomComponent {
     this.wb.whiteboardDisplay = false;
     this.wb.selectDrawSize = this.wb.size[0].value;
     this.wb.selectDrawColor = this.wb.colors[0].value;
+    this.wb.selectSizeCanvas = this.wb.sizeCanvas[0].value;
     this.imageUrlPhoto = this.wb.canvasPhoto;
     this.canvasPhoto = this.wb.canvasPhoto;
     this.connection = VideocenterService.connection;
@@ -65,7 +66,8 @@ export class RoomComponent {
       };
   }
   validateUserRoom(user, room) {
-    return name == "" || name === null || room == xInterface.LobbyRoomName || room == "" || room === null ;
+    return name == "" || name === null || room == xInterface.LobbyRoomName
+     || room == "" || room === null ;
   }
   /**
   *@desc This method will invoke the setCanvasSize and setDefaultDevice Method
@@ -206,6 +208,7 @@ export class RoomComponent {
       this.inputMessage = ''; 
     });
   }
+  
   /**
   *@desc This method will show the settings in room
   */
@@ -226,13 +229,20 @@ export class RoomComponent {
   *and get whiteboard history
   */
   onClickWhiteboard() {
+    let room = localStorage.getItem('roomname');
     this.wb.whiteboardDisplay = ! this.wb.whiteboardDisplay;
     if(this.wb.whiteboardDisplay){
       setTimeout(()=>{
-        let room = localStorage.getItem('roomname');
+        let data :any = { room_name :room };
+        data.command = "show-whiteboard";
         this.getWhiteboardHistory( room );
         this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
+        this.vc.whiteboard( data,() => { console.log("show whiteboard")} );
       },100);
+    } else {
+        let data :any = { room_name :room };
+        data.command = "hide-whiteboard";
+        this.vc.whiteboard( data,() => { console.log("hide whiteboard")} );
     }
   }
   
@@ -439,6 +449,34 @@ export class RoomComponent {
     this.wb.optionDrawMode = "e";
   }
   /**
+  *@desc This method will pass the size to
+  *changeCanvasSize and broadcast to the room
+  *@param size
+  */
+  onChangeCanvasSize( size ) {
+    this.checkCanvasSize( size );
+    let room = localStorage.getItem('roomname');
+    let data :any = { room_name :room };
+    data.command = "canvas-size";
+    data.size = size;
+    this.vc.whiteboard( data,() => { console.log("change canvas size")} );
+  }
+  /**
+  *@desc This method will change the size of canvas
+  *and container then get whiteboard history
+  *@param size
+  */
+  checkCanvasSize( size ) {
+    let room = localStorage.getItem('roomname');
+    let w, h;
+      if ( size == 'small' ) { w = '340px'; h = '400px'; }
+      else if ( size == 'medium' ) { w = '480px'; h = '600px'; }
+      else if ( size == 'large' ) {w = '600px';h = '720px';}
+      this.setCanvasSize( w, h );
+      this.setCanvasContainerSize( size );
+      this.getWhiteboardHistory( room );
+  }
+  /**
    *@desc This method will set the canvas size
    *@param width
    *@param height
@@ -449,6 +487,14 @@ export class RoomComponent {
      mycanvas.setAttribute('height', height);
   }
   /**
+   *@desc This method will set the canvas container size
+   *@param size
+   */
+  setCanvasContainerSize( size ) {
+     let container= document.getElementById('whiteboard-container');
+     container.setAttribute('size', size);
+  }
+  /**
   *@desc This method will subscribe to all events
   */
   listenEvents() {
@@ -456,6 +502,7 @@ export class RoomComponent {
       if( item.eventType == "join-room") this.onJoinRoomEvent( item );
       if( item.eventType == "chatMessage") this.addMessage( item );
       if( item.eventType == "disconnect") this.onDisconnectEvent( item );
+      if( item.eventType == "whiteboard")  this.onWhiteboardEvent( item ); 
     });
   }
   /**
@@ -511,5 +558,22 @@ export class RoomComponent {
       let message = { name: data.name, message: ' disconnect into ' + data.room };
       this.addMessage( message );
     } 
+  }
+  /**
+  *@desc This method will invoke the method depending on data.command
+  *@param data
+  */
+  onWhiteboardEvent( data ) {  
+    if ( data.command == 'canvas-size' ) {
+        this.checkCanvasSize(data.size);
+    }
+    else if ( data.command == 'show-whiteboard' ) { 
+        this.wb.whiteboardDisplay = true;
+        this.getWhiteboardHistory( data.room_name );
+        setTimeout(()=>{this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);}, 100);
+    }     
+    else if ( data.command == 'hide-whiteboard' ) {
+        this.wb.whiteboardDisplay = false;      
+    }
   }
 }
