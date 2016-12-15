@@ -16,8 +16,25 @@ export class EntranceComponent {
     private router: Router,
     private vc: VideocenterService,
     private modalService: NgbModal ) {
+      this.validate();
   }
- 
+ /**
+  *@desc This method will validate if there is username
+  */
+  validate() {
+    let username = localStorage.getItem('username');
+    let roomname = localStorage.getItem('roomname');
+    if( username ) {
+      if ( roomname == xInterface.LobbyRoomName ) {
+        this.router.navigate(['lobby']); 
+      }
+      this.vc.updateUsername( username, re => {
+          if ( roomname && roomname != xInterface.LobbyRoomName ) { 
+            this.router.navigate(['room']);   
+          }
+      });
+    } 
+  }
 
   /**
   *@desc This method will update the username 

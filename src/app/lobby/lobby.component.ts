@@ -33,22 +33,23 @@ export class LobbyComponent {
   */
   validate() {
     let name = localStorage.getItem('username');
-    if( name == "" || name === null ) {
+    let room = localStorage.getItem('roomname');
+    if( name ) {
+      this.vc.updateUsername( name, re => {});
+      if ( room && room != xInterface.LobbyRoomName ) { 
+        this.router.navigate(['room']);   
+      }
+    }
+    else {
       this.vc.leaveRoom( ()=> {
         this.router.navigate(['entrance']);
-      });  
+      }); 
     } 
   }
   /**
   *@desc This method will initialize the roompage
   */
   initialize() {
-    let name = localStorage.getItem('username');
-    if( name == "" || name === null ) {
-      this.vc.leaveRoom( ()=> {
-        this.router.navigate(['entrance']);
-      });  
-    } 
     this.inputMessage = '';
     if ( this.listMessage[0] === void 0 ) this.listMessage[0] = { messages: [] };
   }
@@ -57,10 +58,14 @@ export class LobbyComponent {
   *will get the username and get all user in roomlist
   */
   joinLobby() {
-    this.vc.joinRoom( xInterface.LobbyRoomName, ( room: string ) => {
-      this.myUsername = localStorage.getItem('username');
-      this.getUserList();
-    });
+    let room = localStorage.getItem('roomname');
+    if ( room && room != xInterface.LobbyRoomName ) this.router.navigate(['room']);
+    else {
+      this.vc.joinRoom( xInterface.LobbyRoomName, ( room: string ) => {
+        this.myUsername = localStorage.getItem('username');
+        this.getUserList();
+      });
+    }
   }
   /**
   *@desc This method will get all the room list and user list

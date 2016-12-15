@@ -26,6 +26,7 @@ export class RoomComponent {
   constructor( private router: Router,
   private fileStorage: FirebaseStorage,
   private vc: VideocenterService ) {
+    this.validate();
     this.initialize();
     this.joinRoom();
     this.streamOnConnection();
@@ -38,10 +39,17 @@ export class RoomComponent {
   validate() {
     let name = localStorage.getItem('username');
     let room = localStorage.getItem('roomname');
-    if( this.validateUserRoom( name, room) ){
+    if(name){
+      this.vc.updateUsername( name, re => {});
+      if( room == xInterface.LobbyRoomName){
+        this.vc.leaveRoom( ()=> {
+          this.router.navigate(['lobby']);
+        });
+      }
+    } else {
       this.vc.leaveRoom( ()=> {
         this.router.navigate(['entrance']);
-      });  
+      });
     } 
   }
   /**
@@ -64,10 +72,6 @@ export class RoomComponent {
           OfferToReceiveAudio: true,
           OfferToReceiveVideo: true
       };
-  }
-  validateUserRoom(user, room) {
-    return name == "" || name === null || room == xInterface.LobbyRoomName
-     || room == "" || room === null ;
   }
   /**
   *@desc This method will invoke the setCanvasSize and setDefaultDevice Method

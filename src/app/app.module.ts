@@ -26,6 +26,8 @@ import { FirebaseApiModule } from './firebase-api/firebase-api-module';
 
 
 let link: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full'},
+  { path: 'home', component: HomeComponent },
   { path: 'entrance', component: EntranceComponent },
   { path: 'lobby', component: LobbyComponent },
   { path: 'room', component: RoomComponent }

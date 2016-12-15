@@ -12,33 +12,26 @@ export class AppComponent {
   constructor( private vc: VideocenterService , private router: Router) {
     console.log("AppComponent");
     vc.connect();
-    this.checkUserAndRoom();
+    // this.checkUserAndRoom();
   }
   /**
    * @desc Check if there's a username
    * and check if there is also a roomname
    * then navigate according to the logic
    */  
-  checkUserAndRoom() {
-    let username = localStorage.getItem('username');
-    let roomname = localStorage.getItem('roomname');
-    if ( username ) {
-      console.log("checkUserAndRoom()", username, roomname);
-      if ( roomname && roomname != xInterface.LobbyRoomName ) { // if user has room name, don't go to lobby.
-      }
-      else {
-        console.log('go to lobby');
-        this.router.navigate(['lobby']);
-      }
-
-      this.vc.updateUsername( username, re => {
-          if( roomname && roomname != xInterface.LobbyRoomName ){
-              this.router.navigate(['room']);   
-          }
-      });
-
-
-    }
-    else this.router.navigate(['entrance']);
-  }
+  // checkUserAndRoom() {
+  //   let username = localStorage.getItem('username');
+  //   let roomname = localStorage.getItem('roomname');
+  //   if ( username ) {
+  //     if ( roomname == xInterface.LobbyRoomName ) { 
+  //       this.router.navigate(['lobby']); 
+  //     }
+  //     this.vc.updateUsername( username, re => {
+  //         if ( roomname && roomname != xInterface.LobbyRoomName ) { // if user has room name, don't go to lobby.
+  //           this.router.navigate(['room']);   
+  //         }
+  //     });
+  //   }
+  //   else this.router.navigate(['entrance']);
+  // }
 }
