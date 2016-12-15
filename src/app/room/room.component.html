@@ -1,6 +1,8 @@
   <nav class="navbar navbar-dark bg-info">
       <h1 class="navbar-brand">Video Center 4</h1>
+      <button class="btn btn-info float-xs-right" (click)="onClickLobby()"><i class="fa fa-sign-out" aria-hidden="true" ></i></button>
       <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
+      <button class="btn btn-info float-xs-right" (click)="onClickWhiteboard()"><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
   </nav>
   <div id="room-settings" *ngIf="show.settingsDisplay">
         <div>
