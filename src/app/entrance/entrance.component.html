@@ -1,13 +1,45 @@
-  <nav class="navbar navbar-dark bg-info">
-      <h1 class="navbar-brand">Video Center 4</h1>
-      <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
-  </nav>  
+  <nav class="navbar">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-7 col-sm-7">
+          <logo-component></logo-component>
+        </div>
+        <div class="col-xs-5 col-sm-5">
+          <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
+        </div>
+      </div>
+    </div>
+      
+  </nav>
+
   <div id="entrance-container">
-    <h2>WELCOME</h2>
+
+    <div class="title-image">
+      <img src="assets/img/title-image.jpg">
+    </div>
     <div id="form-container">
         <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
         <button class="btn btn-info form-control" (click)="onClickSignin()">Sign In</button>
     </div>
+
+    
+    <div class="buttons">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-gear fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-home fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+      </span>
+    </div>
+
+
   </div>
+
   <footer class="footer bg-info"><h4>Withcenter, Inc.</h4></footer>
   <template ngbModalContainer></template> 

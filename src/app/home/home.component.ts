@@ -9,7 +9,9 @@ import { VideocenterService } from '../providers/videocenter.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private vc: VideocenterService , private router: Router) {this.checkUserAndRoom(); }
+  constructor(private vc: VideocenterService , private router: Router) {
+    console.log('HomeComponent::constructor()');
+    this.checkUserAndRoom(); }
 
   ngOnInit() {
   }
