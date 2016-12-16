@@ -1,10 +1,12 @@
+<header>
   <nav class="navbar navbar-dark bg-info">
       <logo-small-component></logo-small-component>
       <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
       <button class="btn btn-info float-xs-right" (click)="chatDisplay = ! chatDisplay"><i class="fa fa-comments" aria-hidden="true" ></i></button>
       <button class="btn btn-info float-xs-right" (click)="onToggleCreateRoom()"><i class="fa fa-sign-in" aria-hidden="true" ></i></button>
   </nav>  
-
+</header>
+<div class="content">
     <div id="lobby-settings" *ngIf="settingsDisplay">
       <h4>Settings</h4>
       <div>
@@ -69,5 +71,12 @@
     <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
     <button class="btn btn-info" (click)="onSendMessage(inputMessage)">Send Message</button>
   </div> 
-  <footer class="footer bg-info"><h4>Withcenter, Inc.</h4></footer>
+</div>
+
+<footer>
+    <nav class="nav nav-fixed-bottom">
+        <copyright-component></copyright-component>
+    </nav>
+</footer>
+
   <template ngbModalContainer></template> 
