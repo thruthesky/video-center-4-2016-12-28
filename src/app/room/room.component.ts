@@ -72,6 +72,7 @@ export class RoomComponent {
           OfferToReceiveAudio: true,
           OfferToReceiveVideo: true
       };
+    
   }
   /**
   *@desc This method will invoke the setCanvasSize and setDefaultDevice Method
@@ -79,7 +80,8 @@ export class RoomComponent {
   ngOnInit() {
     
     this.setDefaultDevice();
-    
+    let videoParent = document.getElementById('video-container');
+    videoParent.setAttribute('whiteboard', 'false');
   }
   /**
   *@desc This method will set the default device to be use
@@ -234,16 +236,20 @@ export class RoomComponent {
   */
   onClickWhiteboard() {
     let room = localStorage.getItem('roomname');
+    let videoParent = document.getElementById('video-container');
     this.wb.whiteboardDisplay = ! this.wb.whiteboardDisplay;
     if(this.wb.whiteboardDisplay){
       setTimeout(()=>{
+        videoParent.setAttribute('whiteboard', 'true');
         let data :any = { room_name :room };
         data.command = "show-whiteboard";
         this.getWhiteboardHistory( room );
         this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
         this.vc.whiteboard( data,() => { console.log("show whiteboard")} );
+
       },100);
     } else {
+        videoParent.setAttribute('whiteboard', 'false');
         let data :any = { room_name :room };
         data.command = "hide-whiteboard";
         this.vc.whiteboard( data,() => { console.log("hide whiteboard")} );
@@ -571,13 +577,17 @@ export class RoomComponent {
     if ( data.command == 'canvas-size' ) {
         this.checkCanvasSize(data.size);
     }
-    else if ( data.command == 'show-whiteboard' ) { 
+    else if ( data.command == 'show-whiteboard' ) {
+        let videoParent = document.getElementById('video-container');
+        videoParent.setAttribute('whiteboard', 'true'); 
         this.wb.whiteboardDisplay = true;
         this.getWhiteboardHistory( data.room_name );
         setTimeout(()=>{this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);}, 100);
     }     
     else if ( data.command == 'hide-whiteboard' ) {
-        this.wb.whiteboardDisplay = false;      
+        this.wb.whiteboardDisplay = false;
+        let videoParent = document.getElementById('video-container');
+        videoParent.setAttribute('whiteboard', 'false');      
     }
   }
 }

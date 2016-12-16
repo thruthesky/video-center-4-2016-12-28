@@ -127,4 +127,5 @@ export let displayElement: DisplayElement =  {
     assetDisplay:false,
     deviceDisplay:false
 }
-export let videoSize:string = '226px'; 
+export let videoSize:string = '100%'; 
+// export let videoSize:string = '226px'; 

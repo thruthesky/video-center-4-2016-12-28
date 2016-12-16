@@ -39,13 +39,23 @@ nav {
 }
 
 #video-container {
-    position:relative;
-    width: 100%;
-    @media all and ( min-width: $large_break ) {
-        width: $my_width;
+   
+    &[whiteboard="false"] {
+        position:relative;
+        width: 100%;
+        @media all and ( min-width: $large_break ) {
+            position:absolute;
+            left: $my_width;
+            width: $my_width*2;
+        }
     }
-    video {
-        display: block;
+    &[whiteboard="true"] {
+        position:relative;
+        width: 100%;
+        @media all and ( min-width: $large_break ) {
+            position:relative;
+            width: $my_width;
+        }
     }
    
 }
@@ -103,6 +113,7 @@ nav {
     width: $wb_width;
     height: $wb_height;
     margin-bottom: 50px;
+    overflow: hidden;
     &[size="small"] {
         width: $wb_width;
         height: $wb_height;
@@ -127,11 +138,14 @@ nav {
         z-index: 101;
         border: solid 1px darkred;
     }
+ 
     #canvas-image {
         position: absolute;
         z-index: 0;
         width: 100%;
     }
+ 
+    
     #group-button {
         z-index: 102;
         display: block;
