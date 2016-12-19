@@ -24,7 +24,9 @@ import { VideocenterService } from './providers/videocenter.service';
 
 import { FirebaseApiModule } from './firebase-api/firebase-api-module';
 
+import { CopyrightComponent } from './components/copyright/copyright';
 import { LogoComponent } from './components/logo/logo';
+import { LogoSmallComponent } from './components/logo-small/logo-small';
 
 let link: Routes = [
   { path: 'home', component: HomeComponent },
@@ -57,7 +59,9 @@ link.push( { path: '', component: begin } );
     AutoscrollDirective,
     MycanvasDirective,
     NgbdModalDeviceMenu,
-    LogoComponent
+    LogoComponent,
+    LogoSmallComponent,
+    CopyrightComponent
   ],
   entryComponents: [
     NgbdModalDeviceMenu

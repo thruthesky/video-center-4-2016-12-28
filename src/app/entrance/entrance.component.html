@@ -2,7 +2,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-7 col-sm-7">
-          <logo-component></logo-component>
+          <logo-small-component></logo-small-component>
         </div>
         <div class="col-xs-5 col-sm-5">
           <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
@@ -16,6 +16,7 @@
 
     <div class="title-image">
       <img src="assets/img/title-image.jpg">
+      <!--<img src="assets/1.png">-->
     </div>
     <div id="form-container">
         <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
@@ -41,5 +42,9 @@
 
   </div>
 
-  <footer class="footer bg-info"><h4>Withcenter, Inc.</h4></footer>
+  <footer>
+    <nav class="nav nav-fixed-bottom">
+        <copyright-component></copyright-component>
+    </nav>
+</footer>
   <template ngbModalContainer></template> 
