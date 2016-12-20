@@ -64,6 +64,7 @@ export class LobbyComponent {
       this.vc.joinRoom( xInterface.LobbyRoomName, ( room: string ) => {
         this.myUsername = localStorage.getItem('username');
         this.getUserList();
+
       });
     }
   }

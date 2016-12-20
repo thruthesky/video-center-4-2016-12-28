@@ -4,20 +4,9 @@ $colorblue: #42bdec;
 $colorgrey:#4a5a71;
 $wb_width: 340px;
 $wb_height: 400px;
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #efefef;
-    z-index: 120;
-    h4 {
-        margin: 0 auto;
-        padding: 0.4em;
-        color:white;
-    }
-}
 nav {
     border-radius: 0;
+    background: #3ea5ff;
 }
 #room-page {
     margin-bottom: 50px;
@@ -109,7 +98,6 @@ nav {
 
 #whiteboard-container {
     position:relative;
-    border:1px solid $colorblue;
     width: $wb_width;
     height: $wb_height;
     margin-bottom: 50px;
@@ -136,7 +124,6 @@ nav {
     canvas {
         position: absolute;
         z-index: 101;
-        border: solid 1px darkred;
     }
  
     #canvas-image {

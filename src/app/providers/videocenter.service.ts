@@ -1,10 +1,10 @@
 /// <reference path="rmc.d.ts" />
 import { Injectable, EventEmitter } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
+import { videoCenterServerUrl } from '../app.interface';
 @Injectable()
 export class VideocenterService {
-  // socketUrl: string = "http://localhost:9001/";
-  socketUrl: string = "https://videocenter.co.kr:9001/";
+  socketUrl: string = videoCenterServerUrl;
   static socket:any = false;
   static connection: any;
   public myEvent: EventEmitter<any>;

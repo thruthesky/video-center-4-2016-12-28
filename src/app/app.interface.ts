@@ -1,4 +1,13 @@
 /**
+ * @desc Groups of Url
+ */
+
+export let videoCenterServerUrl:string = "https://videocenter.co.kr:9001/";
+// export let videoCenterServerUrl:string = "https://localhost:9001/";
+
+export let videoCenterUrl:string = "http://localhost:4200";
+
+/**
  * @desc Groups of Interface
  */
 
@@ -128,4 +137,5 @@ export let displayElement: DisplayElement =  {
     deviceDisplay:false
 }
 export let videoSize:string = '100%'; 
+
 // export let videoSize:string = '226px'; 

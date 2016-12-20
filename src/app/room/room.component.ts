@@ -42,9 +42,13 @@ export class RoomComponent {
     if(name){
       this.vc.updateUsername( name, re => {});
       if( room == xInterface.LobbyRoomName){
+        setTimeout(()=>{
         this.vc.leaveRoom( ()=> {
+          
           this.router.navigate(['lobby']);
+          
         });
+        },100);
       }
     } else {
       this.vc.leaveRoom( ()=> {
@@ -83,6 +87,7 @@ export class RoomComponent {
     let videoParent = document.getElementById('video-container');
     videoParent.setAttribute('whiteboard', 'false');
   }
+ 
   /**
   *@desc This method will set the default device to be use
   */
@@ -227,7 +232,8 @@ export class RoomComponent {
   onClickLobby() {
     this.vc.leaveRoom( ()=> {
       localStorage.setItem('roomname', xInterface.LobbyRoomName );
-      location.reload();
+      // location.reload();
+      location.href=xInterface.videoCenterUrl+"/lobby";
     });
   }
   /**
@@ -541,7 +547,7 @@ export class RoomComponent {
   *that will be use after receiving the disconnect
   *@param data
   */
-  onDisconnectEvent( data ) {  
+  onDisconnectEvent( data ) {
     this.disconnectMessage( data );
     this.reloadPage(); 
   }

@@ -1,9 +1,19 @@
-  <nav class="navbar navbar-dark bg-info">
-      <h1 class="navbar-brand">Video Center 4</h1>
-      <button class="btn btn-info float-xs-right" (click)="onClickLobby()"><i class="fa fa-sign-out" aria-hidden="true" ></i></button>
-      <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
-      <button class="btn btn-info float-xs-right" (click)="onClickWhiteboard()"><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
-  </nav>
+  <header>
+  <nav class="navbar">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-4 col-sm-4">
+          <logo-small-component></logo-small-component>
+        </div>
+        <div class="col-xs-8 col-sm-8">
+            <button class="btn btn-info float-xs-right" (click)="onClickLobby()"><i class="fa fa-sign-out" aria-hidden="true" ></i></button>
+            <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
+            <button class="btn btn-info float-xs-right" (click)="onClickWhiteboard()"><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
+        </div>
+      </div>
+    </div>
+  </nav>  
+</header>
   <div id="room-settings" *ngIf="show.settingsDisplay">
         <div>
         <button class='btn btn-info form-control' (click)="show.deviceDisplay = ! show.deviceDisplay">
@@ -90,4 +100,3 @@
             </div>
         </div>
     </div>
-  <footer class="footer bg-info"><h4>Withcenter, Inc.</h4></footer> 
