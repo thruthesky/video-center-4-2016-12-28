@@ -47,7 +47,7 @@
         </button>
 
         <button (click)="onToggleCreateRoom()">
-            <i class="fa fa-sign-in" aria-hidden="true"></i> Create Room
+            <i class="fa fa-plus" aria-hidden="true"></i> Create Room
         </button>
 
         <button (click)="onClickLogout()">
@@ -57,10 +57,17 @@
       </div>
     </div>
   <div  *ngIf="updateUsername" id="update-username">
-    <h4>Update Username</h4> 
-    <input  placeholder="Update Username" [(ngModel)]="inputUsername" (keyup.enter)="onUpdateUsername()">
-    <button class="btn btn-info" (click)="onUpdateUsername()">Update Username</button>
-    
+    <div class="title">
+      <i class="fa fa-user-plus"></i>
+        Update Username
+      <i class="fa fa-close" (click)="updateUsername=!updateUsername"></i>
+    </div> 
+    <table class="form" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="99%"><input placeholder="Update Username" [(ngModel)]="inputUsername" (keyup.enter)="onUpdateUsername()"></td>
+        <td nowrap><button (click)="onUpdateUsername()"><i class="fa fa-arrow-right"></i></button></td>
+      </tr>
+    </table>
   </div>
   <div  *ngIf="!createRoom" id="create-room">
     <div class="title">
@@ -68,8 +75,12 @@
         Create Room
       <i class="fa fa-close" (click)="createRoom=!createRoom"></i>
     </div>
-    <input placeholder="Create Room" [(ngModel)]="inputRoomname" (keyup.enter)="onCreateRoom()">
-    <button class="btn btn-info" (click)="onCreateRoom()">Create Room</button>
+    <table class="form" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="99%"><input placeholder="Create Room" [(ngModel)]="inputRoomname" (keyup.enter)="onCreateRoom()"></td>
+        <td nowrap><button (click)="onCreateRoom()"><i class="fa fa-arrow-right"></i></button></td>
+      </tr>
+    </table>
   </div>
 
 
