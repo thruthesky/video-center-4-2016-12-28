@@ -11,6 +11,15 @@ input {
 nav {
     border-radius: 0;
     background: #3ea5ff;
+    .nav-buttons {
+       
+        i {
+            color:#1082c7;
+            &.fa-inverse {
+                color: #fff;
+            }
+        }
+    }
 }
 footer {
     position: fixed;

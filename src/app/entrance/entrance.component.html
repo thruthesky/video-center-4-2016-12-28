@@ -5,8 +5,10 @@
           <logo-small-component></logo-small-component>
         </div>
         <div class="nav-buttons col-xs-5 col-sm-5">
-          <!--<button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
-          <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>-->
+          <span class="fa-stack fa-lg float-xs-right" (click)="onClickMenu()">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-cog fa-stack-1x fa-inverse"></i>
+          </span>
           <span class="fa-stack fa-lg float-xs-right" (click)="onClickVideo()">
             <i class="fa fa-circle fa-stack-2x"></i>
             <i class="fa fa-video-camera fa-stack-1x fa-inverse"></i>
@@ -34,7 +36,7 @@
 
     
     <div class="buttons">
-      <span class="fa-stack fa-lg">
+      <span (click)="onClickMenu()" class="fa-stack fa-lg">
         <i class="fa fa-circle fa-stack-2x"></i>
         <i class="fa fa-gear fa-stack-1x fa-inverse"></i>
       </span>

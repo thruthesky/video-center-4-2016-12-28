@@ -6,11 +6,21 @@
         <div class="col-xs-4 col-sm-4">
           <logo-small-component></logo-small-component>
         </div>
-        <div class="col-xs-8 col-sm-8">
-          <button class="btn btn-info float-xs-right" (click)="onClickMenu()"><i class="fa fa-cog" aria-hidden="true" ></i></button>
-      <button class="btn btn-info float-xs-right" (click)="chatDisplay = ! chatDisplay"><i class="fa fa-comments" aria-hidden="true" ></i></button>
-      <button class="btn btn-info float-xs-right" (click)="onToggleCreateRoom()"><i class="fa fa-sign-in" aria-hidden="true" ></i></button>
+        <div class="nav-buttons col-xs-8 col-sm-8">
+          <span class="fa-stack fa-lg float-xs-right" (click)="onClickMenu()">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-cog fa-stack-1x fa-inverse"></i>
+          </span>
+          <span class="fa-stack fa-lg float-xs-right" (click)="chatDisplay = ! chatDisplay">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+          </span>
+          <span class="fa-stack fa-lg float-xs-right" (click)="onToggleCreateRoom()">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-sign-in fa-stack-1x fa-inverse"></i>
+          </span>
         </div>
+
       </div>
     </div>
   </nav>  
