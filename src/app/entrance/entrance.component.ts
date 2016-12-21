@@ -52,4 +52,20 @@ export class EntranceComponent {
   onClickMenu() {
     const modalRef = this.modalService.open(NgbdModalDeviceMenu);
   }
+  /**
+  *@desc This method will show a menu modal with video settings
+  */
+  onClickVideo() {
+    this.onClickMenu();
+    let data = { eventType: "show-video-settings"};
+    setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
+  /**
+  *@desc This method will show a menu modal with audio settings
+  */
+  onClickAudio() {
+    this.onClickMenu();
+    let data = { eventType: "show-audio-settings"};
+    setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
 }

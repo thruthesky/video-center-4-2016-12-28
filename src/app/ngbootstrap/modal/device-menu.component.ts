@@ -18,8 +18,10 @@ export class NgbdModalDeviceMenu {
   vs: xInterface.VideoSetting = xInterface.videoSetting;
   constructor(
     public activeModal: NgbActiveModal,
-    private modalService: NgbModal ) {
+    private modalService: NgbModal,
+    private vc: VideocenterService ) {
       this.initialize();
+      this.listenEvents();
     }
   
     /**
@@ -283,4 +285,18 @@ export class NgbdModalDeviceMenu {
         });
       });
     }
+
+     /**
+  *@desc This method will subscribe to all events
+  */
+  listenEvents() {
+    this.vc.myEvent.subscribe( item => {
+      if( item.eventType == "show-video-settings"){
+        setTimeout(()=>{ this.onClickVideo( ); }, 1000); 
+      }
+      if( item.eventType == "show-audio-settings"){
+        setTimeout(()=>{ this.onClickAudio( ); }, 1000); 
+      }
+    });
+  }
 }

@@ -9,6 +9,16 @@ h2{
 nav {
     border-radius: 0;
     background: #3ea5ff;
+    .nav-buttons {
+       
+        i {
+            color:#1082c7;
+            &.fa-inverse {
+                color: #fff;
+            }
+        }
+    }
+ 
 }
 footer {
     position: fixed;
@@ -21,6 +31,7 @@ footer {
         color:white;
     }
 }
+
 
 #bg-image {
     width: 100%;
