@@ -4,8 +4,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-4 col-sm-4">
-          <logo-small-component></logo-small-component>
+          <logo-component></logo-component>
         </div>
+
         <div class="nav-buttons col-xs-8 col-sm-8">
           <span class="fa-stack fa-lg float-xs-right" (click)="onClickMenu()">
             <i class="fa fa-circle fa-stack-2x"></i>
@@ -26,31 +27,33 @@
   </nav>  
 </header>
 <div class="content">
-    <div id="lobby-settings" *ngIf="settingsDisplay">
-      <h4>Settings</h4>
-      <div>
-        <button class='btn btn-info' (click)="onClickDevice()">
-            Device Settings <i class="fa fa-cog" aria-hidden="true"></i> 
+    <div id="lobby-settings" *ngIf="!settingsDisplay">
+      <div class="title">
+        <i class="fa fa-gear"></i>
+          Settings
+        <i class="fa fa-close" (click)="settingsDisplay=!settingsDisplay"></i>
+      </div>
+      <div class="buttons">
+        <button (click)="onClickDevice()">
+            <i class="fa fa-cog" aria-hidden="true"></i> Device Settings
         </button>
     
-        <button class='btn btn-info' (click)="chatDisplay = ! chatDisplay">
-            Chat Message <i class="fa fa-comments" aria-hidden="true"></i>
+        <button (click)="chatDisplay = ! chatDisplay">
+            <i class="fa fa-comments" aria-hidden="true"></i> Chat Message
         </button>
-      </div>
-      <div>
-        <button class='btn btn-info' (click)="onToggleUpdateName()">
-            Update Name <i class="fa fa-user-plus" aria-hidden="true"></i>
+        
+        <button (click)="onToggleUpdateName()">
+            <i class="fa fa-user-plus" aria-hidden="true"></i> Update Name
         </button>
-     
-        <button class='btn btn-info' (click)="onToggleCreateRoom()">
-            Create Room <i class="fa fa-sign-in" aria-hidden="true"></i>
+
+        <button (click)="onToggleCreateRoom()">
+            <i class="fa fa-sign-in" aria-hidden="true"></i> Create Room
         </button>
-      </div>
-      
-      <div>
-        <button class='btn btn-info' (click)="onClickLogout()">
-            Sign out <i class="fa fa-sign-out" aria-hidden="true"></i>
+
+        <button (click)="onClickLogout()">
+          <i class="fa fa-sign-out" aria-hidden="true"></i> Sign out
         </button>
+
       </div>
     </div>
   <div  *ngIf="updateUsername" id="update-username">
@@ -59,39 +62,57 @@
     <button class="btn btn-info" (click)="onUpdateUsername()">Update Username</button>
     
   </div>
-  <div  *ngIf="createRoom" id="create-room">
-    <h4>Create Room</h4>
+  <div  *ngIf="!createRoom" id="create-room">
+    <div class="title">
+      <i class="fa fa-plus"></i>
+        Create Room
+      <i class="fa fa-close" (click)="createRoom=!createRoom"></i>
+    </div>
     <input placeholder="Create Room" [(ngModel)]="inputRoomname" (keyup.enter)="onCreateRoom()">
     <button class="btn btn-info" (click)="onCreateRoom()">Create Room</button>
   </div>
+
+
   
+  <div *ngIf="!chatDisplay" id="chat-container">
+    <div class="title">
+      <i class="fa fa-comments"></i>
+      Lobby Chat Box
+      <i class="fa fa-close" (click)="chatDisplay=!chatDisplay"></i>
+    </div>
+    <div class="chatbox" myautoscroll >
+        <div class="message" *ngFor="let messageData of listMessage[0].messages ">
+            <i>{{messageData.name}} : &nbsp;</i>{{ messageData.message }}
+        </div>
+    </div>
+    <table class="form" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="99%"><input placeholder="..." [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)"></td>
+        <td nowrap><button (click)="onSendMessage(inputMessage)"><i class="fa fa-arrow-right"></i></button></td>
+      </tr>
+    </table>
+  </div><!--/#chat-container-->
+
   <div id="room-list">
-    <h4>Room List</h4>
+    <div class="title"><i class="fa fa-bars"></i> Room List</div>
     <div *ngFor = " let id of roomIds " >
         <div *ngIf="rooms[id]?.name !=''" class="rooms">
-            <h5 (click)="onJoinRoom(rooms[id].name)">
-                {{ rooms[id].name }}
-            </h5>
-            <div>
+            <div class="room-name" (click)="onJoinRoom(rooms[id].name)">
+              {{ rooms[id].name }}
+            </div>
+            <div class="users">
                 <span *ngFor = " let user of rooms[id].users " socket=" user.socket">
-                    {{ user.name }}
+                  {{ user.name }}
                 </span>
             </div>
         </div>
     </div>
-  </div>
-  <div *ngIf="chatDisplay" id="chat-container">
-    <h4>Chat Message</h4>
-    <div class="chatbox" myautoscroll >
-        <div *ngFor="let messageData of listMessage[0].messages ">
-            <b>{{messageData.name}} </b>{{ messageData.message }}
-        </div>
-    </div>
-    <input  placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
-    <button class="btn btn-info" (click)="onSendMessage(inputMessage)">Send Message</button>
-  </div> 
-</div>
+  </div><!--/#room-list-->
 
+</div><!--/.content-->
+
+
+  
 <footer>
     <nav class="nav nav-fixed-bottom">
         <copyright-component></copyright-component>

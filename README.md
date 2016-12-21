@@ -1,5 +1,19 @@
 # Video Center 4
 
+# TODO
+
+* Book upload and management.
+
+* Password protect to enter the class.
+
+* Observer mode for manager.
+* Entering multi room in Observer mode.
+
+* Room Conference Recording and auto uploading to server.
+
+
+
+
 # Installation
 
 

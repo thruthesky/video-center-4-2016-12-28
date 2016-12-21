@@ -1,26 +1,89 @@
 $blueborder: #3e9eff;
-h5 {
-    background-color: #51c2ee;
-    color:#fff;
-}
-input {
-    width: 175px;
-    height: 40px;
+
+@mixin box() {
+    margin: 0 auto 1em;
+    padding: 1em;
+    max-width: 544px;
+    background-color: #eee;
+    .title {
+        position: relative;
+        margin-bottom: .6em;
+        font-size: 1em;
+        font-weight: 200;
+        text-align: left;
+        color: #444;
+        .fa-close {
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+        }
+    }
 }
 
-nav {
-    border-radius: 0;
-    background: #3ea5ff;
-    .nav-buttons {
-       
-        i {
-            color:#1082c7;
-            &.fa-inverse {
-                color: #fff;
+header {
+    nav {
+        border-radius: 0;
+        background: #3ea5ff;
+        .nav-buttons {
+            .fa-stack {
+                cursor: pointer;
+            }
+            i {
+                color:#1082c7;
+                &.fa-inverse {
+                    color: #fff;
+                }
             }
         }
     }
 }
+
+
+.content {
+    padding: .4em;
+}
+
+
+#chat-container {
+    @include box();
+    .chatbox {
+        padding: .6em;
+        background-color: #f3f3f3;
+        color: black;
+        height: 12.6em;
+        overflow: hidden;
+        overflow-y: scroll;
+        text-align: left;
+        .message {
+            border-bottom: 1px solid #ddd;
+            line-height: 200%;
+            i {
+                color: #888;
+            }
+        }      
+    }
+    .form {
+        margin: .4em 0 0;
+        input, button {
+            margin: 0;
+            padding: .1em .2em;
+            box-sizing: border-box;
+            border: 1px solid #394979;
+        }
+        input {
+            width: 100%;
+        }
+        button {
+            padding-left: .6em;
+            padding-right: .6em;
+            background-color: #394979;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
+
+
 footer {
     position: fixed;
     bottom: 0;
@@ -32,56 +95,64 @@ footer {
         color:white;
     }
 }
+
 #lobby-settings {
-    max-width: 500px;
-    text-align: center;
-    margin:0 auto;
-    margin-top: 10px;
-    border: 0.5px solid $blueborder;
-    display: block;
-    div {
-        margin:10px;
+    @include box();
+    .buttons {
+        button {
+            display: block;
+            margin: .2em;
+            padding: .6em;
+            width: 100%;
+            text-align: left;
+            border: 0;
+            cursor: pointer;
+            i {
+                display: inline-block;
+                padding-right: .4em;
+            }
+        }
     }
 }
+
 #room-list {
     display: block;
-    max-width: 500px;
-    text-align: center;
+    max-width: 544px;
     margin:0 auto;
-    .rooms {
-        margin-top: 10px;
-        border: 0.5px solid $blueborder;
+
+    .title {
+        position: relative;
+        margin-bottom: .6em;
+        font-size: 1em;
+        font-weight: 200;
+        text-align: left;
+        color: #444;
     }
+
+    .rooms {
+        margin-bottom: .2em;
+        border: 0.5px solid #aaa;
+        .room-name {
+            padding: .6em;
+            background-color: #bbb;
+            color:#fff;
+        }
+        .users {
+            padding: .6em;
+        }
+    }
+
 }
+
 #update-username {
+    margin:0 auto;
     max-width: 500px;
     text-align: center;
-    margin:0 auto;
     margin-top: 10px;
     border: 0.5px solid $blueborder;
     display: block;
 }
+
 #create-room {
-    max-width: 500px;
-    text-align: center;
-    margin:0 auto;
-    margin-top: 10px;
-    border: 0.5px solid $blueborder;
-}
-#chat-container {
-    max-width: 500px;
-    text-align: center;
-    margin:0 auto;
-    margin-top: 10px;
-    margin-bottom: 50px;
-    border: 0.5px solid $blueborder;
-    padding: 0 10px;
-    .chatbox {
-        background-color: #97d3ff;
-        color: black;
-        height: 140px;
-        overflow: hidden;
-        overflow-y: scroll;
-        text-align: left;        
-    }
+    @include box();
 }

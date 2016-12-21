@@ -3,6 +3,11 @@ $leftwidth: 226px;
 $colorblue: #42bdec;
 $boxsize: 300px;
 $blueborder: #3e9eff;
+
+.entrance-page {
+    height: 100vh;
+    background-image: url("assets/img/background1.jpg");
+}
 h2{
     text-align: center;
 }
@@ -56,18 +61,24 @@ footer {
             width: 100%;
         }
     }
-    #form-container {
-        padding: 2em 1.4em;
+    
+    .form-container {
+        padding: 2.4em 2em 1em;
         box-sizing: border-box;
         background: #efefef;
-
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
         input, button {
             display: block;
-            margin: .8em 0;
             width: 100%;
             box-sizing: border-box;
         }
+
+        button {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
     }
+
     .buttons {
         padding: .6em 0;
         text-align: center;

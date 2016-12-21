@@ -1,10 +1,11 @@
+<div class="entrance-page">
   <nav class="navbar">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-7 col-sm-7">
-          <logo-small-component></logo-small-component>
+        <div class="col-xs-4 col-sm-5 col-md-6">
+          <logo-component></logo-component>
         </div>
-        <div class="nav-buttons col-xs-5 col-sm-5">
+        <div class="nav-buttons col-xs-8 col-sm-7 col-md-6">
           <span class="fa-stack fa-lg float-xs-right" (click)="onClickMenu()">
             <i class="fa fa-circle fa-stack-2x"></i>
             <i class="fa fa-cog fa-stack-1x fa-inverse"></i>
@@ -22,17 +23,27 @@
     </div>
       
   </nav>
-  <img id="bg-image" src="assets/img/background1.png" >
   <div id="entrance-container">
 
     <div class="title-image">
       <img src="assets/img/title-image.jpg">
       <!--<img src="assets/1.png">-->
     </div>
-    <div id="form-container">
-        <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
+
+    
+
+
+
+    <div class="form-container">
+
+        <div class="input-group margin-bottom-sm">
+          <span class="input-group-addon"><i class="fa fa-user-o fa-fw"></i></span>
+          <input class="form-control" placeholder="Enter Username" [(ngModel)]="username" (keyup.enter)="onClickSignin()">
+        </div>
+
         <button class="btn btn-info form-control" (click)="onClickSignin()">Sign In</button>
     </div>
+
 
     
     <div class="buttons">
@@ -56,5 +67,6 @@
     <nav class="nav nav-fixed-bottom">
         <copyright-component></copyright-component>
     </nav>
-</footer>
-  <template ngbModalContainer></template> 
+  </footer>
+</div>
+<template ngbModalContainer></template>
