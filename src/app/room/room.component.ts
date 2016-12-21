@@ -233,7 +233,7 @@ export class RoomComponent {
     this.vc.leaveRoom( ()=> {
       localStorage.setItem('roomname', xInterface.LobbyRoomName );
       // location.reload();
-      location.href=xInterface.videoCenterUrl+"/lobby";
+      location.href= "/lobby";
     });
   }
   /**

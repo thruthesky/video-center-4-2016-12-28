@@ -6,9 +6,7 @@ export let videoCenterServerUrl:string = "https://videocenter.co.kr:9001/";
 
 // export let videoCenterServerUrl:string = "https://localhost:9001/";
 
-// export let videoCenterUrl:string = "http://localhost:4200";
-// export let videoCenterUrl:string  = "https://manuel-e8603.firebaseapp.com";
-export let videoCenterUrl:string  = "";
+
 
 /**
  * @desc Groups of Interface
