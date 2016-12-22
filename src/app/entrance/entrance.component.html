@@ -1,3 +1,4 @@
+
 <div class="entrance-page">
   <nav class="navbar">
     <div class="container-fluid">
@@ -6,26 +7,47 @@
           <logo-component></logo-component>
         </div>
         <div class="nav-buttons col-xs-8 col-sm-7 col-md-6">
-          <span class="fa-stack fa-lg float-xs-right" (click)="onClickMenu()">
+          <span class="fa-stack fa-lg float-xs-right" (click)="onClickSettings(deviceSetting)">
             <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-cog fa-stack-1x fa-inverse"></i>
-          </span>
-          <span class="fa-stack fa-lg float-xs-right" (click)="onClickVideo()">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-video-camera fa-stack-1x fa-inverse"></i>
+            <i class="fa fa-gear fa-stack-1x fa-inverse"></i>
           </span>
           <span class="fa-stack fa-lg float-xs-right" (click)="onClickAudio()">
             <i class="fa fa-circle fa-stack-2x"></i>
             <i class="fa fa-volume-up fa-stack-1x fa-inverse"></i>
           </span>
+          <span class="fa-stack fa-lg float-xs-right" (click)="onClickVideo()">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-video-camera fa-stack-1x fa-inverse"></i>
+          </span>
+          
         </div>
       </div>
     </div>
       
   </nav>
   <div id="entrance-container">
-
-    <div class="title-image">
+    <div class="settings-container">
+      <div *ngIf=" displayVideo">
+        <h4 class="modal-title">Video Settings</h4>
+        <div id="device-video-settings">
+          <select [(ngModel)]="vs.selectVideo" (ngModelChange)="onChangeVideo($event)">
+              <option value="">Select default Video</option>
+              <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
+          </select>
+          <div id="video-modal-container"></div>
+        </div>  
+      </div>
+      <div *ngIf=" displayAudio">
+        <h4 class="modal-title">Audio Settings</h4>
+        <div id="device-audio-settings">
+          <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
+              <option value="">Select default Audio</option>
+              <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
+          </select>
+        </div>  
+      </div>
+    </div>
+    <div class="title-image" *ngIf="displayImage">
       <img src="assets/img/title-image.jpg">
       <!--<img src="assets/1.png">-->
     </div>
@@ -47,7 +69,7 @@
 
     
     <div class="buttons">
-      <span (click)="onClickMenu()" class="fa-stack fa-lg">
+      <span (click)="onClickSettings(deviceSetting)" class="fa-stack fa-lg">
         <i class="fa fa-circle fa-stack-2x"></i>
         <i class="fa fa-gear fa-stack-1x fa-inverse"></i>
       </span>
@@ -69,4 +91,23 @@
     </nav>
   </footer>
 </div>
-<template ngbModalContainer></template>
+
+<template ngbModalContainer #deviceSetting let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Device Settings</h4>
+  </div>
+  <div class="modal-body">
+    <button class='btn btn-info' (click)="onClickVideo(); c();">
+      Video Settings <i class="fa fa-video-camera" aria-hidden="true"></i>
+    </button>
+    <button class='btn btn-info' (click)="onClickAudio(); c();">
+      Audio Settings <i class="fa fa-volume-up" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+  </div>
+</template>

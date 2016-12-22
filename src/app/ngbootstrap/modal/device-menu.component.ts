@@ -286,7 +286,7 @@ export class NgbdModalDeviceMenu {
       });
     }
 
-     /**
+  /**
   *@desc This method will subscribe to all events
   */
   listenEvents() {
@@ -297,6 +297,7 @@ export class NgbdModalDeviceMenu {
       if( item.eventType == "show-audio-settings"){
         setTimeout(()=>{ this.onClickAudio( ); }, 1000); 
       }
+
     });
   }
 }

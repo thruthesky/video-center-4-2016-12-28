@@ -4,12 +4,21 @@ $colorblue: #42bdec;
 $boxsize: 300px;
 $blueborder: #3e9eff;
 
+
 .entrance-page {
     height: 100vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-image: url("assets/img/background1.jpg");
   
+}
+.modal-header {
+    text-align: center;
+}
+.modal-body {
+    margin-left:auto;
+    margin-right: auto;
+    width: 370px;
 }
 h2{
     text-align: center;
@@ -50,7 +59,21 @@ footer {
     margin-left: auto;
     margin-right: auto;
     width: 300px;
-
+    .settings-container {
+        background-color: #fff;
+        select {
+            max-width: 300px;
+        }
+        .modal-title {
+            text-align: center;
+        }
+        .device-video-settings {
+            max-width: 300px;
+        }
+        .device-audio-settings {
+            max-width: 300px;
+        }
+    }
     .title-image {
         img {
             width: 100%;
@@ -90,8 +113,10 @@ footer {
             }
         }
     }
-
 }
+
+
+
 
 
 
