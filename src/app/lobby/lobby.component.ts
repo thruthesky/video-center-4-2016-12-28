@@ -143,6 +143,7 @@ export class LobbyComponent {
   onClickMenu() {
     this.settingsDisplay = ! this.settingsDisplay;
   }
+  
   /**
   *@desc This method will toggle update name
   */
@@ -163,7 +164,22 @@ export class LobbyComponent {
   onClickDevice() {
     const modalRef = this.modalService.open(NgbdModalDeviceMenu);
   }
-  
+  /**
+  *@desc This method will show a menu modal with video settings
+  */
+  onClickVideo() {
+    this.onClickDevice();
+    let data = { eventType: "show-video-settings"};
+    setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
+  /**
+  *@desc This method will show a menu modal with audio settings
+  */
+  onClickAudio() {
+    this.onClickDevice();
+    let data = { eventType: "show-audio-settings"};
+    setTimeout(()=>{ this.vc.myEvent.emit(data); }, 100); 
+  }
   /**
   *@desc This method will go to entrance page
   *after you logout in the server

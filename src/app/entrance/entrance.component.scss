@@ -9,7 +9,7 @@ $blueborder: #3e9eff;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-image: url("assets/img/background1.jpg");
-   
+  
 }
 h2{
     text-align: center;
@@ -18,26 +18,26 @@ nav {
     border-radius: 0;
     background: #3ea5ff;
     .nav-buttons {
-       
-        i {
-            color:#1082c7;
-            &.fa-inverse {
-                color: #fff;
+        span {
+            display: inline-block;
+            padding-left: 1.2em;
+            padding-right: 1.2em;
+            cursor: pointer;
+            i {
+                color: #1082c7;
+                &.fa-inverse {
+                    color: #fff;
+                }
             }
         }
     }
  
 }
+
 footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #efefef;
-    h4 {
-        margin: 0 auto;
-        padding: 0.4em;
-        color:white;
-    }
 }
 
 #entrance-container {
@@ -81,6 +81,7 @@ footer {
             display: inline-block;
             padding-left: 1.2em;
             padding-right: 1.2em;
+            cursor: pointer;
             i {
                 color: #1082c7;
                 &.fa-inverse {
@@ -88,7 +89,6 @@ footer {
                 }
             }
         }
-
     }
 
 }
