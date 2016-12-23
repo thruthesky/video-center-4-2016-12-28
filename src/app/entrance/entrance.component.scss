@@ -62,16 +62,16 @@ footer {
     .settings-container {
         background-color: #fff;
         select {
-            max-width: 300px;
+            width: 300px;
         }
         .modal-title {
             text-align: center;
         }
         .device-video-settings {
-            max-width: 300px;
+            width: 100;
         }
         .device-audio-settings {
-            max-width: 300px;
+            max-width: 100%;
         }
     }
     .title-image {

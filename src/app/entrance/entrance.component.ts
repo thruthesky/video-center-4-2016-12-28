@@ -139,7 +139,7 @@ export class EntranceComponent {
   */
   showVideoSettings() {
     setTimeout(()=>{
-      let session = { audio: false, video: true };
+      // let session = { audio: false, video: true };
       this.connection.getUserMedia(()=> {
           this.connection.DetectRTC.load(() => {
           this.connection.DetectRTC.MediaDevices.forEach((device) => {
@@ -148,7 +148,8 @@ export class EntranceComponent {
           this.setDefaultVideoSelected();
           
         });
-      }, session);
+      },);
+      // }, session);
     }, 1000);
   }
   /**
@@ -164,7 +165,8 @@ export class EntranceComponent {
           });
           this.setDefaultAudioSelected();
         });
-      }, session);
+      },);
+      // }, session);
     }, 1000);
   }
   /**
@@ -291,7 +293,7 @@ export class EntranceComponent {
   *then return it
   */
   streamOnAudioConnection() {
-    this.connection.onstream = (event) => {};
+    this.connection.onstream = (event) => this.addUserVideo( event ); 
   }
   /**
   *@desc This method will first check
