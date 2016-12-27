@@ -61,11 +61,16 @@ footer {
     margin-right: auto;
     width: 300px;
     .settings-container {
+        padding: .6em;
         background-color: #fff;
         select {
-            width: 300px;
+            margin-bottom: .4em;
+            width: 100%;
+            box-sizing: border-box;
         }
         .modal-title {
+            margin: .4em 0;
+
             text-align: center;
         }
         .device-video-settings {
@@ -114,6 +119,7 @@ footer {
             }
         }
     }
+
 }
 
 

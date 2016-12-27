@@ -9,15 +9,25 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="assets/bootstrap-4.0.0-alpha.5-dist/css/bootstrap.min.css">
   <link href="assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    .app-loader { margin-top: 15vh; width: 100%; text-align: center; }
+    .app-loader img { width: 80%; max-width: 240px; }
+    .app-loader .t { margin-top: 1em; }
+  </style>
 </head>
 <body>
-  <app-root>Loading...</app-root>
+  <app-root>
+    <div class="app-loader">
+      <img src="assets/img/boot-loader.jpg">
+      <div class="t"><i class="fa fa-spinner fa-spin"></i> Loading ...</div>
+    </div>
+  </app-root>
   <!--<script src="http://localhost:9001/socket.io/socket.io.js"></script>
   <script src="http://localhost:9001/dist/RTCMultiConnection.min.js"></script>-->
   
     <!--<script src="https://videocenter.co.kr:9001/socket.io/socket.io.js"></script>
   <script src="https://videocenter.co.kr:9001/dist/RTCMultiConnection.min.js"></script>-->
-  
+
    <script src="server/socket.io.js"></script>
   <script src="server/RTCMultiConnection.min.js"></script>
 
