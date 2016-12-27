@@ -96,7 +96,6 @@ export class MycanvasDirective {
     let x : number = mt_posx-e_posx;
     let y : number = mt_posy-e_posy;
     let size = this.getCanvasSize();
-    console.log("drawsize:",size);
     this.mouse.pos.x = x / size;
     this.mouse.pos.y = y / size;
     if ( this.mouse.pos_prev.x == -12345 ) {
@@ -172,7 +171,6 @@ export class MycanvasDirective {
   draw_on_canvas( data ) {
     let line = data.line;
     let size = this.getCanvasSize();
-    console.log("ondrawsize:",size);
     if ( typeof data.lineJoin == 'undefined' ) data.lineJoin = 'round';
     if ( typeof data.draw_mode == 'undefined'  ) data.draw_mode = 'l';
     if ( typeof data.lineWidth == 'undefined' || data.lineWidth == "" ) data.lineWidth = 2;

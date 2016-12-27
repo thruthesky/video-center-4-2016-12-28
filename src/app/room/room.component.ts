@@ -407,10 +407,21 @@ export class RoomComponent {
     });
   }
   /**
+  *@desc This method will change the imageUrlPhoto to samplePic
+  */
+  onClickSamplePreview(pic) {
+    if( pic == 1 ) this.imageUrlPhoto = this.wb.canvasPhoto;
+    if( pic == 2 ) this.imageUrlPhoto = xInterface.samplePics.pic1;
+    if( pic == 3 ) this.imageUrlPhoto = xInterface.samplePics.pic2;
+    
+  }
+  /**
   *@desc This method will change the canvasPhoto to imageUrlPhoto
   */
   onClickPreviewPhoto() {
-    this.wb.canvasPhoto = this.imageUrlPhoto;
+    // this.wb.canvasPhoto = this.imageUrlPhoto;
+    let whiteboardcontainer = document.getElementById('whiteboard-container');
+    if(whiteboardcontainer)whiteboardcontainer.style.backgroundImage="url('"+ this.imageUrlPhoto+"')";
   }
   /**
   *@desc This method will set the dataPhoto for upload

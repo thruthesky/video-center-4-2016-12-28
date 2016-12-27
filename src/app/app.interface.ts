@@ -141,4 +141,8 @@ export let displayElement: DisplayElement =  {
 }
 export let videoSize:string = '100%'; 
 
-// export let videoSize:string = '226px'; 
+export let samplePics = {
+    pic1:'https://firebasestorage.googleapis.com/v0/b/manuel-e8603.appspot.com/o/vc4%2F1.png?alt=media&token=5ccc4805-33f5-441a-9bb5-a2a38cb5c239',
+    pic2:'https://firebasestorage.googleapis.com/v0/b/manuel-e8603.appspot.com/o/vc4%2F2.png?alt=media&token=b7894377-c42a-40a9-8e09-b49391df3cc8'
+}
+

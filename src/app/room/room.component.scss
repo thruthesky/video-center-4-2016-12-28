@@ -106,7 +106,10 @@ nav {
     height: $wb_s_height;
     margin-bottom: 50px;
     overflow: hidden;
-    border:solid 1px #32d6e2;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url("assets/img/samplecanvas.png");
+    
     &[size="small"] {
         width: $wb_s_width;
     height: $wb_s_height;
@@ -135,7 +138,6 @@ nav {
     canvas {
         position: absolute;
         z-index: 101;
-        border:solid 1px #ff172f;
     }
  
     #canvas-image {
