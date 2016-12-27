@@ -2,8 +2,12 @@ $large_break: 730px;
 $my_width: 226px;
 $colorblue: #42bdec;
 $colorgrey:#4a5a71;
-$wb_width: 340px;
-$wb_height: 400px;
+$wb_s_width: 320px;
+$wb_s_height: 400px;
+$wb_m_width: 480px;
+$wb_m_height: 600px;
+$wb_l_width: 640px;
+$wb_l_height: 800px;
 nav {
     border-radius: 0;
     background: #3ea5ff;
@@ -98,21 +102,25 @@ nav {
 
 #whiteboard-container {
     position:relative;
-    width: $wb_width;
-    height: $wb_height;
+    width: $wb_s_width;
+    height: $wb_s_height;
     margin-bottom: 50px;
     overflow: hidden;
+    border:solid 1px #32d6e2;
     &[size="small"] {
-        width: $wb_width;
-        height: $wb_height;
+        width: $wb_s_width;
+    height: $wb_s_height;
     }
     &[size="medium"] {
-        width: 480px;
-        height: 600px;
+        width: $wb_m_width;
+        height: $wb_m_height;
     }
     &[size="large"] {
-        width: 600px;
-        height: 720px;
+        width: $wb_l_width;
+        height: $wb_l_height;
+    }
+    .select-canvas-size {
+        display: none;
     }
     // overflow: hidden;
     @media all and ( min-width: $large_break ) {
@@ -120,10 +128,14 @@ nav {
         z-index: 100;
         top: 62px;
         left: $my_width + 2px;
+        .select-canvas-size {
+            display: block;
+        }
     }
     canvas {
         position: absolute;
         z-index: 101;
+        border:solid 1px #ff172f;
     }
  
     #canvas-image {

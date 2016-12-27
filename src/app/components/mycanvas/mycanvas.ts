@@ -8,6 +8,7 @@ export class MycanvasDirective {
   @Input() drawSize: string;
   @Input() drawColor: string;
   @Input() drawMode: string;
+  @Input() sizeCanvas: string;// small - x1, medium - x1.5 , large- x2
   private canvas: any;
   private canvas_context: any;
   private mouse : xInterface.Mouse = xInterface.mouse;
@@ -27,6 +28,7 @@ export class MycanvasDirective {
     this.drawSize = "2";
     this.drawColor = "#161515";
     this.drawMode = "l";
+    this.sizeCanvas = "small"
   }
   /**
   *@desc Group of EventListener for Mouse Event
@@ -93,8 +95,10 @@ export class MycanvasDirective {
     let e_posy = elementXY.e_posy;
     let x : number = mt_posx-e_posx;
     let y : number = mt_posy-e_posy;
-    this.mouse.pos.x = x;
-    this.mouse.pos.y = y;
+    let size = this.getCanvasSize();
+    console.log("drawsize:",size);
+    this.mouse.pos.x = x / size;
+    this.mouse.pos.y = y / size;
     if ( this.mouse.pos_prev.x == -12345 ) {
         this.mouse.pos_prev.x = this.mouse.pos.x;
         this.mouse.pos_prev.y = this.mouse.pos.y;
@@ -137,6 +141,19 @@ export class MycanvasDirective {
     return data;
   }
   /**
+  *@desc This method will get the canvas size and return 
+  *a number for computation
+  */ 
+  getCanvasSize( ) {
+    let size = 0;
+    if( this.sizeCanvas == null || this.sizeCanvas =='' ) this.sizeCanvas = "small";
+    if( this.sizeCanvas == "small" ) size = 100;
+    if( this.sizeCanvas == "medium" ) size = 150;
+    if( this.sizeCanvas == "large" ) size = 200;
+    return size;
+  }
+
+  /**
   *@desc This method will get the element position
   *by calculating the position of element and it's parent
   *@param obj
@@ -154,14 +171,16 @@ export class MycanvasDirective {
   
   draw_on_canvas( data ) {
     let line = data.line;
+    let size = this.getCanvasSize();
+    console.log("ondrawsize:",size);
     if ( typeof data.lineJoin == 'undefined' ) data.lineJoin = 'round';
     if ( typeof data.draw_mode == 'undefined'  ) data.draw_mode = 'l';
     if ( typeof data.lineWidth == 'undefined' || data.lineWidth == "" ) data.lineWidth = 2;
     if ( typeof data.color == 'undefined' ) data.color = 'black';
-    let ox = line[0].x;
-    let oy = line[0].y;
-    let dx = line[1].x;
-    let dy = line[1].y; 
+    let ox = line[0].x * size;
+    let oy = line[0].y * size;
+    let dx = line[1].x * size;
+    let dy = line[1].y * size; 
     let ctx = this.canvas_context;  
     ctx.beginPath();
     ctx.lineJoin = data.lineJoin;

@@ -470,12 +470,13 @@ export class RoomComponent {
   *@param size
   */
   onChangeCanvasSize( size ) {
+    this.wb.optionSizeCanvas = size;
     this.checkCanvasSize( size );
-    let room = localStorage.getItem('roomname');
-    let data :any = { room_name :room };
-    data.command = "canvas-size";
-    data.size = size;
-    this.vc.whiteboard( data,() => { console.log("change canvas size")} );
+    // let room = localStorage.getItem('roomname');
+    // let data :any = { room_name :room };
+    // data.command = "canvas-size";
+    // data.size = size;
+    // this.vc.whiteboard( data,() => { console.log("change canvas size")} );
   }
   /**
   *@desc This method will change the size of canvas
@@ -485,9 +486,9 @@ export class RoomComponent {
   checkCanvasSize( size ) {
     let room = localStorage.getItem('roomname');
     let w, h;
-      if ( size == 'small' ) { w = '340px'; h = '400px'; }
+      if ( size == 'small' ) { w = '320px'; h = '400px'; }
       else if ( size == 'medium' ) { w = '480px'; h = '600px'; }
-      else if ( size == 'large' ) {w = '600px';h = '720px';}
+      else if ( size == 'large' ) {w = '640px';h = '800px';}
       this.setCanvasSize( w, h );
       this.setCanvasContainerSize( size );
       this.getWhiteboardHistory( room );
