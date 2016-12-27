@@ -1,3 +1,4 @@
+/*
 $large_break: 730px;
 $my_width: 226px;
 $colorblue: #42bdec;
@@ -8,7 +9,7 @@ $wb_m_width: 480px;
 $wb_m_height: 600px;
 $wb_l_width: 640px;
 $wb_l_height: 800px;
-
+*/
 
 // base
 
@@ -16,11 +17,12 @@ $wb_l_height: 800px;
 
 //     => Narrrow
 
-#video-container {
-    video {
+
+    .me {
         width: 50%;
     }
-}
+
+
 
 
 
