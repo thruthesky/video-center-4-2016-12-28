@@ -40,7 +40,14 @@ $blueborder: #3e9eff;
         }
     }
 }
-
+.lobby-page {
+    min-height: 100vh;
+    height: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url("assets/img/b1.jpg");
+  
+}
 header {
     nav {
         border-radius: 0;

@@ -6,10 +6,11 @@ $blueborder: #3e9eff;
 
 
 .entrance-page {
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-image: url("assets/img/background1.jpg");
+    background-image: url("assets/img/b2.jpg");
   
 }
 .modal-header {
