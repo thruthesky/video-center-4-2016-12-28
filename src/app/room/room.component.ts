@@ -23,6 +23,8 @@ export class RoomComponent {
   wb: xInterface.WhiteboardSetting = xInterface.whiteboardSetting;
   vs: xInterface.VideoSetting = xInterface.videoSetting;
   show: xInterface.DisplayElement = xInterface.displayElement;
+  
+  //displayWhiteboard: boolean = false;
   constructor( private router: Router,
   private fileStorage: FirebaseStorage,
   private vc: VideocenterService ) {
@@ -84,8 +86,9 @@ export class RoomComponent {
   ngOnInit() {
     
     this.setDefaultDevice();
-    let videoParent = document.getElementById('video-container');
-    videoParent.setAttribute('whiteboard', 'false');
+    //let videoParent = document.getElementById('video-container');
+    //videoParent.setAttribute('whiteboard', 'false');
+    // this.displayWhiteboard = false;
   }
  
   /**
@@ -241,11 +244,12 @@ export class RoomComponent {
   */
   onClickWhiteboard() {
     let room = localStorage.getItem('roomname');
-    let videoParent = document.getElementById('video-container');
+    // let videoParent = document.getElementById('video-container');
     this.wb.whiteboardDisplay = ! this.wb.whiteboardDisplay;
     if(this.wb.whiteboardDisplay){
       setTimeout(()=>{
-        videoParent.setAttribute('whiteboard', 'true');
+        //this.displayWhiteboard = true;
+        //videoParent.setAttribute('whiteboard', 'true');
         let data :any = { room_name :room };
         data.command = "show-whiteboard";
         this.getWhiteboardHistory( room );
@@ -255,7 +259,8 @@ export class RoomComponent {
         this.checkCanvasSize( 'small' );
       },100);
     } else {
-        videoParent.setAttribute('whiteboard', 'false');
+        //this.displayWhiteboard = false;
+        //videoParent.setAttribute('whiteboard', 'false');
         let data :any = { room_name :room };
         data.command = "hide-whiteboard";
         this.vc.whiteboard( data,() => { console.log("hide whiteboard")} );
@@ -281,13 +286,19 @@ export class RoomComponent {
    */
   addLocalVideo( event ) {
     setTimeout(()=> {
-      let newvideo = event.mediaElement;
+      let newDiv = document.createElement("div");
+      let newVideo = event.mediaElement;
       let videoParent = document.getElementById('video-container');
       let oldVideo = document.getElementById(event.streamid);
-      newvideo.setAttribute('class', 'me');
-      newvideo.setAttribute('width', xInterface.videoSize );
-      if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
-      if( videoParent ) videoParent.insertBefore(newvideo, videoParent.firstChild);
+      newVideo.setAttribute('class', 'me');
+      newVideo.setAttribute('width', xInterface.videoSize );
+      if( oldVideo && oldVideo.parentNode) {
+        oldVideo.parentNode.parentNode.removeChild( oldVideo );
+      }
+      if( videoParent ) {
+        newDiv.appendChild( newVideo );
+        videoParent.insertBefore(newDiv, videoParent.firstChild);
+      }
     },700);
   }
   /**
@@ -297,13 +308,20 @@ export class RoomComponent {
    */
   addRemoteVideo( event ) {
     setTimeout(()=> {
-      let newvideo = event.mediaElement;
+      let newDiv = document.createElement("div");
+      let newVideo = event.mediaElement;
+
       let videoParent = document.getElementById('video-container');
       let oldVideo = document.getElementById(event.streamid);
-      newvideo.setAttribute('class', 'others');
-      newvideo.setAttribute('width', xInterface.videoSize );
-      if( oldVideo && oldVideo.parentNode) oldVideo.parentNode.removeChild( oldVideo );
-      if( videoParent ) videoParent.appendChild( newvideo );
+      newVideo.setAttribute('class', 'others');
+      newVideo.setAttribute('width', xInterface.videoSize );
+      if( oldVideo && oldVideo.parentNode) {
+        oldVideo.parentNode.parentNode.removeChild( oldVideo );
+      }
+      if( videoParent ) {
+        newDiv.appendChild( newVideo );
+        videoParent.appendChild( newDiv );
+      }
     },700);
   }
   /**
@@ -606,8 +624,9 @@ export class RoomComponent {
         this.checkCanvasSize(data.size);
     }
     else if ( data.command == 'show-whiteboard' ) {
-        let videoParent = document.getElementById('video-container');
-        videoParent.setAttribute('whiteboard', 'true'); 
+        //let videoParent = document.getElementById('video-container');
+        //videoParent.setAttribute('whiteboard', 'true');
+        //this.displayWhiteboard = true; 
         this.wb.whiteboardDisplay = true;
         this.getWhiteboardHistory( data.room_name );
         setTimeout(()=>{
@@ -618,8 +637,9 @@ export class RoomComponent {
     }     
     else if ( data.command == 'hide-whiteboard' ) {
         this.wb.whiteboardDisplay = false;
-        let videoParent = document.getElementById('video-container');
-        videoParent.setAttribute('whiteboard', 'false');      
+        //this.displayWhiteboard = false;
+        //let videoParent = document.getElementById('video-container');
+        //videoParent.setAttribute('whiteboard', 'false');      
     }
     else if ( data.command == 'change-image' ) {
         this.changeCanvasPhoto( data.image_url );

@@ -1,3 +1,4 @@
+<div id="room-page">
   <header>
   <nav class="navbar">
     <div class="container-fluid">
@@ -14,6 +15,7 @@
     </div>
   </nav>  
 </header>
+<section class="content" [attr.whiteboard]=" wb.whiteboardDisplay ">
   <div id="room-settings" *ngIf="show.settingsDisplay">
         <div>
         <button class='btn btn-info form-control' (click)="show.deviceDisplay = ! show.deviceDisplay">
@@ -41,45 +43,47 @@
         </button>
         </div>
     </div> 
-    <div id="room-page">
-     
-        <div *ngIf="show.deviceDisplay" id="device-settings">
-            <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
-                <option value="">Select default Audio</option>
-                <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
-            </select>
-            <select [(ngModel)]="vs.selectVideo" (ngModelChange)="onChangeVideo($event)">
-                <option value="">Select default Video</option>
-                <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
-            </select>
-        </div>
-        <div id="video-container"></div>
-        
-        <div *ngIf="show.chatDisplay" id="chat">
-            <div class="chatbox" myautoscroll>
-                <div *ngFor="let messageData of listMessage[0].messages ">
-                    <b>{{messageData.name}} </b>{{ messageData.message }}
+        <aside class="left">
+            <div class="device-video">
+                <div *ngIf="show.deviceDisplay" id="device-settings">
+                    <select [(ngModel)]="vs.selectAudio" (ngModelChange)="onChangeAudio($event)">
+                        <option value="">Select default Audio</option>
+                        <option *ngFor="let audio of audios" value="{{ audio.value }}" >{{audio.text}}</option>
+                    </select>
+                    <select [(ngModel)]="vs.selectVideo" (ngModelChange)="onChangeVideo($event)">
+                        <option value="">Select default Video</option>
+                        <option *ngFor="let video of videos" value="{{ video.value }}" >{{video.text}}</option>
+                    </select>
                 </div>
+                <div id="video-container"></div>
             </div>
-            <input class="form-control" placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
-            <button class="btn btn-info form-control" (click)="onSendMessage(inputMessage)">Send Message</button>
-        </div><!--chat--> 
 
-        <div *ngIf="!show.assetDisplay" id="image-directory">
-            <p>Image Directory</p>
-            <div *ngIf=" imageUrlPhoto " (click)="onClickPreviewPhoto()">
-            <img [src]="imageUrlPhoto">
-            </div>
-            <input type="file" (change)="onChangeFile($event)">
-            <div *ngIf="position && file_progress">
-                <progress [value]="position" max="100"></progress>
-            </div>
-            <div id="files">
-                <div (click)="onClickSamplePreview(1)">Default</div>
-                <div (click)="onClickSamplePreview(2)">Uploaded 1</div>
-                <div (click)="onClickSamplePreview(3)">Uploaded 2</div>
-            </div>
-        </div><!--image-directory-->
+            <div *ngIf="show.chatDisplay" id="chat">
+                <div class="chatbox" myautoscroll>
+                    <div *ngFor="let messageData of listMessage[0].messages ">
+                        <b>{{messageData.name}} </b>{{ messageData.message }}
+                    </div>
+                </div>
+                <input class="form-control" placeholder="Input Message" [(ngModel)]="inputMessage" (keyup.enter)="onSendMessage(inputMessage)">
+                <button class="btn btn-info form-control" (click)="onSendMessage(inputMessage)">Send Message</button>
+            </div><!--chat--> 
+
+            <div *ngIf="!show.assetDisplay" id="image-directory">
+                <p>Image Directory</p>
+                <div *ngIf=" imageUrlPhoto " (click)="onClickPreviewPhoto()">
+                <img [src]="imageUrlPhoto">
+                </div>
+                <input type="file" (change)="onChangeFile($event)">
+                <div *ngIf="position && file_progress">
+                    <progress [value]="position" max="100"></progress>
+                </div>
+                <div id="files">
+                    <div (click)="onClickSamplePreview(1)">Default</div>
+                    <div (click)="onClickSamplePreview(2)">Uploaded 1</div>
+                    <div (click)="onClickSamplePreview(3)">Uploaded 2</div>
+                </div>
+            </div><!--image-directory-->
+        </aside>
 
         <div id="whiteboard-container" *ngIf="wb.whiteboardDisplay">
             <div id="canvas-image">
@@ -100,5 +104,7 @@
                     <option *ngFor="let csize of wb.sizeCanvas" value="{{ csize.value }}" >{{csize.text}}</option>
                 </select>
             </div>
-        </div>
-    </div>
+        </div><!--/#whiteborad-container-->
+        
+</section>
+</div>

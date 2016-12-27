@@ -8,10 +8,45 @@ $wb_m_width: 480px;
 $wb_m_height: 600px;
 $wb_l_width: 640px;
 $wb_l_height: 800px;
+
+
+// base
+
+// layout
+
+//     => Narrrow
+
+#video-container {
+    video {
+        width: 50%;
+    }
+}
+
+
+
+
+//     => Wide
+.content {
+
+    &[whiteboard="true"] {
+
+    }
+}
+
+// module/component
+
 nav {
     border-radius: 0;
     background: #3ea5ff;
 }
+
+// state
+
+// theme
+
+
+/*
+
 #room-page {
     margin-bottom: 50px;
 }
@@ -28,11 +63,10 @@ nav {
         width: 200px;
         position: absolute;
     }
-    
 }
 
+
 #video-container {
-   
     &[whiteboard="false"] {
         position:relative;
         width: 100%;
@@ -162,3 +196,4 @@ nav {
        
     }
 }
+*/
