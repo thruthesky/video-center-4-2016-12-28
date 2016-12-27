@@ -291,9 +291,11 @@ export class RoomComponent {
       let videoParent = document.getElementById('video-container');
       let oldVideo = document.getElementById(event.streamid);
       newVideo.setAttribute('class', 'me');
+      newDiv.setAttribute('class', 'me');
       newVideo.setAttribute('width', xInterface.videoSize );
       if( oldVideo && oldVideo.parentNode) {
-        oldVideo.parentNode.parentNode.removeChild( oldVideo );
+        let myParentNode = oldVideo.parentNode;
+        if( myParentNode && myParentNode.parentNode)myParentNode.parentNode.removeChild(myParentNode);
       }
       if( videoParent ) {
         newDiv.appendChild( newVideo );
@@ -316,7 +318,8 @@ export class RoomComponent {
       newVideo.setAttribute('class', 'others');
       newVideo.setAttribute('width', xInterface.videoSize );
       if( oldVideo && oldVideo.parentNode) {
-        oldVideo.parentNode.parentNode.removeChild( oldVideo );
+        let myParentNode = oldVideo.parentNode;
+        if( myParentNode && myParentNode.parentNode)myParentNode.parentNode.removeChild(myParentNode);
       }
       if( videoParent ) {
         newDiv.appendChild( newVideo );
