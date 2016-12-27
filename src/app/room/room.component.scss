@@ -88,6 +88,9 @@ nav {
         min-height: 150px;
         background-color: #97d3ff;
     }
+    img {
+        width: 100%;
+    }
     @media all and ( min-width: $large_break ) {
         width: $my_width;
         input {
@@ -112,7 +115,10 @@ nav {
     
     &[size="small"] {
         width: $wb_s_width;
-    height: $wb_s_height;
+        height: $wb_s_height;
+        select {
+            width: 45px;
+        }
     }
     &[size="medium"] {
         width: $wb_m_width;
@@ -125,14 +131,13 @@ nav {
     .select-canvas-size {
         display: none;
     }
-    // overflow: hidden;
     @media all and ( min-width: $large_break ) {
         position: absolute;
         z-index: 100;
         top: 62px;
         left: $my_width + 2px;
         .select-canvas-size {
-            display: block;
+            display: inline-block;
         }
     }
     canvas {
@@ -153,5 +158,7 @@ nav {
         position: absolute;
         top: 0.2em;
         right: 0.2em;
+        
+       
     }
 }

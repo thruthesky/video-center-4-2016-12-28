@@ -232,7 +232,6 @@ export class RoomComponent {
   onClickLobby() {
     this.vc.leaveRoom( ()=> {
       localStorage.setItem('roomname', xInterface.LobbyRoomName );
-      // location.reload();
       location.href= "/lobby";
     });
   }
@@ -252,7 +251,8 @@ export class RoomComponent {
         this.getWhiteboardHistory( room );
         this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
         this.vc.whiteboard( data,() => { console.log("show whiteboard")} );
-
+        this.wb.optionSizeCanvas = 'small';
+        this.checkCanvasSize( 'small' );
       },100);
     } else {
         videoParent.setAttribute('whiteboard', 'false');
@@ -416,12 +416,22 @@ export class RoomComponent {
     
   }
   /**
-  *@desc This method will change the canvasPhoto to imageUrlPhoto
+  *@desc This method will invoke the changeCanvasPhoto
   */
   onClickPreviewPhoto() {
-    // this.wb.canvasPhoto = this.imageUrlPhoto;
+    this.changeCanvasPhoto( this.imageUrlPhoto );
+    let room = localStorage.getItem('roomname');
+    let data :any = { room_name :room };
+    data.image_url = this.imageUrlPhoto;
+    data.command = "change-image";
+    this.vc.whiteboard( data,() => { console.log("change canvas image")} );
+  }
+  /**
+  *@desc This method will change the canvasPhoto to imageUrlPhoto
+  */
+  changeCanvasPhoto( image ) {
     let whiteboardcontainer = document.getElementById('whiteboard-container');
-    if(whiteboardcontainer)whiteboardcontainer.style.backgroundImage="url('"+ this.imageUrlPhoto+"')";
+    if(whiteboardcontainer)whiteboardcontainer.style.backgroundImage="url('"+ image+"')";
   }
   /**
   *@desc This method will set the dataPhoto for upload
@@ -600,12 +610,19 @@ export class RoomComponent {
         videoParent.setAttribute('whiteboard', 'true'); 
         this.wb.whiteboardDisplay = true;
         this.getWhiteboardHistory( data.room_name );
-        setTimeout(()=>{this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);}, 100);
+        setTimeout(()=>{
+          this.setCanvasSize( this.wb.canvasWidth, this.wb.canvasHeight);
+          this.wb.optionSizeCanvas = 'small';
+          this.checkCanvasSize( 'small' );  
+        }, 100);
     }     
     else if ( data.command == 'hide-whiteboard' ) {
         this.wb.whiteboardDisplay = false;
         let videoParent = document.getElementById('video-container');
         videoParent.setAttribute('whiteboard', 'false');      
+    }
+    else if ( data.command == 'change-image' ) {
+        this.changeCanvasPhoto( data.image_url );
     }
   }
 }
